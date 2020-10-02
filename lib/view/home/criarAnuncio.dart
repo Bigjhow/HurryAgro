@@ -2,12 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/home/principal.dart';
 
+//---- Datas
+import 'package:hurryAgro/data/data.dart';
+import 'package:image_picker/image_picker.dart';
+
 class CriarAnuncio extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<CriarAnuncio> {
+  TextEditingController controladorName = TextEditingController();
+  TextEditingController controladorPrice = TextEditingController();
+  TextEditingController controladorDescribe = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var textStyle = TextStyle(
@@ -33,68 +40,57 @@ class _HomeState extends State<CriarAnuncio> {
                 style: TextStyle(
                   fontSize: 30,
                 )),
-            Padding(
-              padding: EdgeInsets.only(left: 15.0, right: 15.0),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    labelText: "Titulo", labelStyle: TextStyle()),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25.0),
+             formulario(false, "Titulo", TextInputType.name, controladorName,
+                  "Titulo vazio"),
+             formulario(false, "Preço", TextInputType.number, controladorPrice,
+                  "Preço vazio"),
+             formulario(false, "Descrição", TextInputType.text, controladorDescribe,
+                  "Descrição vazio"),
+              RaisedButton.icon(
+                icon: Icon(Icons.camera_alt),
+                label: Text("Tirar ou uma foto"),
+                onPressed:(){
+                  ImagePicker.platform.pickImage(source: ImageSource.camera);
+                }              
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15.0, right: 15.0),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    labelText: "Url da foto", labelStyle: TextStyle()),
-                style: TextStyle(fontSize: 25.0),
+              RaisedButton.icon(
+                icon: Icon(Icons.attach_file),
+                label: Text(" Selecionar uma foto"),
+                onPressed:(){
+                  ImagePicker.platform.pickImage(source: ImageSource.gallery);
+                }         
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15.0, right: 15.0),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    labelText: "Descrição", labelStyle: TextStyle()),
-                style: TextStyle(fontSize: 25.0),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15.0, right: 15.0),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                    labelText: "Valor", labelStyle: TextStyle()),
-                style: TextStyle(fontSize: 25.0),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15.0, right: 15.0),
-              child: ButtonTheme(
-                minWidth: 230.0,
-                height: 40.0,
-                child: RaisedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Principal(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "Criar",
-                    style: TextStyle(color: Colors.white, fontSize: 25.0),
-                  ),
-                  color: Colors.green,
-                ),
-              ),
-            ),
+              RaisedButton(
+              onPressed: (){
+                setState(() {
+                  anuncios.add({"name": '$controladorName', "price": "$controladorPrice", "image": "imagens/tomate.jpg","describe" : "$controladorDescribe" });
+                }); 
+              },
+              child: Text("Criar Anúncio"),
+              )
           ],
         ),
       ),
     );
   }
+
+}
+
+Widget formulario(
+    bool obscureText,
+    String labelText,
+    TextInputType keyboardType,
+    TextEditingController controller,
+    String validator) {
+  return TextFormField(
+    keyboardType: keyboardType,
+    obscureText: obscureText,
+    decoration: InputDecoration(labelText: "$labelText"),
+    controller: controller,
+    validator: (value) {
+      if (value.isEmpty) {
+        return "$validator";
+      }
+    },
+  );
 }

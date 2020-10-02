@@ -1,10 +1,12 @@
 //---- Packages
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/chat/chat.dart';
+import 'package:page_transition/page_transition.dart';
 
 //---- Screens
 import 'package:hurryAgro/view/home/principal.dart';
 import 'package:hurryAgro/view/sobre.dart';
+import 'package:hurryAgro/view/home/criarAnuncio.dart';
 
 class Nav extends StatefulWidget {
   @override
@@ -73,7 +75,7 @@ class _NavState extends State<Nav> {
         body: _index == 0 ? Principal() : Chat(),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () => Navigator.push(context, PageTransition(child: CriarAnuncio(), type: PageTransitionType.rightToLeft)),
             backgroundColor: Colors.green),
         bottomNavigationBar: BottomNavigationBar(
           items: [
