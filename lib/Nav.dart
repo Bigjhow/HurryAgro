@@ -91,11 +91,11 @@ class _NavState extends State<Nav> {
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                title: Text("Home"),
+                label: "Home",
                 activeIcon: Icon(Icons.home, color: Colors.green)),
             BottomNavigationBarItem(
                 icon: Icon(Icons.chat),
-                title: Text("Chat"),
+                label: "Chat",
                 activeIcon: Icon(Icons.chat, color: Colors.green)),
           ],
           onTap: (i) {
