@@ -15,5 +15,7 @@ List anuncios = [
   },
 ];
 List usuarios = [
-  {"email":"diego@gmail.com","senha":"hurry"},
+  {"email": "diego@gmail.com", "senha": "hurry"},
+  {"email": "lorenzo@gmail.com", "senha": "hurry"},
+  {"email": "joao@gmail.com", "senha": "hurry"},
 ];
