@@ -1,6 +1,7 @@
 //---- Packages
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/chat/chat.dart';
+import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
 
 //---- Screens
@@ -28,6 +29,13 @@ class _NavState extends State<Nav> {
                 backgroundImage: AssetImage("imagens/diego.jpg"),
               ),
             ),
+            ListTile(
+                title: Text("Meus Anuncios"),
+                onTap: () => Navigator.push(
+                context,
+                    MaterialPageRoute(builder: (context) => MeusAnuncios()),
+                 ),
+                leading: Icon(Icons.list)),
             ListTile(
                 title: Text("Desenvolveres"),
                 onTap: () => Sobre(),
