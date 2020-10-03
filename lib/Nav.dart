@@ -18,6 +18,7 @@ class _NavState extends State<Nav> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         drawer: Drawer(
           child: ListView(children: [
@@ -47,6 +48,8 @@ class _NavState extends State<Nav> {
           title: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Container(
+              width: size.width * 0.8,
+              height: size.height * 0.06,
               child: TextField(
                 onChanged: (value) {},
                 showCursor: true,
@@ -56,6 +59,7 @@ class _NavState extends State<Nav> {
                 textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(
                   border: InputBorder.none,
+                  hintText: "Pesquise aqui",
                   prefixIcon: Icon(
                     Icons.search,
                     color: Colors.green,
@@ -73,10 +77,16 @@ class _NavState extends State<Nav> {
           ),
         ),
         body: _index == 0 ? Principal() : Chat(),
-        floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () => Navigator.push(context, PageTransition(child: CriarAnuncio(), type: PageTransitionType.rightToLeft)),
-            backgroundColor: Colors.green),
+        floatingActionButton: _index == 0
+            ? FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: () => Navigator.push(
+                    context,
+                    PageTransition(
+                        child: CriarAnuncio(),
+                        type: PageTransitionType.rightToLeft)),
+                backgroundColor: Colors.green)
+            : null,
         bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
