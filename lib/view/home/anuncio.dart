@@ -54,9 +54,8 @@ class _HomeState extends State<Anuncio> {
                       width: 3,
                     ),
                   )),
-
                   Text(
-                    "Preço: "+widget.price,
+                    "Preço: R\$"+widget.price,
                      style: (styleTextPrice),
                   ),
 

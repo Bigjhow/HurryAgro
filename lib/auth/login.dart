@@ -112,7 +112,7 @@ class _HomeState extends State<Login> {
                                 child: Nav(),
                                 type: PageTransitionType.rightToLeft,
                                 duration: Duration(milliseconds: 800))
-                            //MaterialPageRoute(builder: (context) => Nav()),
+                          
                             );
                       } else {
                         print("Email ou senha errado");

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 //---- Datas
 import 'package:hurryAgro/data/data.dart';
 
+//---- Screens
+import 'package:hurryAgro/view/user/editarAnuncio.dart';
+
 class MeusAnuncios extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -14,7 +17,7 @@ class _HomeState extends State<MeusAnuncios> {
     print("Recaregado");
     return anuncios;
   }
-
+  
   var produtoApagado;
 
   @override
@@ -68,7 +71,7 @@ class _HomeState extends State<MeusAnuncios> {
                                           });
                                         }),
                                     duration: Duration(seconds: 3),
-                                    backgroundColor: Colors.white,
+                                    backgroundColor: Colors.red,
                                   ));
                                 },
                                 key: Key(DateTime.now().toString()),
@@ -98,7 +101,12 @@ class _HomeState extends State<MeusAnuncios> {
                                                   anuncios.removeAt(index);
                                                 });
                                               }),
-                                        )))));
+                                             /* onTap: () => Navigator.push(
+                                              context,
+                                               MaterialPageRoute(builder: (context) => EditarAnuncio()),
+                                            ),*/
+                                        )
+                                        ))));
                           },
                         ))
                   ])),

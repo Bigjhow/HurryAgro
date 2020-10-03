@@ -57,7 +57,7 @@ class _NavState extends State<Nav> {
             borderRadius: BorderRadius.circular(20),
             child: Container(
               width: size.width * 0.8,
-              height: size.height * 0.06,
+              height: size.height * 0.05,
               child: TextField(
                 onChanged: (value) {},
                 showCursor: true,

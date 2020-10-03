@@ -4,14 +4,14 @@ List anuncios = [
     "price": 24.99,
     "image": "imagens/tomate.jpg",
     "describe":
-        "Pepino do sul cultivado na alemanha pelo garnde querissimo KID BENGALA"
+        "Pepino do sul cultivado na alemanha pelo garnde querissimo Nelson Pé de Pano"
   },
   {
     "name": "Tomate",
     "price": 3.99,
     "image": "imagens/tomate.jpg",
     "describe":
-        "TOMATE do sul cultivado na alemanha pelo garnde querissimo KID BENGALA"
+        "TOMATE do sul cultivado na alemanha pelo garnde querissimo Nelson Pé de Pano"
   },
 ];
 List usuarios = [

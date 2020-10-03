@@ -21,11 +21,6 @@ class _HomeState extends State<Cadastro> {
 
   String _textoBase = "Preencha os campos para efetuar o cadastro";
 
-  String _nome = "";
-  String _email = "";
-  String _senha = "";
-  String _confSenha = "";
-
   void _limparCampos() {
     controladorNome.text = "";
     controladorEmail.text = "";
@@ -114,6 +109,7 @@ class _HomeState extends State<Cadastro> {
                       "senha": "${controladorSenha.text}"
                     });
                   });
+                  _cadastro();
                 },
                 child: Text(
                   "Cadastrar",
