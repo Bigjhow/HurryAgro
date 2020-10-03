@@ -40,40 +40,42 @@ class _HomeState extends State<CriarAnuncio> {
                 style: TextStyle(
                   fontSize: 30,
                 )),
-             formulario(false, "Titulo", TextInputType.name, controladorName,
-                  "Titulo vazio"),
-             formulario(false, "Preço", TextInputType.number, controladorPrice,
-                  "Preço vazio"),
-             formulario(false, "Descrição", TextInputType.text, controladorDescribe,
-                  "Descrição vazio"),
-              RaisedButton.icon(
+            formulario(false, "Titulo", TextInputType.name, controladorName,
+                "Titulo vazio"),
+            formulario(false, "Preço", TextInputType.number, controladorPrice,
+                "Preço vazio"),
+            formulario(false, "Descrição", TextInputType.text,
+                controladorDescribe, "Descrição vazio"),
+            RaisedButton.icon(
                 icon: Icon(Icons.camera_alt),
                 label: Text("Tirar ou uma foto"),
-                onPressed:(){
+                onPressed: () {
                   ImagePicker.platform.pickImage(source: ImageSource.camera);
-                }              
-              ),
-              RaisedButton.icon(
+                }),
+            RaisedButton.icon(
                 icon: Icon(Icons.attach_file),
                 label: Text(" Selecionar uma foto"),
-                onPressed:(){
+                onPressed: () {
                   ImagePicker.platform.pickImage(source: ImageSource.gallery);
-                }         
-              ),
-              RaisedButton(
-              onPressed: (){
+                }),
+            RaisedButton(
+              onPressed: () {
                 setState(() {
-                  anuncios.add({"name": '$controladorName', "price": "$controladorPrice", "image": "imagens/tomate.jpg","describe" : "$controladorDescribe" });
-                }); 
+                  anuncios.add({
+                    "name": '${controladorName.text}',
+                    "price": "${controladorPrice.text}",
+                    "image": "imagens/tomate.jpg",
+                    "describe": "${controladorDescribe.text}"
+                  });
+                });
               },
               child: Text("Criar Anúncio"),
-              )
+            )
           ],
         ),
       ),
     );
   }
-
 }
 
 Widget formulario(
