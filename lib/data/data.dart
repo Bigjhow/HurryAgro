@@ -14,3 +14,6 @@ List anuncios = [
         "TOMATE do sul cultivado na alemanha pelo garnde querissimo KID BENGALA"
   },
 ];
+List usuarios = [
+  {"email":"diego@gmail.com","senha":"hurry"},
+];

@@ -28,6 +28,7 @@ class _HomeState extends State<CriarAnuncio> {
       body: Container(
         color: Colors.white,
         child: ListView(
+          padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           children: <Widget>[
             SizedBox(
               height: 10,

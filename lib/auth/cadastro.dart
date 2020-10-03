@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/home/principal.dart';
 
 import '../Nav.dart';
-import '../Nav.dart';
+import 'package:hurryAgro/data/data.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -105,11 +105,15 @@ class _HomeState extends State<Cadastro> {
                   TextInputType.visiblePassword,
                   controladorConfSenha,
                   "senha errada"),
+                  
               RaisedButton(
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    _cadastro();
-                  }
+                  setState(() {
+                  usuarios.add({
+                    "email": '${controladorEmail.text}',
+                    "senha": "${controladorSenha.text}"
+                  });
+                });
                 },
                 child: Text(
                   "Cadastrar",
