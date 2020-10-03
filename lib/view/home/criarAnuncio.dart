@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hurryAgro/view/home/principal.dart';
 
 //---- Datas
 import 'package:hurryAgro/data/data.dart';
@@ -15,11 +14,9 @@ class _HomeState extends State<CriarAnuncio> {
   TextEditingController controladorName = TextEditingController();
   TextEditingController controladorPrice = TextEditingController();
   TextEditingController controladorDescribe = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    var textStyle = TextStyle(
-        color: Colors.green, fontSize: 17, fontWeight: FontWeight.bold);
-
     return Scaffold(
       appBar: AppBar(
         title: SizedBox(
