@@ -6,7 +6,7 @@ class Anuncio extends StatefulWidget {
   Anuncio({Key key, this.name, this.image, this.price}) : super(key: key);
   final String name;
   final String image;
-  final double price;
+  final String price;
   @override
   _HomeState createState() => _HomeState();
 }
