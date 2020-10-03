@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hurryAgro/auth/cadastro.dart';
 import 'package:hurryAgro/auth/esqueceuSenha.dart';
 import 'package:hurryAgro/Nav.dart';
+import 'package:hurryAgro/data/data.dart';
 import 'package:page_transition/page_transition.dart';
 
 //---- Screens
@@ -41,24 +42,7 @@ class _HomeState extends State<Login> {
   String _emailInformado;
   String _senhaInformado;
 
-  void _login() {
-    setState(() {
-      _emailInformado = controladorEmail.text;
-      _senhaInformado = controladorSenha.text;
-    });
-    if (_email == _emailInformado && _senha == _senhaInformado) {
-      Navigator.push(
-          context,
-          PageTransition(
-              child: Nav(),
-              type: PageTransitionType.rightToLeft,
-              duration: Duration(milliseconds: 800))
-          //MaterialPageRoute(builder: (context) => Nav()),
-          );
-    } else {
-      _textoBase = "E-mail ou Senha incorretos";
-    }
-  }
+  void _login() {}
 
   /*void _esqueceuSenha() {
     setState(() {
@@ -118,8 +102,23 @@ class _HomeState extends State<Login> {
               ),
               RaisedButton(
                 onPressed: () {
-                  _login();
-                  if (_formKey.currentState.validate()) {}
+                  if (_formKey.currentState.validate()) {
+                    for (var x = 0; x <= usuarios.length; x++) {
+                      if (usuarios[x]["email"] == controladorEmail.text &&
+                          usuarios[x]["senha"] == controladorSenha.text) {
+                        return Navigator.push(
+                            context,
+                            PageTransition(
+                                child: Nav(),
+                                type: PageTransitionType.rightToLeft,
+                                duration: Duration(milliseconds: 800))
+                            //MaterialPageRoute(builder: (context) => Nav()),
+                            );
+                      } else {
+                        print("Email ou senha errado");
+                      }
+                    }
+                  }
                 },
                 child: Text(
                   "Login",
