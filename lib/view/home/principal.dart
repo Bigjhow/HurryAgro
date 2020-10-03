@@ -10,7 +10,6 @@ import 'package:hurryAgro/view/home/anuncio.dart';
 import 'package:hurryAgro/data/data.dart';
 
 import '../../data/data.dart';
-import '../../data/data.dart';
 
 class Principal extends StatefulWidget {
   @override
