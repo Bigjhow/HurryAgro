@@ -105,15 +105,15 @@ class _HomeState extends State<Cadastro> {
                   TextInputType.visiblePassword,
                   controladorConfSenha,
                   "senha errada"),
-                  
+
               RaisedButton(
                 onPressed: () {
                   setState(() {
-                  usuarios.add({
-                    "email": '${controladorEmail.text}',
-                    "senha": "${controladorSenha.text}"
+                    usuarios.add({
+                      "email": '${controladorEmail.text}',
+                      "senha": "${controladorSenha.text}"
+                    });
                   });
-                });
                 },
                 child: Text(
                   "Cadastrar",

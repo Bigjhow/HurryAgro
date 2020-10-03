@@ -32,9 +32,9 @@ class _NavState extends State<Nav> {
             ListTile(
                 title: Text("Meus Anuncios"),
                 onTap: () => Navigator.push(
-                context,
-                    MaterialPageRoute(builder: (context) => MeusAnuncios()),
-                 ),
+                      context,
+                      MaterialPageRoute(builder: (context) => MeusAnuncios()),
+                    ),
                 leading: Icon(Icons.list)),
             ListTile(
                 title: Text("Desenvolveres"),
