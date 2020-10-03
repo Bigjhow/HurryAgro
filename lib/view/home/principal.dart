@@ -81,6 +81,7 @@ class _HomeState extends State<Principal> {
                             MaterialPageRoute(
                                 builder: (context) => Anuncio(
                                       name: anuncios[index]["name"],
+                                      describe: anuncios[index]["describe"],
                                       price:
                                           anuncios[index]["price"].toString(),
                                       image: anuncios[index]["image"],

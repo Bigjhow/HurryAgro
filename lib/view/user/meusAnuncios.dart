@@ -1,5 +1,16 @@
+//---- Packages
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+//---- Screens
+import 'package:hurryAgro/view/home/anuncio.dart';
+
+//---- Datas
+import 'package:hurryAgro/data/data.dart';
+
+import '../../data/data.dart';
+import '../../data/data.dart';
 
 class MeusAnuncios extends StatefulWidget {
   @override
@@ -7,114 +18,61 @@ class MeusAnuncios extends StatefulWidget {
 }
 
 class _HomeState extends State<MeusAnuncios> {
+  var textTitulo = TextStyle(fontSize: 20);
+  var textPreco = TextStyle(fontSize: 20, color: Colors.blue);
+
+  Future getDados() async {
+    print("Recaregado");
+    return anuncios;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var textStyle = TextStyle(
-        color: Colors.green, fontSize: 17, fontWeight: FontWeight.bold);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: SizedBox(
-            width: 55, height: 55, child: Image.asset("imagens/logoNome.png")),
-        centerTitle: true,
+    appBar : AppBar(
         backgroundColor: Colors.green,
-      ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 15.0),
-        child: Column(
-          children: <Widget>[
-            Container(
-                child: Text(
-              "Meus Anuncios",
-              style: TextStyle(
-                fontSize: 30,
-              ),
-            )),
-            Container(
-              margin: const EdgeInsets.all(3.0),
-              padding: const EdgeInsets.all(2.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.brown,
-                  width: 3,
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    child: Flexible(
-                      flex: 5,
-                      child: Image.network(
-                        "https://www.infoescola.com/wp-content/uploads/2010/08/pepino_769056490.jpg",
-                        fit: BoxFit.cover,
-                        height: 100,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: Flexible(
-                      flex: 4,
-                      child: Container(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(3.0),
-                              child: Text(
-                                "Pepino",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
+      );
+    return RefreshIndicator(
+        child: SingleChildScrollView(
+            child: Column(children: [
+          Divider(
+            color: Colors.white,
+          ),
+          Image.asset(
+            "imagens/logoNome.png",
+            height: 100,
+          ),
+          Container(
+              width: 1000,
+              height: 500,
+              child: ListView.builder(
+                itemCount: anuncios.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                      onTap: () =>{},
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(120),
+                          child: Card(
+                              child: ListTile(
+                            title: Text(anuncios[index]["name"]),
+                            subtitle: Text("R\$${anuncios[index]["price"]}"),
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.asset(
+                                anuncios[index]["image"],
+                                width: 80,
+                                height: 80,
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(3.0),
-                              child: Text(
-                                "RS 10,00",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.blue,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: Flexible(
-                      flex: 2,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(left: 10),
-                            child: IconButton(
-                              icon: Icon(Icons.edit),
-                              onPressed: () {},
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 10),
-                            child: IconButton(
+                            trailing: IconButton(
                               icon: Icon(Icons.delete),
-                              color: Colors.red,
-                              onPressed: () {},
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                              onPressed :(){
+                                anuncios.remove([index]);
+                              }
+                            ), 
+                          ))));
+                },
+              ))
+        ])),
+        onRefresh: () => getDados());
   }
 }
