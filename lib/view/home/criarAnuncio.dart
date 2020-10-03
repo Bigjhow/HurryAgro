@@ -63,11 +63,13 @@ class _HomeState extends State<CriarAnuncio> {
                 setState(() {
                   anuncios.add({
                     "name": '${controladorName.text}',
-                    "price": "${controladorPrice.text}",
+                    "price": controladorPrice.text,
                     "image": "imagens/tomate.jpg",
                     "describe": "${controladorDescribe.text}"
                   });
                 });
+                Future.delayed(
+                    Duration(seconds: 1), () => Navigator.pop(context));
               },
               child: Text("Criar Anúncio"),
             )
