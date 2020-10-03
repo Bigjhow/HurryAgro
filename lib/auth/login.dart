@@ -86,8 +86,10 @@ class _HomeState extends State<Login> {
               Text(
                 _textoBase,
                 textAlign: TextAlign.center,
-                style:
-                    TextStyle(color: Colors.lightGreenAccent, fontSize: 25.0),
+                style: TextStyle(
+                    color: Colors.lightGreenAccent,
+                    fontSize: 25.0,
+                    fontFamily: "Noto Sans JP"),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 15.0, right: 15.0),
@@ -134,7 +136,8 @@ class _HomeState extends State<Login> {
                 child: FlatButton(
                     child: Text(
                       "Esqueceu a Senha",
-                      style: TextStyle(color: Colors.blueAccent),
+                      style: TextStyle(
+                          color: Colors.blueAccent, fontFamily: "Noto Sans JP"),
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -152,7 +155,8 @@ class _HomeState extends State<Login> {
                 },
                 child: Text(
                   "Login",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: "Noto Sans JP"),
                 ),
                 color: Colors.green,
               ),
@@ -168,8 +172,7 @@ class _HomeState extends State<Login> {
                   child: Text(
                     "Cadastro",
                     style: TextStyle(
-                      color: Colors.white,
-                    ),
+                        color: Colors.white, fontFamily: "Noto Sans JP"),
                   ))
             ],
           ),
