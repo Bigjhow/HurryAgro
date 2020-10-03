@@ -5,7 +5,10 @@ import 'package:hurryAgro/auth/esqueceuSenha.dart';
 import 'package:hurryAgro/Nav.dart';
 import 'package:page_transition/page_transition.dart';
 
+//---- Screens
 import 'cadastro.dart';
+
+import 'package:hurryAgro/data/data.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -45,7 +48,7 @@ class _HomeState extends State<Login> {
       _emailInformado = controladorEmail.text;
       _senhaInformado = controladorSenha.text;
     });
-    if (_email == _emailInformado && _senha == _senhaInformado) {
+    if ( _email == _emailInformado && _senha == _senhaInformado) {
       Navigator.push(
           context,
           PageTransition(
@@ -83,51 +86,23 @@ class _HomeState extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image.asset("imagens/logo.png", width: 220, height: 220),
+
               Text(
                 _textoBase,
                 textAlign: TextAlign.center,
                 style:
-                    TextStyle(color: Colors.lightGreenAccent, fontSize: 25.0),
+                    TextStyle(color: Colors.orange, fontSize: 25.0),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                child: TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      labelText: "E-mail", labelStyle: TextStyle()),
-                  controller: controladorEmail,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Informe seu E-mail";
-                    }
-                  },
+
+             formulario(false, "Email", TextInputType.emailAddress, controladorEmail,
+  
+                "Informe o Email",
+                
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                child: TextFormField(
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: obscureText,
-                  decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        tooltip: "Mostrar senha",
-                        icon: Icon(Icons.remove_red_eye, color: Colors.green),
-                        onPressed: () {
-                          setState(() {
-                            obscureText = !obscureText;
-                          });
-                        },
-                      ),
-                      labelText: "Senha",
-                      labelStyle: TextStyle()),
-                  controller: controladorSenha,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Informe sua Senha";
-                    }
-                  },
-                ),
-              ),
+
+              formulario(true, "Senha", TextInputType.text, controladorSenha, 
+                "Informe a Senha"),
+
               Container(
                 height: 40,
                 alignment: Alignment.centerRight,
@@ -145,6 +120,7 @@ class _HomeState extends State<Login> {
                       );
                     }),
               ),
+                
               RaisedButton(
                 onPressed: () {
                   _login();
@@ -156,6 +132,7 @@ class _HomeState extends State<Login> {
                 ),
                 color: Colors.green,
               ),
+
               RaisedButton(
                   color: Colors.green,
                   onPressed: () {
@@ -164,17 +141,37 @@ class _HomeState extends State<Login> {
                         PageTransition(
                             child: Cadastro(),
                             type: PageTransitionType.rightToLeft));
+                         
                   },
                   child: Text(
                     "Cadastro",
                     style: TextStyle(
                       color: Colors.white,
                     ),
-                  ))
+                  ),  
+                ),
             ],
           ),
         ),
       ),
     );
   }
+}
+Widget formulario(
+    bool obscureText,
+    String labelText,
+    TextInputType keyboardType,
+    TextEditingController controller,
+    String validator) {
+  return TextFormField(
+    keyboardType: keyboardType,
+    obscureText: obscureText,
+    decoration: InputDecoration(labelText: "$labelText"),
+    controller: controller,
+    validator: (value) {
+      if (value.isEmpty) {
+        return "$validator";
+      }
+    },
+  );
 }
