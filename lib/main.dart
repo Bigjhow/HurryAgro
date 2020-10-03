@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'Hurry Agro',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.green, fontFamily: "NotoSans"),
-      home: Nav(),
+      home: Login(),
     );
   }
 }
