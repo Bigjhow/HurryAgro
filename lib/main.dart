@@ -11,9 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hurry Agro',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
+      theme: ThemeData(primarySwatch: Colors.green, fontFamily: "NotoSans"),
       home: Nav(),
     );
   }
