@@ -45,10 +45,15 @@ class _HomeState extends State<Cadastro> {
           _senhaInformado != "" &&
           _confSenhaInformado != "" &&
           _senhaInformado == _confSenhaInformado) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Nav()),
-        );
+            usuarios.add({
+                      "email": '${controladorEmail.text}',
+                      "senha": "${controladorSenha.text}"
+                    });
+            print("Cadastro edetuado com sucesso");
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Nav()),
+            );
       } else {
         _textoBase = "Informações incorretas!!";
       }
@@ -103,12 +108,6 @@ class _HomeState extends State<Cadastro> {
 
               RaisedButton(
                 onPressed: () {
-                  setState(() {
-                    usuarios.add({
-                      "email": '${controladorEmail.text}',
-                      "senha": "${controladorSenha.text}"
-                    });
-                  });
                   _cadastro();
                 },
                 child: Text(
