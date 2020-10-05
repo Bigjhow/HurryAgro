@@ -18,4 +18,6 @@ List usuarios = [
   {"email": "diego@gmail.com", "senha": "hurry"},
   {"email": "lorenzo@gmail.com", "senha": "hurry"},
   {"email": "joao@gmail.com", "senha": "hurry"},
+  {"email": "danilo@gmail.com", "senha": "hurry"},
+  {"email": "ana@gmail.com", "senha": "hurry"},
 ];

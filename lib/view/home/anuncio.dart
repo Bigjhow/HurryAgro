@@ -17,7 +17,7 @@ class _HomeState extends State<Anuncio> {
 
   var styleTextName = TextStyle(
     fontSize: 30,
-    color: Colors.blueAccent,
+    color: Colors.white,
   );
 
   var styleTextDescribe = TextStyle(fontSize: 16);
