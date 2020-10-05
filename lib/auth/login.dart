@@ -24,9 +24,6 @@ class _HomeState extends State<Login> {
 
   String _textoBase = "Informe seu E-mail e sua Senha";
 
-  String _email = "teste@gmail.com";
-  String _senha = "teste";
-
   bool obscureText = true;
 
   // _formKey = GlobalKey<FormState>();
@@ -39,17 +36,25 @@ class _HomeState extends State<Login> {
     });
   }
 
-  String _emailInformado;
-  String _senhaInformado;
-
-  void _login() {}
-
-  /*void _esqueceuSenha() {
-    setState(() {
-      _textoBase = "Esqueceu a senha (troca de tela)";
-    });
-  }*/
-
+   _logar() {
+    if (_formKey.currentState.validate()) {
+             for (var x = 0; x <= usuarios.length; x++) {
+                 if (usuarios[x]["email"] == controladorEmail.text &&
+                          usuarios[x]["senha"] == controladorSenha.text) {
+                        return Navigator.push(
+                            context,
+                            PageTransition(
+                                child: Nav(),
+                                type: PageTransitionType.rightToLeft,
+                                duration: Duration(milliseconds: 800))
+                            
+                            );
+                      } else {
+                       return print("Email ou senha errado");
+                    }
+                }
+         }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +66,7 @@ class _HomeState extends State<Login> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+        padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -100,34 +105,27 @@ class _HomeState extends State<Login> {
                       );
                     }),
               ),
-              RaisedButton(
+              ButtonTheme(
+                minWidth: 300.0,
+                height: 40,
+              child: RaisedButton(
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    for (var x = 0; x <= usuarios.length; x++) {
-                      if (usuarios[x]["email"] == controladorEmail.text &&
-                          usuarios[x]["senha"] == controladorSenha.text) {
-                        return Navigator.push(
-                            context,
-                            PageTransition(
-                                child: Nav(),
-                                type: PageTransitionType.rightToLeft,
-                                duration: Duration(milliseconds: 800))
-                          
-                            );
-                      } else {
-                        print("Email ou senha errado");
-                      }
-                    }
-                  }
+                  _logar();
                 },
                 child: Text(
                   "Login",
                   style: TextStyle(
-                      color: Colors.white, fontFamily: "Noto Sans JP"),
+                      color: Colors.white, 
+                      fontFamily: "Noto Sans JP",
+                      ),
                 ),
                 color: Colors.green,
               ),
-              RaisedButton(
+              ),
+              ButtonTheme(
+                minWidth: 300.0,
+                height: 40,
+               child: RaisedButton(
                 color: Colors.green,
                 onPressed: () {
                   Navigator.push(
@@ -143,6 +141,8 @@ class _HomeState extends State<Login> {
                   ),
                 ),
               ),
+              ),
+              
             ],
           ),
         ),
