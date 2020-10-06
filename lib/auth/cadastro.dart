@@ -61,6 +61,7 @@ class _HomeState extends State<Cadastro> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -104,8 +105,11 @@ class _HomeState extends State<Cadastro> {
                   TextInputType.visiblePassword,
                   controladorConfSenha,
                   "senha errada"),
-
-              RaisedButton(
+              Divider(),
+             Container(
+              width: size.width * 0.8,
+              height: size.height * 0.05,
+              child:  RaisedButton(
                 onPressed: () {
                   _cadastro();
                 },
@@ -115,6 +119,7 @@ class _HomeState extends State<Cadastro> {
                 ),
                 color: Colors.green,
               ),
+             ),
             ],
           ),
         ),
