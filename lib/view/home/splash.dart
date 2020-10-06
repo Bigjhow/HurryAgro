@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/auth/login.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:simple_splashscreen/simple_splashscreen.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -13,23 +14,11 @@ class _State extends State<Splash> {
   @override
   void initState(){
     super.initState();
-    startTimer();
-  }
-  startTimer() async {
-  var duration = Duration(seconds: 10);
-  return Timer(duration, route);
-  }
-
-  var button = CircularProgressIndicator(
-              backgroundColor: Colors.blue,
-              strokeWidth: 2,
-            );
-
-/*setar(){
-    setState(() {
-      var button =
-     RaisedButton(
+    Timer.periodic(Duration(seconds: 10),(timer) {
+        setState(() {
+          button = RaisedButton(
                 onPressed: () {
+                  route();
                 },
                 child: Text(
                   "Login",
@@ -41,8 +30,14 @@ class _State extends State<Splash> {
                 color: Colors.green,
     );
     });
-    return button;
-  }*/
+     });
+  }
+  Widget button = CircularProgressIndicator(
+              backgroundColor: Colors.blue,
+              strokeWidth: 2,
+            );
+
+
 
  route() {
    Navigator.pushReplacement(context, 
