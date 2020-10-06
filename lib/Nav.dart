@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/chat/chat.dart';
 import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:hurryAgro/auth/login.dart';
 
 //---- Screens
 import 'package:hurryAgro/view/home/principal.dart';
@@ -48,7 +49,10 @@ class _NavState extends State<Nav> {
                 leading: Icon(Icons.info)),
             ListTile(
                 title: Text("Sair"),
-                onTap: () {},
+                onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    ),
                 leading: Icon(Icons.exit_to_app)),
           ]),
         ),
@@ -77,7 +81,9 @@ class _NavState extends State<Nav> {
                         Icons.clear,
                         color: Colors.green,
                       ),
-                      onPressed: () {}),
+                      onPressed: () {
+                        
+                      }),
                 ),
               ),
               decoration: BoxDecoration(color: Colors.white),

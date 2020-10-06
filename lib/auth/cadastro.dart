@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hurryAgro/view/home/principal.dart';
 
 import '../Nav.dart';
 import 'package:hurryAgro/data/data.dart';
