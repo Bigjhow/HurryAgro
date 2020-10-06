@@ -17,12 +17,30 @@ class _HomeState extends State<MeusAnuncios> {
     print("Recaregado");
     return anuncios;
   }
-  
+
+  var _snack = GlobalKey<ScaffoldState>();
+
   var produtoApagado;
+
+  mostrarSnack(index, text) {
+    _snack.currentState.showSnackBar(SnackBar(
+      content: Text("$text"),
+      action: SnackBarAction(
+          label: "Desfazer",
+          onPressed: () {
+            setState(() {
+              anuncios.insert(index, produtoApagado);
+            });
+          }),
+      duration: Duration(seconds: 3),
+      backgroundColor: Colors.red,
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _snack,
         appBar: AppBar(),
         body: FutureBuilder(
           future: getDados(),
@@ -58,21 +76,11 @@ class _HomeState extends State<MeusAnuncios> {
                                   setState(() {
                                     anuncios.removeAt(index);
                                   });
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                    content: Text("O Produto: " +
-                                        produtoApagado["name"] +
-                                        " foi excluido"),
-                                    action: SnackBarAction(
-                                        label: "Desfazer",
-                                        onPressed: () {
-                                          setState(() {
-                                            anuncios.insert(
-                                                index, produtoApagado);
-                                          });
-                                        }),
-                                    duration: Duration(seconds: 3),
-                                    backgroundColor: Colors.red,
-                                  ));
+                                  mostrarSnack(
+                                      index,
+                                      "O Produto: " +
+                                          produtoApagado["name"] +
+                                          " foi excluido");
                                 },
                                 key: Key(DateTime.now().toString()),
                                 child: GestureDetector(
@@ -97,16 +105,22 @@ class _HomeState extends State<MeusAnuncios> {
                                           trailing: IconButton(
                                               icon: Icon(Icons.delete),
                                               onPressed: () {
+                                                produtoApagado =
+                                                    anuncios[index];
                                                 setState(() {
                                                   anuncios.removeAt(index);
                                                 });
+                                                mostrarSnack(
+                                                    index,
+                                                    "O Produto: " +
+                                                        produtoApagado["name"] +
+                                                        " foi excluido");
                                               }),
-                                             /* onTap: () => Navigator.push(
+                                          /* onTap: () => Navigator.push(
                                               context,
                                                MaterialPageRoute(builder: (context) => EditarAnuncio()),
                                             ),*/
-                                        )
-                                        ))));
+                                        )))));
                           },
                         ))
                   ])),
