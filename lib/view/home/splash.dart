@@ -14,20 +14,25 @@ class _State extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 10), (timer) {
+    Timer.periodic(Duration(seconds: 4), (timer) {
       setState(() {
-        button = RaisedButton(
+        button = 
+        Container(
+          height: 40,
+          width: 200,
+          child: RaisedButton(
           onPressed: () {
             route();
           },
           child: Text(
             "Login",
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: "Noto Sans JP",
             ),
           ),
           color: Colors.green,
+        ),
         );
       });
       timer.cancel();
@@ -46,12 +51,15 @@ class _State extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(    
       backgroundColor: Colors.green,
-      body: Center(
+      body: SingleChildScrollView(
+        child: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Divider(),
           Container(
             child: Image.asset(
               "imagens/logo.png",
@@ -64,13 +72,15 @@ class _State extends State<Splash> {
               child: Text(
                 "O app Hurry Agro conta com funções como a criação de anúncios de venda, com controle total ao criador, como descrição, preço, localidade, também é possível iniciar um chat com o vendedor, para que assim negociem a venda. A HurryAgro somente dá espaço para os anunciantes, não fica apar das logísticas referente a vendas, apenas do anuncio e conversação via chat.",
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),
           Padding(padding: EdgeInsets.only(top: 20)),
           button,
         ],
-      )),
+      )),)
+      
     );
   }
 }
