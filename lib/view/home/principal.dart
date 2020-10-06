@@ -12,6 +12,11 @@ import 'package:hurryAgro/data/data.dart';
 import '../../data/data.dart';
 
 class Principal extends StatefulWidget {
+  Principal({
+    Key key, this.datas,
+  }
+  ) : super (key: key);
+  final datas;
   @override
   _HomeState createState() => _HomeState();
 }
@@ -24,7 +29,13 @@ class _HomeState extends State<Principal> {
     print("Recaregado");
     return anuncios;
   }
-
+  Map datas;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    datas = widget.datas;
+  }
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -72,30 +83,30 @@ class _HomeState extends State<Principal> {
               width: 1000,
               height: 500,
               child: ListView.builder(
-                itemCount: anuncios.length,
+                itemCount: datas.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                       onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Anuncio(
-                                      name: anuncios[index]["name"],
-                                      describe: anuncios[index]["describe"],
+                                      name: datas[index]["name"],
+                                      describe: datas[index]["describe"],
                                       price:
-                                          anuncios[index]["price"].toString(),
-                                      image: anuncios[index]["image"],
+                                          datas[index]["price"].toString(),
+                                      image: datas[index]["image"],
                                     )),
                           ),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(120),
                           child: Card(
                               child: ListTile(
-                            title: Text(anuncios[index]["name"]),
-                            subtitle: Text("R\$${anuncios[index]["price"]}"),
+                            title: Text(datas[index]["name"]),
+                            subtitle: Text("R\$${datas[index]["price"]}"),
                             leading: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Image.asset(
-                                anuncios[index]["image"],
+                                datas[index]["image"],
                                 width: 80,
                                 height: 80,
                               ),

@@ -4,6 +4,7 @@ import 'package:hurryAgro/view/chat/chat.dart';
 import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:hurryAgro/auth/login.dart';
+import 'package:hurryAgro/data/data.dart';
 
 //---- Screens
 import 'package:hurryAgro/view/home/principal.dart';
@@ -17,6 +18,23 @@ class Nav extends StatefulWidget {
 
 class _NavState extends State<Nav> {
   int _index = 0;
+  Map anuncio = {"name": null};
+  TextEditingController _searchController = TextEditingController();
+
+  Future search(search) async {
+    for (var x = 0; x <= anuncios.length; x++) {
+      if (search == anuncios[x]["name"]) {
+        print("'Chat.dart': Esse mesmo: $search");
+        setState(() {
+          anuncio = anuncios [x];
+        });
+        return anuncio;
+      } else if (x == anuncio.length) {
+        print("Não tem : (");
+        return search;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +81,9 @@ class _NavState extends State<Nav> {
               width: size.width * 0.8,
               height: size.height * 0.05,
               child: TextField(
-                onChanged: (value) {},
+                onChanged: (value) {
+                  search(value);
+                },
                 showCursor: true,
                 strutStyle: StrutStyle(leading: 0.4),
                 keyboardType: TextInputType.text,
@@ -90,7 +110,7 @@ class _NavState extends State<Nav> {
             ),
           ),
         ),
-        body: _index == 0 ? Principal() : Chat(),
+        body: _index == 0 ? Principal(datas: anuncios,) : Chat(),
         floatingActionButton: _index == 0
             ? FloatingActionButton(
                 child: Icon(Icons.add),
