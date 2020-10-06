@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hurryAgro/Nav.dart';
-import 'package:hurryAgro/auth/login.dart';
-import 'package:hurryAgro/view/home/principal.dart';
 import 'package:hurryAgro/view/home/splash.dart';
 
 void main() => runApp(MyApp());
