@@ -20,6 +20,9 @@ class _NavState extends State<Nav> {
   int _index = 0;
   Map anuncio = {"name": null};
   TextEditingController _searchController = TextEditingController();
+  
+
+  
 
   Future search(search) async {
     for (var x = 0; x <= anuncios.length; x++) {
@@ -68,11 +71,8 @@ class _NavState extends State<Nav> {
                 leading: Icon(Icons.info)),
             ListTile(
                 title: Text("Sair"),
-                onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login()),
-                    ),
-                leading: Icon(Icons.exit_to_app)),
+                onTap: () =>{}
+                ),
           ]),
         ),
         appBar: AppBar(
@@ -82,6 +82,7 @@ class _NavState extends State<Nav> {
               width: size.width * 0.8,
               height: size.height * 0.05,
               child: TextField(
+                controller: _searchController,
                 onChanged: (value) {
                   search(value);
                 },
@@ -102,7 +103,9 @@ class _NavState extends State<Nav> {
                         Icons.clear,
                         color: Colors.green,
                       ),
-                      onPressed: () {}),
+                      onPressed: () {
+                       _searchController.clear();
+                      }),
                 ),
               ),
               decoration: BoxDecoration(color: Colors.white),
