@@ -57,6 +57,7 @@ class _HomeState extends State<Login> {
   }
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -105,9 +106,9 @@ class _HomeState extends State<Login> {
                       );
                     }),
               ),
-              ButtonTheme(
-                minWidth: 300.0,
-                height: 40,
+              Container(
+              width: size.width * 0.8,
+              height: size.height * 0.05,
               child: RaisedButton(
                 onPressed: () {
                   _logar();
@@ -122,9 +123,10 @@ class _HomeState extends State<Login> {
                 color: Colors.green,
               ),
               ),
-              ButtonTheme(
-                minWidth: 300.0,
-                height: 40,
+              Divider(),
+              Container(
+                width: size.width * 0.8,
+              height: size.height * 0.05,
                child: RaisedButton(
                 color: Colors.green,
                 onPressed: () {
