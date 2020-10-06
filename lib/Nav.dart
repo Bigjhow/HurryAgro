@@ -26,8 +26,9 @@ class _NavState extends State<Nav> {
       if (search == anuncios[x]["name"]) {
         print("'Chat.dart': Esse mesmo: $search");
         setState(() {
-          anuncio = anuncios [x];
+          anuncio = anuncios[x];
         });
+
         return anuncio;
       } else if (x == anuncio.length) {
         print("Não tem : (");
@@ -101,16 +102,19 @@ class _NavState extends State<Nav> {
                         Icons.clear,
                         color: Colors.green,
                       ),
-                      onPressed: () {
-                        
-                      }),
+                      onPressed: () {}),
                 ),
               ),
               decoration: BoxDecoration(color: Colors.white),
             ),
           ),
         ),
-        body: _index == 0 ? Principal(datas: anuncios,) : Chat(),
+        body: _index == 0
+            ? Principal(
+                datas: anuncios,
+                pesquisa: anuncio,
+              )
+            : Chat(),
         floatingActionButton: _index == 0
             ? FloatingActionButton(
                 child: Icon(Icons.add),
