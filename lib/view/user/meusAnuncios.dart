@@ -14,7 +14,7 @@ class MeusAnuncios extends StatefulWidget {
 
 class _HomeState extends State<MeusAnuncios> {
   Future getDados() async {
-    print("Recaregado");
+    print("DIEGO");
     return anuncios;
   }
 
