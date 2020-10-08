@@ -53,97 +53,100 @@ class _HomeState extends State<Principal> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-        child: SingleChildScrollView(
-            child: Column(children: [
-          Divider(
-            color: Colors.white,
-          ),
-          Image.asset(
-            "imagens/logoNome.png",
-            height: 100,
-          ),
-          CarouselSlider(
-            items: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  "https://cdn.pixabay.com/photo/2020/09/22/09/09/leaf-5592392__340.jpg",
+    return SingleChildScrollView(
+      child: RefreshIndicator(
+          child: Column(children: [
+            Divider(
+              color: Colors.white,
+            ),
+            Image.asset(
+              "imagens/logoNome.png",
+              height: 100,
+            ),
+            CarouselSlider(
+              items: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    "https://cdn.pixabay.com/photo/2020/09/22/09/09/leaf-5592392__340.jpg",
+                  ),
                 ),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  "https://cdn.pixabay.com/photo/2014/11/28/00/07/mushrooms-548360__340.jpg",
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    "https://cdn.pixabay.com/photo/2014/11/28/00/07/mushrooms-548360__340.jpg",
+                  ),
                 ),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  "https://cdn.pixabay.com/photo/2020/06/05/16/53/zucchini-5263781__340.jpg",
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    "https://cdn.pixabay.com/photo/2020/06/05/16/53/zucchini-5263781__340.jpg",
+                  ),
                 ),
-              ),
-            ],
-            options: CarouselOptions(
-                enlargeCenterPage: true,
-                autoPlay: true,
-                viewportFraction: 0.4, //Padding estre as imagens
-                autoPlayCurve: Curves.ease,
-                enableInfiniteScroll: true,
-                height: 130,
-                pauseAutoPlayOnTouch: true,
-                onPageChanged: (index, b) => print(index)),
-          ),
-          Container(
-              width: 1000,
-              height: 500,
-              child: pesquisa["name"] == null
-                  ? ListView.builder(
-                      itemCount: datas.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Anuncio(
-                                            name: datas[index]["name"],
-                                            describe: datas[index]["describe"],
-                                            price: datas[index]["price"]
-                                                .toString(),
-                                            image: datas[index]["image"],
-                                          )),
-                                ),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(120),
-                                child: Card(
-                                    child: ListTile(
-                                  title: Text(datas[index]["name"]),
-                                  subtitle: Text("R\$${datas[index]["price"]}"),
-                                  leading: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.asset(
-                                      datas[index]["image"],
-                                      width: 80,
-                                      height: 80,
-                                    ),
+              ],
+              options: CarouselOptions(
+                  enlargeCenterPage: true,
+                  autoPlay: true,
+                  viewportFraction: 0.4, //Padding estre as imagens
+                  autoPlayCurve: Curves.ease,
+                  enableInfiniteScroll: true,
+                  height: 130,
+                  pauseAutoPlayOnTouch: true,
+                  onPageChanged: (index, b) => print(index)),
+            ),
+            Container(
+                width: 1000,
+                height: 300,
+                child: pesquisa["name"] == null
+                    ? ListView.builder(
+                        itemCount: datas.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                              onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Anuncio(
+                                              name: datas[index]["name"],
+                                              describe: datas[index]
+                                                  ["describe"],
+                                              price: datas[index]["price"]
+                                                  .toString(),
+                                              image: datas[index]["image"],
+                                            )),
                                   ),
-                                ))));
-                      },
-                    )
-                  : Card(
-                      child: ListTile(
-                      title: Text(pesquisa["name"]),
-                      subtitle: Text("R\$${pesquisa["price"]}"),
-                      leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          pesquisa["image"],
-                          width: 80,
-                          height: 80,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(120),
+                                  child: Card(
+                                      child: ListTile(
+                                    title: Text(datas[index]["name"]),
+                                    subtitle:
+                                        Text("R\$${datas[index]["price"]}"),
+                                    leading: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.asset(
+                                        datas[index]["image"],
+                                        width: 80,
+                                        height: 80,
+                                      ),
+                                    ),
+                                  ))));
+                        },
+                      )
+                    : Card(
+                        child: ListTile(
+                        title: Text(pesquisa["name"]),
+                        subtitle: Text("R\$${pesquisa["price"]}"),
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.asset(
+                            pesquisa["image"],
+                            width: 80,
+                            height: 80,
+                          ),
                         ),
-                      ),
-                    )))
-        ])),
-        onRefresh: () => getDados());
+                      )))
+          ]),
+          onRefresh: () => getDados()),
+    );
   }
 }
