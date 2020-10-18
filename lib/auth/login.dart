@@ -38,6 +38,7 @@ class _HomeState extends State<Login> {
 
    _logar() {
     if (_formKey.currentState.validate()) {
+      try{
              for (var x = 0; x <= usuarios.length; x++) {
                  if (usuarios[x]["email"] == controladorEmail.text &&
                           usuarios[x]["senha"] == controladorSenha.text) {
@@ -49,10 +50,12 @@ class _HomeState extends State<Login> {
                                 duration: Duration(milliseconds: 800))
                             
                             );
-                      } else {
-                       return print("Email ou senha errado");
-                    }
+                      }
                 }
+                return _textoBase = "Email ou senha incorreta";
+            }catch (e) {
+        print(e);
+      }  
          }
   }
   @override
