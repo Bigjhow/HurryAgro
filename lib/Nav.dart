@@ -46,11 +46,20 @@ class _NavState extends State<Nav> {
     return Scaffold(
         drawer: Drawer(
           child: ListView(children: [
+            
             DrawerHeader(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage("imagens/diego.jpg"),
+              child: Column(
+                children: [
+                
+                 CircleAvatar(
+                   radius: 50,
+                     backgroundImage: AssetImage("imagens/diego.jpg"),
+                 ),
+                 Divider(),
+                 Text("Diego"),
+                ],
               ),
+              
             ),
             ListTile(
                 title: Text("Meus Anuncios"),
@@ -71,8 +80,9 @@ class _NavState extends State<Nav> {
                 leading: Icon(Icons.info)),
             ListTile(
                 title: Text("Sair"),
-                onTap: () =>{}
-                ),
+                onTap: () =>{},
+                leading: Icon(Icons.exit_to_app),
+                              ),
           ]),
         ),
         appBar: AppBar(
