@@ -44,9 +44,7 @@ class _HomeState extends State<CriarAnuncio> {
                 "Preço vazio"),
             formulario(false, "Descrição", TextInputType.text,
                 controladorDescribe, "Descrição vazio"),
-            Row(
-                children: <Widget>[
-
+            
                   RaisedButton.icon(
                       icon: Icon(Icons.camera_alt),
                       label: Text("Tirar ou uma foto"),
@@ -55,7 +53,6 @@ class _HomeState extends State<CriarAnuncio> {
                       }
                   ),
 
-                  Spacer(),
                   RaisedButton.icon(
                       icon: Icon(Icons.attach_file),
                       label: Text(" Selecionar uma foto"),
@@ -63,8 +60,7 @@ class _HomeState extends State<CriarAnuncio> {
                         ImagePicker.platform.pickImage(source: ImageSource.gallery);
                       }),
 
-                ]
-            ),
+             
             RaisedButton(
               onPressed: () {
                 setState(() {
