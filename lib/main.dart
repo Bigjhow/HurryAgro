@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/home/carrossel.dart';
-import 'package:hurryAgro/view/home/splash.dart';
 
 void main() => runApp(MyApp());
 

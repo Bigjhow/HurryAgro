@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/chat/chat.dart';
 import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:hurryAgro/auth/login.dart';
+
 import 'package:hurryAgro/data/data.dart';
 
 //---- Screens
@@ -104,10 +104,14 @@ class _NavState extends State<Nav> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: "Pesquise aqui",
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.green,
-                  ),
+                  prefixIcon: IconButton(
+                      icon: Icon(
+                        Icons.search,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                       
+                      }),
                   suffixIcon: IconButton(
                       icon: Icon(
                         Icons.clear,
