@@ -6,7 +6,6 @@ import 'package:page_transition/page_transition.dart';
 
 //---- Screens
 
-
 class EsqueceuSenha extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -14,7 +13,7 @@ class EsqueceuSenha extends StatefulWidget {
 
 class _HomeState extends State<EsqueceuSenha> {
   TextEditingController controladorEmail = TextEditingController();
-  
+
   var textButtom = TextStyle(color: Colors.white, fontSize: 25.0);
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -32,27 +31,26 @@ class _HomeState extends State<EsqueceuSenha> {
     });
   }
 
-   _verificar() {
+  _verificar() {
     if (_formKey.currentState.validate()) {
-      try{
-             for (var x = 0; x <= usuarios.length; x++) {
-                 if (usuarios[x]["email"] == controladorEmail.text) {
-                        return Navigator.push(
-                            context,
-                            PageTransition(
-                                child: ReceberCodigo(),
-                                type: PageTransitionType.rightToLeft,
-                                duration: Duration(milliseconds: 800))
-                            
-                            );
-                      }
-                }
-                return _textoBase = "Email incorreto";
-            }catch (e) {
+      try {
+        for (var x = 0; x <= usuarios.length; x++) {
+          if (usuarios[x]["email"] == controladorEmail.text) {
+            return Navigator.push(
+                context,
+                PageTransition(
+                    child: ReceberCodigo(),
+                    type: PageTransitionType.rightToLeft,
+                    duration: Duration(milliseconds: 800)));
+          }
+        }
+        return _textoBase = "Email incorreto";
+      } catch (e) {
         print(e);
-      }  
-         }
+      }
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -86,23 +84,22 @@ class _HomeState extends State<EsqueceuSenha> {
               ),
               Divider(),
               Container(
-              width: size.width * 0.8,
-              height: size.height * 0.05,
-              child: RaisedButton(
-                onPressed: () {
-                  _verificar();
-                },
-                child: Text(
-                  "Receber Código",
-                  style: TextStyle(
-                      color: Colors.white, 
+                width: size.width * 0.8,
+                height: size.height * 0.05,
+                child: RaisedButton(
+                  onPressed: () {
+                    _verificar();
+                  },
+                  child: Text(
+                    "Receber Código",
+                    style: TextStyle(
+                      color: Colors.white,
                       fontFamily: "Noto Sans JP",
-                      ),
+                    ),
+                  ),
+                  color: Colors.green,
                 ),
-                color: Colors.green,
               ),
-              ),          
-              
             ],
           ),
         ),

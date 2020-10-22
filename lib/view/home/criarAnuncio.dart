@@ -44,23 +44,18 @@ class _HomeState extends State<CriarAnuncio> {
                 "Preço vazio"),
             formulario(false, "Descrição", TextInputType.text,
                 controladorDescribe, "Descrição vazio"),
-            
-                  RaisedButton.icon(
-                      icon: Icon(Icons.camera_alt),
-                      label: Text("Tirar ou uma foto"),
-                      onPressed: () {
-                        ImagePicker.platform.pickImage(source: ImageSource.camera);
-                      }
-                  ),
-
-                  RaisedButton.icon(
-                      icon: Icon(Icons.attach_file),
-                      label: Text(" Selecionar uma foto"),
-                      onPressed: () {
-                        ImagePicker.platform.pickImage(source: ImageSource.gallery);
-                      }),
-
-             
+            RaisedButton.icon(
+                icon: Icon(Icons.camera_alt),
+                label: Text("Tirar ou uma foto"),
+                onPressed: () {
+                  ImagePicker.platform.pickImage(source: ImageSource.camera);
+                }),
+            RaisedButton.icon(
+                icon: Icon(Icons.attach_file),
+                label: Text(" Selecionar uma foto"),
+                onPressed: () {
+                  ImagePicker.platform.pickImage(source: ImageSource.gallery);
+                }),
             RaisedButton(
               onPressed: () {
                 setState(() {

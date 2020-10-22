@@ -20,9 +20,6 @@ class _NavState extends State<Nav> {
   int _index = 0;
   Map anuncio = {"name": null};
   TextEditingController _searchController = TextEditingController();
-  
-
-  
 
   Future search(search) async {
     for (var x = 0; x <= anuncios.length; x++) {
@@ -46,20 +43,17 @@ class _NavState extends State<Nav> {
     return Scaffold(
         drawer: Drawer(
           child: ListView(children: [
-            
             DrawerHeader(
               child: Column(
                 children: [
-                
-                 CircleAvatar(
-                   radius: 50,
-                     backgroundImage: AssetImage("imagens/diego.jpg"),
-                 ),
-                 Divider(),
-                 Text("Diego"),
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage("imagens/diego.jpg"),
+                  ),
+                  Divider(),
+                  Text("Diego"),
                 ],
               ),
-              
             ),
             ListTile(
                 title: Text("Meus Anuncios"),
@@ -79,10 +73,10 @@ class _NavState extends State<Nav> {
                 ),
                 leading: Icon(Icons.info)),
             ListTile(
-                title: Text("Sair"),
-                onTap: () =>{},
-                leading: Icon(Icons.exit_to_app),
-                              ),
+              title: Text("Sair"),
+              onTap: () => {},
+              leading: Icon(Icons.exit_to_app),
+            ),
           ]),
         ),
         appBar: AppBar(
@@ -109,16 +103,14 @@ class _NavState extends State<Nav> {
                         Icons.search,
                         color: Colors.green,
                       ),
-                      onPressed: () {
-                       
-                      }),
+                      onPressed: () {}),
                   suffixIcon: IconButton(
                       icon: Icon(
                         Icons.clear,
                         color: Colors.green,
                       ),
                       onPressed: () {
-                       _searchController.clear();
+                        _searchController.clear();
                       }),
                 ),
               ),

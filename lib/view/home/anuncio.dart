@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Anuncio extends StatefulWidget {
-  Anuncio({Key key, this.name, this.describe, this.image, this.price}) : super(key: key);
+  Anuncio({Key key, this.name, this.describe, this.image, this.price})
+      : super(key: key);
   final String name;
   final String describe;
   final String image;
@@ -47,30 +48,26 @@ class _HomeState extends State<Anuncio> {
                     widget.image,
                     height: 200,
                   ),
-                  margin: const EdgeInsets.fromLTRB(20 , 10, 20, 5),
+                  margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.grey,
                       width: 3,
                     ),
                   )),
-                  Text(
-                    "Preço: R\$"+widget.price,
-                     style: (styleTextPrice),
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5),
-                    child: Text(
-                      "Descrição: "+widget.describe,
-                      style: (styleTextDescribe),
-                    ),
-                  ),
-                  
-                  
+              Text(
+                "Preço: R\$" + widget.price,
+                style: (styleTextPrice),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5),
+                child: Text(
+                  "Descrição: " + widget.describe,
+                  style: (styleTextDescribe),
+                ),
+              ),
               RaisedButton.icon(
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   icon: Icon(Icons.chat),
                   label: Text("Entrar em contato"))
             ],

@@ -44,15 +44,15 @@ class _HomeState extends State<Cadastro> {
           _senhaInformado != "" &&
           _confSenhaInformado != "" &&
           _senhaInformado == _confSenhaInformado) {
-            usuarios.add({
-                      "email": '${controladorEmail.text}',
-                      "senha": "${controladorSenha.text}"
-                    });
-            print("Cadastro edetuado com sucesso");
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => Nav()),
-            );
+        usuarios.add({
+          "email": '${controladorEmail.text}',
+          "senha": "${controladorSenha.text}"
+        });
+        print("Cadastro edetuado com sucesso");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Nav()),
+        );
       } else {
         _textoBase = "Informações incorretas!!";
       }
@@ -106,20 +106,20 @@ class _HomeState extends State<Cadastro> {
                   controladorConfSenha,
                   "senha errada"),
               Divider(),
-             Container(
-              width: size.width * 0.8,
-              height: size.height * 0.05,
-              child:  RaisedButton(
-                onPressed: () {
-                  _cadastro();
-                },
-                child: Text(
-                  "Cadastrar",
-                  style: styleTextButtom,
+              Container(
+                width: size.width * 0.8,
+                height: size.height * 0.05,
+                child: RaisedButton(
+                  onPressed: () {
+                    _cadastro();
+                  },
+                  child: Text(
+                    "Cadastrar",
+                    style: styleTextButtom,
+                  ),
+                  color: Colors.green,
                 ),
-                color: Colors.green,
               ),
-             ),
             ],
           ),
         ),

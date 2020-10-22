@@ -7,7 +7,8 @@ import 'package:hurryAgro/data/data.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditarAnuncio extends StatefulWidget {
-  EditarAnuncio({Key key, this.name, this.describe, this.image, this.price}) : super(key: key);
+  EditarAnuncio({Key key, this.name, this.describe, this.image, this.price})
+      : super(key: key);
   final String name;
   final String describe;
   final String image;
@@ -47,11 +48,11 @@ class _HomeState extends State<EditarAnuncio> {
                 style: TextStyle(
                   fontSize: 30,
                 )),
-            formulario(false, "Titulo"+ widget.name, TextInputType.name, controladorName,
-                "Titulo vazio"),
-            formulario(false, "Preço"+ widget.price, TextInputType.number, controladorPrice,
-                "Preço vazio"),
-            formulario(false, "Descrição"+ widget.describe, TextInputType.text,
+            formulario(false, "Titulo" + widget.name, TextInputType.name,
+                controladorName, "Titulo vazio"),
+            formulario(false, "Preço" + widget.price, TextInputType.number,
+                controladorPrice, "Preço vazio"),
+            formulario(false, "Descrição" + widget.describe, TextInputType.text,
                 controladorDescribe, "Descrição vazio"),
             RaisedButton.icon(
                 icon: Icon(Icons.camera_alt),

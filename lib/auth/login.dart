@@ -36,28 +36,27 @@ class _HomeState extends State<Login> {
     });
   }
 
-   _logar() {
+  _logar() {
     if (_formKey.currentState.validate()) {
-      try{
-             for (var x = 0; x <= usuarios.length; x++) {
-                 if (usuarios[x]["email"] == controladorEmail.text &&
-                          usuarios[x]["senha"] == controladorSenha.text) {
-                        return Navigator.push(
-                            context,
-                            PageTransition(
-                                child: Nav(),
-                                type: PageTransitionType.rightToLeft,
-                                duration: Duration(milliseconds: 800))
-                            
-                            );
-                      }
-                }
-                return _textoBase = "Email ou senha incorreta";
-            }catch (e) {
+      try {
+        for (var x = 0; x <= usuarios.length; x++) {
+          if (usuarios[x]["email"] == controladorEmail.text &&
+              usuarios[x]["senha"] == controladorSenha.text) {
+            return Navigator.push(
+                context,
+                PageTransition(
+                    child: Nav(),
+                    type: PageTransitionType.rightToLeft,
+                    duration: Duration(milliseconds: 800)));
+          }
+        }
+        return _textoBase = "Email ou senha incorreta";
+      } catch (e) {
         print(e);
-      }  
-         }
+      }
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -110,44 +109,43 @@ class _HomeState extends State<Login> {
                     }),
               ),
               Container(
-              width: size.width * 0.8,
-              height: size.height * 0.05,
-              child: RaisedButton(
-                onPressed: () {
-                  _logar();
-                },
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                      color: Colors.white, 
+                width: size.width * 0.8,
+                height: size.height * 0.05,
+                child: RaisedButton(
+                  onPressed: () {
+                    _logar();
+                  },
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      color: Colors.white,
                       fontFamily: "Noto Sans JP",
-                      ),
+                    ),
+                  ),
+                  color: Colors.green,
                 ),
-                color: Colors.green,
-              ),
               ),
               Divider(),
               Container(
                 width: size.width * 0.8,
-              height: size.height * 0.05,
-               child: RaisedButton(
-                color: Colors.green,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          child: Cadastro(),
-                          type: PageTransitionType.rightToLeft));
-                },
-                child: Text(
-                  "Cadastro",
-                  style: TextStyle(
-                    color: Colors.white,
+                height: size.height * 0.05,
+                child: RaisedButton(
+                  color: Colors.green,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: Cadastro(),
+                            type: PageTransitionType.rightToLeft));
+                  },
+                  child: Text(
+                    "Cadastro",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-              ),
-              
             ],
           ),
         ),

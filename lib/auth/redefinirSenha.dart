@@ -33,27 +33,25 @@ class _HomeState extends State<RedefinirSenha> {
     });
   }
 
-   _logar() {
+  _logar() {
     if (_formKey.currentState.validate()) {
-      try{
-             
-                 if (controladorSenha.text == controladorSenhaB.text) {
-                        return Navigator.push(
-                            context,
-                            PageTransition(
-                                child: Nav(),
-                                type: PageTransitionType.rightToLeft,
-                                duration: Duration(milliseconds: 800))
-                            
-                            );
-                      }
-               
-                return _textoBase = "Senhas não coincidem";
-            }catch (e) {
+      try {
+        if (controladorSenha.text == controladorSenhaB.text) {
+          return Navigator.push(
+              context,
+              PageTransition(
+                  child: Nav(),
+                  type: PageTransitionType.rightToLeft,
+                  duration: Duration(milliseconds: 800)));
+        }
+
+        return _textoBase = "Senhas não coincidem";
+      } catch (e) {
         print(e);
-      }  
-         }
+      }
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -82,26 +80,25 @@ class _HomeState extends State<RedefinirSenha> {
                   "Informe a Senha"),
               formulario(true, "Senha", TextInputType.text, controladorSenhaB,
                   "Informe a Senha"),
-                  Divider(),
+              Divider(),
               Container(
-              width: size.width * 0.8,
-              height: size.height * 0.05,
-              child: RaisedButton(
-                onPressed: () {
-                  _logar();
-                },
-                child: Text(
-                  "Redefinir",
-                  style: TextStyle(
-                      color: Colors.white, 
+                width: size.width * 0.8,
+                height: size.height * 0.05,
+                child: RaisedButton(
+                  onPressed: () {
+                    _logar();
+                  },
+                  child: Text(
+                    "Redefinir",
+                    style: TextStyle(
+                      color: Colors.white,
                       fontFamily: "Noto Sans JP",
-                      ),
+                    ),
+                  ),
+                  color: Colors.green,
                 ),
-                color: Colors.green,
-              ),
               ),
               Divider(),
-         
             ],
           ),
         ),

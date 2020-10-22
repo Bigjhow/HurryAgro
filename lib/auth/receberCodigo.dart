@@ -13,7 +13,7 @@ class ReceberCodigo extends StatefulWidget {
 
 class _HomeState extends State<ReceberCodigo> {
   TextEditingController controladorCodigo = TextEditingController();
-  
+
   var textButtom = TextStyle(color: Colors.white, fontSize: 25.0);
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -31,27 +31,25 @@ class _HomeState extends State<ReceberCodigo> {
     });
   }
 
-   _verificar() {
+  _verificar() {
     if (_formKey.currentState.validate()) {
-      try{
-             
-                 if (controladorCodigo.text == "123") {
-                        return Navigator.push(
-                            context,
-                            PageTransition(
-                                child: RedefinirSenha(),
-                                type: PageTransitionType.rightToLeft,
-                                duration: Duration(milliseconds: 800))
-                            
-                            );
-                      }
-                
-                return _textoBase = "Codigo errado";
-            }catch (e) {
+      try {
+        if (controladorCodigo.text == "123") {
+          return Navigator.push(
+              context,
+              PageTransition(
+                  child: RedefinirSenha(),
+                  type: PageTransitionType.rightToLeft,
+                  duration: Duration(milliseconds: 800)));
+        }
+
+        return _textoBase = "Codigo errado";
+      } catch (e) {
         print(e);
-      }  
-         }
+      }
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -85,23 +83,22 @@ class _HomeState extends State<ReceberCodigo> {
               ),
               Divider(),
               Container(
-              width: size.width * 0.8,
-              height: size.height * 0.05,
-              child: RaisedButton(
-                onPressed: () {
-                  _verificar();
-                },
-                child: Text(
-                  "Verificar Código",
-                  style: TextStyle(
-                      color: Colors.white, 
+                width: size.width * 0.8,
+                height: size.height * 0.05,
+                child: RaisedButton(
+                  onPressed: () {
+                    _verificar();
+                  },
+                  child: Text(
+                    "Verificar Código",
+                    style: TextStyle(
+                      color: Colors.white,
                       fontFamily: "Noto Sans JP",
-                      ),
+                    ),
+                  ),
+                  color: Colors.green,
                 ),
-                color: Colors.green,
               ),
-              ),          
-              
             ],
           ),
         ),

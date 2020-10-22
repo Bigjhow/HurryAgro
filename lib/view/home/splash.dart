@@ -21,8 +21,6 @@ class _State extends State<Splash> {
     });
   }
 
-  
-
   route() {
     Navigator.pushReplacement(context,
         PageTransition(child: Login(), type: PageTransitionType.bottomToTop));
@@ -31,29 +29,29 @@ class _State extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(    
-      backgroundColor: Colors.green,
-      body: SingleChildScrollView(    
-        child: Center(
-          child: Column(      
-           children: <Widget>[
-             Padding(padding: EdgeInsets.only(bottom:0 ,left:20 , right:20 , top: 75)), 
-          Container(
-            child: Image.asset(
-              "imagens/logo.png",
-              height: 300,
+    return Scaffold(
+        backgroundColor: Colors.green,
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                    padding: EdgeInsets.only(
+                        bottom: 0, left: 20, right: 20, top: 75)),
+                Container(
+                  child: Image.asset(
+                    "imagens/logo.png",
+                    height: 300,
+                  ),
+                ),
+                Padding(padding: EdgeInsets.only(top: 30)),
+                CircularProgressIndicator(
+                  backgroundColor: Colors.blue,
+                  strokeWidth: 3,
+                ),
+              ],
             ),
           ),
-          Padding(padding: EdgeInsets.only(top: 30)),
-          CircularProgressIndicator(
-         backgroundColor: Colors.blue,
-        strokeWidth: 3,
-         ),
-        ],
-      ),
-      ),   
-      )
-      
-    );
+        ));
   }
 }

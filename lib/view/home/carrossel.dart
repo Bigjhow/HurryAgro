@@ -47,8 +47,11 @@ class _HomeState extends State<Carrossel> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.pushReplacement(context,
-                      PageTransition(child: Splash(), type: PageTransitionType.bottomToTop));
+                  Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                          child: Splash(),
+                          type: PageTransitionType.bottomToTop));
                 },
               )),
         ],
