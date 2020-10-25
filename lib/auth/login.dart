@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hurryAgro/auth/cadastro.dart';
 import 'package:hurryAgro/auth/esqueceuSenha.dart';
 import 'package:hurryAgro/Nav.dart';
-import 'package:hurryAgro/data/data.dart';
+import 'package:hurryAgro/data/users.dart';
 import 'package:page_transition/page_transition.dart';
 
 //---- Screens
@@ -46,7 +46,7 @@ class _HomeState extends State<Login> {
                 context,
                 PageTransition(
                     child: Nav(),
-                    type: PageTransitionType.rightToLeft,
+                    type: PageTransitionType.bottomToTop,
                     duration: Duration(milliseconds: 800)));
           }
         }

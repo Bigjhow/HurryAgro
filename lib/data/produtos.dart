@@ -28,10 +28,3 @@ List anuncios = [
         "Beringela do suldeste cultivado na alemanha pelo garnde querissimo Nelson Pé de Pano"
   },
 ];
-List usuarios = [
-  {"email": "diego@gmail.com", "senha": "hurry"},
-  {"email": "lorenzo@gmail.com", "senha": "hurry"},
-  {"email": "joao@gmail.com", "senha": "hurry"},
-  {"email": "danilo@gmail.com", "senha": "hurry"},
-  {"email": "ana@gmail.com", "senha": "hurry"},
-];

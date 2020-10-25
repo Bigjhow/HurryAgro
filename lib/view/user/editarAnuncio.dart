@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/home/principal.dart';
 
 //---- Datas
-import 'package:hurryAgro/data/data.dart';
+import 'package:hurryAgro/data/produtos.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditarAnuncio extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //---- Datas
-import 'package:hurryAgro/data/data.dart';
+import 'package:hurryAgro/data/produtos.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CriarAnuncio extends StatefulWidget {
@@ -50,12 +50,14 @@ class _HomeState extends State<CriarAnuncio> {
                 onPressed: () {
                   ImagePicker.platform.pickImage(source: ImageSource.camera);
                 }),
+                Divider(),
             RaisedButton.icon(
                 icon: Icon(Icons.attach_file),
                 label: Text(" Selecionar uma foto"),
                 onPressed: () {
                   ImagePicker.platform.pickImage(source: ImageSource.gallery);
                 }),
+                Divider(),
             RaisedButton(
               onPressed: () {
                 setState(() {

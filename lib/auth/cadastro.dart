@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Nav.dart';
-import 'package:hurryAgro/data/data.dart';
+import 'package:hurryAgro/data/users.dart';
 
 class Cadastro extends StatefulWidget {
   @override

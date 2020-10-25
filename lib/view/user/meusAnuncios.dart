@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 //---- Datas
-import 'package:hurryAgro/data/data.dart';
+import 'package:hurryAgro/data/produtos.dart';
 
 //---- Screens
 import 'package:hurryAgro/view/user/editarAnuncio.dart';

@@ -4,7 +4,7 @@ import 'package:hurryAgro/view/chat/chat.dart';
 import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
 
-import 'package:hurryAgro/data/data.dart';
+import 'package:hurryAgro/data/produtos.dart';
 
 //---- Screens
 import 'package:hurryAgro/view/home/principal.dart';
@@ -12,6 +12,11 @@ import 'package:hurryAgro/view/sobre.dart';
 import 'package:hurryAgro/view/home/criarAnuncio.dart';
 
 class Nav extends StatefulWidget {
+  Nav({Key key, this.email, this.senha, this.image})
+      : super(key: key);
+  final String email;
+  final String senha;
+  final String image;
   @override
   _NavState createState() => _NavState();
 }
