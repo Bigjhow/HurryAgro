@@ -38,16 +38,7 @@ class _HomeState extends State<Principal> {
   List datas;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      try {
-        pesquisa = widget.pesquisa;
-        print("pesquisaa");
-      } catch (e) {
-        print(e);
-      }
-    });
     datas = widget.datas;
   }
 
@@ -85,14 +76,14 @@ class _HomeState extends State<Principal> {
                 ),
               ],
               options: CarouselOptions(
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  viewportFraction: 0.4, //Padding estre as imagens
-                  autoPlayCurve: Curves.ease,
-                  enableInfiniteScroll: true,
-                  height: 130,
-                  pauseAutoPlayOnTouch: true,
-                  ),
+                enlargeCenterPage: true,
+                autoPlay: true,
+                viewportFraction: 0.4, //Padding estre as imagens
+                autoPlayCurve: Curves.ease,
+                enableInfiniteScroll: true,
+                height: 130,
+                pauseAutoPlayOnTouch: true,
+              ),
             ),
             Container(
                 width: 1000,

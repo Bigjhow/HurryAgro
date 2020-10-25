@@ -13,8 +13,7 @@ import 'package:hurryAgro/view/sobre.dart';
 import 'package:hurryAgro/view/home/criarAnuncio.dart';
 
 class Nav extends StatefulWidget {
-  Nav({Key key, this.email, this.senha, this.image})
-      : super(key: key);
+  Nav({Key key, this.email, this.senha, this.image}) : super(key: key);
   final String email;
   final String senha;
   final String image;
@@ -29,35 +28,37 @@ class _NavState extends State<Nav> {
   TextEditingController _searchController = TextEditingController();
 
   Future search(search) async {
-    if(_index == 0 ){
+    if (_index == 0) {
       for (var x = 0; x <= anuncios.length; x++) {
-      if (search == anuncios[x]["name"]) {
-        setState(() {
-          anuncio = anuncios[x];
-        });
-        return anuncio;
-      } else if (x == anuncio.length) {
-        return search;
-      }
-    }
-    }else{
-      for (var x = 0; x < chats.length; x++) {
-      if (search == chats[x].sender.name){
-        setState((){
-          chat = chats[x];
+        if (search == anuncios[x]["name"]) {
+          setState(() {
+            anuncio = anuncios[x];
           });
-            print('ESTA AQUI NAO É MESMO');
-      } else {
-        print('nao encontrado');
+          return anuncio;
+        } else if (x == anuncio.length) {
+          return search;
+        }
+      }
+    } else {
+      for (var x = 0; x < chats.length; x++) {
+        if (search == chats[x].sender.name) {
+          setState(() {
+            chat = chats[x];
+          });
+          print('ESTA AQUI NAO É MESMO');
+        } else {
+          print('nao encontrado');
+        }
       }
     }
-    }  
   }
+
   @override
   void initState() {
     print(chats[0].sender.name);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -101,15 +102,16 @@ class _NavState extends State<Nav> {
           ]),
         ),
         appBar: AppBar(
-          title: 
-           ClipRRect(
+          title: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Container(
               width: size.width * 0.8,
               height: size.height * 0.05,
               child: TextField(
                 controller: _searchController,
-                onChanged: (value) {
+                onSubmitted: (value) {
+                  search(_searchController.text);
+                  print('clicado');
                 },
                 showCursor: true,
                 strutStyle: StrutStyle(leading: 0.4),
@@ -125,8 +127,8 @@ class _NavState extends State<Nav> {
                         color: Colors.green,
                       ),
                       onPressed: () {
-                        search(_searchController.text); 
-                        print('clicado');                   
+                        search(_searchController.text);
+                        print('clicado');
                       }),
                   suffixIcon: IconButton(
                       icon: Icon(
@@ -135,7 +137,7 @@ class _NavState extends State<Nav> {
                       ),
                       onPressed: () {
                         _searchController.clear();
-                        search(_searchController.text);  
+                        search(_searchController.text);
                       }),
                 ),
               ),
@@ -148,7 +150,7 @@ class _NavState extends State<Nav> {
                 datas: anuncios,
                 pesquisa: anuncio,
               )
-            : Chat(chat:chat),
+            : Chat(chat: chat),
         floatingActionButton: _index == 0
             ? FloatingActionButton(
                 child: Icon(Icons.add),
