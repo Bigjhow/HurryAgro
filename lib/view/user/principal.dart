@@ -38,16 +38,8 @@ class _HomeState extends State<Principal> {
   List datas;
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      try {
-        pesquisa = widget.pesquisa;
-        print("pesquisaa");
-      } catch (e) {
-        print(e);
-      }
-    });
     datas = widget.datas;
   }
 

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/chat/chat.dart';
 import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
-
+import 'package:hurryAgro/model/message_model.dart';
+import 'package:hurryAgro/model/user_model.dart';
 import 'package:hurryAgro/data/produtos.dart';
 
 //---- Screens
@@ -24,24 +25,39 @@ class Nav extends StatefulWidget {
 class _NavState extends State<Nav> {
   int _index = 0;
   Map anuncio = {"name": null};
+  Message chat;
   TextEditingController _searchController = TextEditingController();
 
   Future search(search) async {
-    for (var x = 0; x <= anuncios.length; x++) {
+    if(_index == 0 ){
+      for (var x = 0; x <= anuncios.length; x++) {
       if (search == anuncios[x]["name"]) {
-        print("'Chat.dart': Esse mesmo: $search");
         setState(() {
           anuncio = anuncios[x];
         });
-
         return anuncio;
       } else if (x == anuncio.length) {
-        print("Não tem : (");
         return search;
       }
     }
+    }else{
+      for (var x = 0; x < chats.length; x++) {
+      if (search == chats[x].sender.name){
+        setState((){
+          chat = chats[x];
+          });
+            print('ESTA AQUI NAO É MESMO');
+      } else {
+        print('nao encontrado');
+      }
+    }
+    }  
   }
-
+  @override
+  void initState() {
+    print(chats[0].sender.name);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -85,7 +101,8 @@ class _NavState extends State<Nav> {
           ]),
         ),
         appBar: AppBar(
-          title: ClipRRect(
+          title: 
+           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Container(
               width: size.width * 0.8,
@@ -93,7 +110,6 @@ class _NavState extends State<Nav> {
               child: TextField(
                 controller: _searchController,
                 onChanged: (value) {
-                  search(value);
                 },
                 showCursor: true,
                 strutStyle: StrutStyle(leading: 0.4),
@@ -108,7 +124,10 @@ class _NavState extends State<Nav> {
                         Icons.search,
                         color: Colors.green,
                       ),
-                      onPressed: () {}),
+                      onPressed: () {
+                        search(_searchController.text); 
+                        print('clicado');                   
+                      }),
                   suffixIcon: IconButton(
                       icon: Icon(
                         Icons.clear,
@@ -116,6 +135,7 @@ class _NavState extends State<Nav> {
                       ),
                       onPressed: () {
                         _searchController.clear();
+                        search(_searchController.text);  
                       }),
                 ),
               ),
@@ -128,7 +148,7 @@ class _NavState extends State<Nav> {
                 datas: anuncios,
                 pesquisa: anuncio,
               )
-            : Chat(),
+            : Chat(chat:chat),
         floatingActionButton: _index == 0
             ? FloatingActionButton(
                 child: Icon(Icons.add),
