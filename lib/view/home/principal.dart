@@ -87,7 +87,7 @@ class _HomeState extends State<Principal> {
             ),
             Container(
                 width: 1000,
-                height: 300,
+                height: MediaQuery.of(context).size.height * 0.45,
                 child: pesquisa["name"] == null
                     ? ListView.builder(
                         itemCount: datas.length,
@@ -97,12 +97,11 @@ class _HomeState extends State<Principal> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Anuncio(
-                                              name: datas[index]["name"],
-                                              describe: datas[index]
-                                                  ["describe"],
-                                              price: datas[index]["price"]
-                                                  .toString(),
-                                              image: datas[index]["image"],
+                                              name: "${datas[index]["name"]}",
+                                              describe:
+                                                  "${datas[index]["describe"]}",
+                                              price: "${datas[index]["price"]}",
+                                              image: "${datas[index]["image"]}",
                                             )),
                                   ),
                               child: ClipRRect(
@@ -125,7 +124,7 @@ class _HomeState extends State<Principal> {
                       )
                     : Card(
                         child: ListTile(
-                        title: Text(pesquisa["name"]),
+                        title: Text("${pesquisa["name"]}"),
                         subtitle: Text("R\$${pesquisa["price"]}"),
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
