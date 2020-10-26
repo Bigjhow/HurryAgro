@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "253430819939",
+    "firebase_url": "https://hurryagro-4e22a.firebaseio.com",
+    "project_id": "hurryagro-4e22a",
+    "storage_bucket": "hurryagro-4e22a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253430819939:android:fd20c048b83b728a145c56",
+        "android_client_info": {
+          "package_name": "com.example.hurryAgro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253430819939-g2o596hqvai8vpj2n74tsjj8s52ik2r9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hurryAgro",
+            "certificate_hash": "82118550a36ca9427b27a0d5bf40e8e716a43275"
+          }
+        },
+        {
+          "client_id": "253430819939-2j88lb8gt5ejq4vsjn0bupgdj3gsp7f0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsH2svQSjP4c5iHF04cX92YopDODGUC_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253430819939-2j88lb8gt5ejq4vsjn0bupgdj3gsp7f0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
