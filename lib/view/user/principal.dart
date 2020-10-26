@@ -38,7 +38,6 @@ class _HomeState extends State<Principal> {
   List datas;
   @override
   void initState() {
-    
     super.initState();
     datas = widget.datas;
   }

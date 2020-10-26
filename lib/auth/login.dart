@@ -1,4 +1,5 @@
 //---- Packages
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/auth/cadastro.dart';
 import 'package:hurryAgro/auth/esqueceuSenha.dart';
@@ -23,6 +24,12 @@ class _HomeState extends State<Login> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String _textoBase = "Informe seu E-mail e sua Senha";
+
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+  Future addUsers(nome) async{
+    await firebaseFirestore.collection('users').add({'name' : '$nome'});
+  }
 
   bool obscureText = true;
 
@@ -112,7 +119,8 @@ class _HomeState extends State<Login> {
                 width: size.width * 0.8,
                 height: size.height * 0.05,
                 child: RaisedButton(
-                  onPressed: () {
+                  onPressed: () async{
+                   await addUsers(controladorEmail.text);
                     _logar();
                   },
                   child: Text(
