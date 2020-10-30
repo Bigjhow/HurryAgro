@@ -4,13 +4,14 @@ import 'package:hurryAgro/view/chat/chat.dart';
 import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:hurryAgro/model/message_model.dart';
-import 'package:hurryAgro/model/user_model.dart';
 import 'package:hurryAgro/data/produtos.dart';
 
 //---- Screens
 import 'package:hurryAgro/view/home/principal.dart';
 import 'package:hurryAgro/view/sobre.dart';
 import 'package:hurryAgro/view/home/criarAnuncio.dart';
+import 'package:hurryAgro/auth/login.dart';
+
 
 class Nav extends StatefulWidget {
   Nav({Key key, this.email, this.senha, this.image}) : super(key: key);
@@ -96,7 +97,44 @@ class _NavState extends State<Nav> {
                 leading: Icon(Icons.info)),
             ListTile(
               title: Text("Sair"),
-              onTap: () => {},
+              onTap: () => {
+                showDialog(
+                  context: context,
+                  builder: (context){
+                return AlertDialog(
+                      title: Text(
+                        'Sair'
+                      ) ,
+                       content: Text(
+                         'Você realmente deseja sair?'
+                       ),
+                       
+                       actions: [
+                         FlatButton(
+                           onPressed: (){
+                             Navigator.push(
+                          context,
+                           PageTransition(
+                            child: Login(),
+                            type: PageTransitionType.rightToLeft));
+                           },
+                           child: Text(
+                             "Sim"
+                           ),
+                           ),
+                           FlatButton(
+                           onPressed: (){
+                             Navigator.pop(context);
+                           },
+                           child: Text(
+                             "Não"
+                           ),
+                           )
+                       ],
+                    );
+                  }
+                ),
+              },
               leading: Icon(Icons.exit_to_app),
             ),
           ]),
