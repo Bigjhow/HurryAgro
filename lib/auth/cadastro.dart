@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../Nav.dart';
 import 'package:hurryAgro/data/users.dart';
 
@@ -20,6 +20,10 @@ class _HomeState extends State<Cadastro> {
 
   String _textoBase = "Preencha os campos para efetuar o cadastro";
 
+  
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   void _limparCampos() {
     controladorNome.text = "";
     controladorEmail.text = "";
@@ -33,7 +37,7 @@ class _HomeState extends State<Cadastro> {
   }
 
   void _cadastro() {
-    setState(() {
+    setState(() async{
       String _nomeInformado = controladorNome.text;
       String _emailInformado = controladorEmail.text;
       String _senhaInformado = controladorSenha.text;
@@ -46,17 +50,41 @@ class _HomeState extends State<Cadastro> {
           _senhaInformado == _confSenhaInformado) {
         usuarios.add({
           "email": '${controladorEmail.text}',
-          "senha": "${controladorSenha.text}"
+          "senha": "${controladorSenha.text}",
         });
-        print("Cadastro edetuado com sucesso");
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Nav()),
-        );
+
+        print("Cadastro efetuado com sucesso");
+        
       } else {
         _textoBase = "Informações incorretas!!";
       }
     });
+  }
+
+  Future cadastroEmailSenha(email, senha) async {
+    try {
+      await auth.createUserWithEmailAndPassword(email: email, password: senha);
+
+      User user = FirebaseAuth.instance.currentUser;
+
+      await user.sendEmailVerification();
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Nav()),
+        );
+
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "weak-password") {
+        setState(() {
+          
+        });
+      } else if (e.code == "email-already-in-use") {
+        
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -110,8 +138,9 @@ class _HomeState extends State<Cadastro> {
                 width: size.width * 0.8,
                 height: size.height * 0.05,
                 child: RaisedButton(
-                  onPressed: () {
-                    _cadastro();
+                  onPressed: () async{
+                    await cadastroEmailSenha(
+                      controladorEmail.text.trim(), controladorSenha.text.trim());
                   },
                   child: Text(
                     "Cadastrar",
