@@ -1,11 +1,12 @@
 //---- Packages
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/auth/cadastro.dart';
 import 'package:hurryAgro/auth/esqueceuSenha.dart';
 import 'package:hurryAgro/Nav.dart';
 import 'package:hurryAgro/data/users.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //---- Screens
 import 'cadastro.dart';
@@ -25,11 +26,8 @@ class _HomeState extends State<Login> {
 
   String _textoBase = "Informe seu E-mail e sua Senha";
 
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  Future addUsers(nome) async{
-    await firebaseFirestore.collection('users').add({'name' : '$nome'});
-  }
+  
 
   bool obscureText = true;
 
@@ -42,27 +40,29 @@ class _HomeState extends State<Login> {
       _textoBase = "Informe seu E-mail e sua Senha";
     });
   }
+  
+  FirebaseAuth auth = FirebaseAuth.instance;
 
-  _logar() {
-    if (_formKey.currentState.validate()) {
-      try {
-        for (var x = 0; x <= usuarios.length; x++) {
-          if (usuarios[x]["email"] == controladorEmail.text &&
-              usuarios[x]["senha"] == controladorSenha.text) {
-            return Navigator.push(
-                context,
-                PageTransition(
-                    child: Nav(),
-                    type: PageTransitionType.bottomToTop,
-                    duration: Duration(milliseconds: 800)));
-          }
-        }
-        return _textoBase = "Email ou senha incorreta";
-      } catch (e) {
-        print(e);
+  Future loginEmailSenha(email, senha) async {
+    try {
+      await auth.signInWithEmailAndPassword(email: email, password: senha);
+      Navigator.pushReplacement(context,
+          PageTransition(child: Nav(), type: PageTransitionType.bottomToTop));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        await showDialog(
+            context: (context),
+            child: AlertDialog(content: Text("Email não cadastrado")));
+      } else if (e.code == "wrong-password") {
+        await showDialog(
+            context: (context),
+            child: AlertDialog(content: Text("Senha errada")));
       }
+    } catch (e) {
+      print(e.toString());
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -119,9 +119,9 @@ class _HomeState extends State<Login> {
                 width: size.width * 0.8,
                 height: size.height * 0.05,
                 child: RaisedButton(
-                  onPressed: () async{
-                   await addUsers(controladorEmail.text);
-                    _logar();
+                  onPressed: () async{                  
+                    await loginEmailSenha(
+                      controladorEmail.text.trim(), controladorSenha.text.trim());
                   },
                   child: Text(
                     "Login",
