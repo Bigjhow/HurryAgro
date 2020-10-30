@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 //---- Datas
 import 'package:hurryAgro/data/produtos.dart';
@@ -15,6 +17,10 @@ class _HomeState extends State<CriarAnuncio> {
   TextEditingController controladorPrice = TextEditingController();
   TextEditingController controladorDescribe = TextEditingController();
 
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  Future addAnuncio(titulo, descricao, preco) async{
+    await firebaseFirestore.collection('anuncios').add({'titulo' : '$titulo', 'descricao' : '$descricao', 'preco' : '$preco'});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,15 +65,16 @@ class _HomeState extends State<CriarAnuncio> {
                 }),
                 Divider(),
             RaisedButton(
-              onPressed: () {
+              onPressed: () async{
                 setState(() {
                   anuncios.add({
                     "name": '${controladorName.text}',
                     "price": controladorPrice.text,
                     "image": "imagens/tomate.jpg",
-                    "describe": "${controladorDescribe.text}"
+                    "describe": "${controladorDescribe.text}",
                   });
                 });
+                await addAnuncio(controladorName.text, controladorDescribe.text, controladorPrice.text);
                 Future.delayed(
                     Duration(seconds: 1), () => Navigator.pop(context));
               },
