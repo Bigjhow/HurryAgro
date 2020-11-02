@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Nav.dart';
 import 'package:hurryAgro/data/users.dart';
+import 'package:hurryAgro/localData/local.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -68,7 +69,7 @@ class _HomeState extends State<Cadastro> {
       User user = FirebaseAuth.instance.currentUser;
 
       await user.sendEmailVerification();
-
+      await saveData();
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Nav()),

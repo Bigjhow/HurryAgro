@@ -5,6 +5,7 @@ import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:hurryAgro/model/message_model.dart';
 import 'package:hurryAgro/data/produtos.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //---- Screens
 import 'package:hurryAgro/view/home/principal.dart';
@@ -57,6 +58,7 @@ class _NavState extends State<Nav> {
   @override
   void initState() {
     print(chats[0].sender.name);
+    print(FirebaseAuth.instance.currentUser.photoURL);
     super.initState();
   }
 
@@ -69,10 +71,7 @@ class _NavState extends State<Nav> {
             DrawerHeader(
               child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage("imagens/diego.jpg"),
-                  ),
+                  
                   Divider(),
                   Text("Diego"),
                 ],

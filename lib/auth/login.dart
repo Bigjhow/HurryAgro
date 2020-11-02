@@ -7,6 +7,7 @@ import 'package:hurryAgro/Nav.dart';
 import 'package:hurryAgro/data/users.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hurryAgro/localData/local.dart';
 
 //---- Screens
 import 'cadastro.dart';
@@ -46,6 +47,7 @@ class _HomeState extends State<Login> {
   Future loginEmailSenha(email, senha) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: senha);
+      await saveData();
       Navigator.pushReplacement(context,
           PageTransition(child: Nav(), type: PageTransitionType.bottomToTop));
     } on FirebaseAuthException catch (e) {

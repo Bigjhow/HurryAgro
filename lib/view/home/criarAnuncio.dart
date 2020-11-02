@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 //---- Datas
-import 'package:hurryAgro/data/produtos.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CriarAnuncio extends StatefulWidget {
@@ -13,13 +17,24 @@ class CriarAnuncio extends StatefulWidget {
 }
 
 class _HomeState extends State<CriarAnuncio> {
+  File sampleImage;
+  List images = [];
+
+
+  Future getImage() async{
+    var tempImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState((){
+      images.add(tempImage.path);
+    });
+    print(images[0]);
+  }
   TextEditingController controladorName = TextEditingController();
   TextEditingController controladorPrice = TextEditingController();
   TextEditingController controladorDescribe = TextEditingController();
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  Future addAnuncio(titulo, descricao, preco) async{
-    await firebaseFirestore.collection('anuncios').add({'titulo' : '$titulo', 'descricao' : '$descricao', 'preco' : '$preco'});
+  Future addAnuncio(id, titulo, descricao, preco, imagens) async{
+    await firebaseFirestore.collection('anuncios').add({'id' : id, 'titulo' : '$titulo', 'descricao' : '$descricao', 'preco' : '$preco', 'imagens' : imagens});
   }
   @override
   Widget build(BuildContext context) {
@@ -61,20 +76,31 @@ class _HomeState extends State<CriarAnuncio> {
                 icon: Icon(Icons.attach_file),
                 label: Text(" Selecionar uma foto"),
                 onPressed: () {
-                  ImagePicker.platform.pickImage(source: ImageSource.gallery);
+                  getImage();
                 }),
                 Divider(),
             RaisedButton(
               onPressed: () async{
-                setState(() {
-                  anuncios.add({
-                    "name": '${controladorName.text}',
-                    "price": controladorPrice.text,
-                    "image": "imagens/tomate.jpg",
-                    "describe": "${controladorDescribe.text}",
-                  });
-                });
-                await addAnuncio(controladorName.text, controladorDescribe.text, controladorPrice.text);
+                var id = DateTime.now().toString();
+                for (var i = 0; i < 20; i++) {
+                  try{
+                    await FirebaseStorage.instance.ref('photoProducts/${FirebaseAuth.instance.currentUser.uid}/$id/$i').putFile(File(images[i]));
+                  }catch(e){
+                    print('erro:');
+                  }          
+                }
+                List linkImages = [];
+                for (var i = 0; i < 20; i++) {
+                  try{
+                  linkImages.add(await FirebaseStorage.instance.ref('photoProducts/${FirebaseAuth.instance.currentUser.uid}/$id/$i').getDownloadURL());
+                  print(linkImages[i]);
+                  }catch(e){
+                    print('erro:');
+                  }          
+                }   
+                  
+                await addAnuncio(id, controladorName.text, controladorDescribe.text, controladorPrice.text, linkImages);
+
                 Future.delayed(
                     Duration(seconds: 1), () => Navigator.pop(context));
               },

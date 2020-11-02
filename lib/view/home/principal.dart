@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 //---- Screens
 import 'package:hurryAgro/view/home/anuncio.dart';
@@ -28,10 +29,14 @@ class Principal extends StatefulWidget {
 class _HomeState extends State<Principal> {
   var textTitulo = TextStyle(fontSize: 20);
   var textPreco = TextStyle(fontSize: 20, color: Colors.blue);
-
+  QuerySnapshot anuncios;
   Future getDados() async {
-    print("Recaregado");
-    return anuncios;
+    anuncios = await FirebaseFirestore.instance.collection('anuncios').get();
+    for (var i = 0; i < anuncios.size; i++) {
+      print(anuncios.docs[i]['titulo']);
+    }
+    return await FirebaseFirestore.instance.collection('anuncios').get();
+    
   }
 
   Map pesquisa = {"name": null};
@@ -44,7 +49,13 @@ class _HomeState extends State<Principal> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return FutureBuilder(future: getDados(), builder: (context, snapshot){
+      if(snapshot.connectionState == ConnectionState.waiting){
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }else if(snapshot.connectionState == ConnectionState.done){
+         return SingleChildScrollView(
       child: RefreshIndicator(
           child: Column(children: [
             Divider(
@@ -87,41 +98,50 @@ class _HomeState extends State<Principal> {
             ),
             Container(
                 width: 1000,
-                height: MediaQuery.of(context).size.height * 0.45,
+                height: MediaQuery.of(context).size.height * 0.52,
                 child: pesquisa["name"] == null
-                    ? ListView.builder(
-                        itemCount: datas.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () => Navigator.push(
+                    ?                  ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Anuncio(
-                                              name: "${datas[index]["name"]}",
+                                              name: "${snapshot.data[index]["name"]}",
                                               describe:
-                                                  "${datas[index]["describe"]}",
-                                              price: "${datas[index]["price"]}",
-                                              image: "${datas[index]["image"]}",
+                                                  "${snapshot.data[index]["describe"]}",
+                                              price: "${snapshot.data[index]["price"]}",
+                                              //image: "${snapshot.data[index]["image"]}",
                                             )),
                                   ),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(120),
-                                  child: Card(
-                                      child: ListTile(
-                                    title: Text(datas[index]["name"]),
-                                    subtitle:
-                                        Text("R\$${datas[index]["price"]}"),
-                                    leading: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Image.asset(
-                                        datas[index]["image"],
-                                        width: 80,
-                                        height: 80,
-                                      ),
-                                    ),
-                                  ))));
-                        },
-                      )
+                    child: Container(
+                                        width: 260,
+                                        child: Card(
+                                          child: Column(
+                                            children: [
+                                              Image.network(
+                                                snapshot.data.docs[index]["imagens"][0],
+                                                filterQuality: FilterQuality.high,
+                                                loadingBuilder: (context, child, loading){
+                                                  return loading != null ? LinearProgressIndicator() : child;
+                                                },
+                                                fit: BoxFit.fill,
+                                                height: 90,
+                                              ),
+                                              ListTile(
+                                                title: Text(snapshot.data.docs[index]["titulo"]),
+                                                trailing: Text(
+                                                    "R\$" + snapshot.data.docs[index]["preco"].toString()),
+                                              )
+                                            ],
+                                          ),
+                                        ))
+                );
+                
+              },
+              itemCount: snapshot.data.docs.length,
+            ) 
                     : Card(
                         child: ListTile(
                         title: Text("${pesquisa["name"]}"),
@@ -138,5 +158,8 @@ class _HomeState extends State<Principal> {
           ]),
           onRefresh: () => getDados()),
     );
+      }
+    });
+    
   }
 }
