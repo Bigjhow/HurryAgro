@@ -70,8 +70,7 @@ class _NavState extends State<Nav> {
           child: ListView(children: [
             DrawerHeader(
               child: Column(
-                children: [
-                  
+                children: [      
                   Divider(),
                   Text("Diego"),
                 ],
@@ -85,7 +84,7 @@ class _NavState extends State<Nav> {
                     ),
                 leading: Icon(Icons.list)),
             ListTile(
-                title: Text("Desenvolveres"),
+                title: Text("Desenvolveres"), 
                 onTap: () => Sobre(),
                 leading: Icon(Icons.group)),
             ListTile(

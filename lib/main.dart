@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Hurry Agro',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.green, fontFamily: "NotoSans"),
-      home: dataUser["screen"] != null ? Nav() : Carrossel(),
+      home: dataUser["screen"] != false ? Nav() : Carrossel(),
     );
   }
 }
