@@ -31,7 +31,6 @@ class _HomeState extends State<Principal> {
       print(anuncios.docs[i]['titulo']);
     }
     return await FirebaseFirestore.instance.collection('anuncios').get();
-    
   }
 
   Map pesquisa = {"name": null};
@@ -44,117 +43,123 @@ class _HomeState extends State<Principal> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: getDados(), builder: (context, snapshot){
-      if(snapshot.connectionState == ConnectionState.waiting){
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      }else if(snapshot.connectionState == ConnectionState.done){
-         return SingleChildScrollView(
-      child: RefreshIndicator(
-          child: Column(children: [
-            Divider(
-              color: Colors.white,
-            ),
-            Image.asset(
-              "imagens/logoNome.png",
-              height: 100,
-            ),
-            CarouselSlider(
-              items: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    "https://cdn.pixabay.com/photo/2020/09/22/09/09/leaf-5592392__340.jpg",
-                  ),
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    "https://cdn.pixabay.com/photo/2014/11/28/00/07/mushrooms-548360__340.jpg",
-                  ),
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    "https://cdn.pixabay.com/photo/2020/06/05/16/53/zucchini-5263781__340.jpg",
-                  ),
-                ),
-              ],
-              options: CarouselOptions(
-                enlargeCenterPage: true,
-                autoPlay: true,
-                viewportFraction: 0.4, //Padding estre as imagens
-                autoPlayCurve: Curves.ease,
-                enableInfiniteScroll: true,
-                height: 130,
-                pauseAutoPlayOnTouch: true,
-              ),
-            ),
-            Container(
-                width: 1000,
-                height: MediaQuery.of(context).size.height * 0.52,
-                child: pesquisa["name"] == null
-                    ?                  ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Anuncio(
-                                              name: "${snapshot.data[index]["name"]}",
-                                              describe:
-                                                  "${snapshot.data[index]["describe"]}",
-                                              price: "${snapshot.data[index]["price"]}",
-                                              //image: "${snapshot.data[index]["image"]}",
-                                            )),
-                                  ),
-                    child: Container(
-                                        width: 260,
-                                        child: Card(
-                                          child: Column(
-                                            children: [
-                                              Image.network(
-                                                snapshot.data.docs[index]["imagens"][0],
-                                                filterQuality: FilterQuality.high,
-                                                loadingBuilder: (context, child, loading){
-                                                  return loading != null ? LinearProgressIndicator() : child;
-                                                },
-                                                fit: BoxFit.fill,
-                                                height: 90,
-                                              ),
-                                              ListTile(
-                                                title: Text(snapshot.data.docs[index]["titulo"]),
-                                                trailing: Text(
-                                                    "R\$" + snapshot.data.docs[index]["preco"].toString()),
-                                              )
-                                            ],
+    return FutureBuilder(
+        future: getDados(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            return SingleChildScrollView(
+              child: RefreshIndicator(
+                  child: Column(children: [
+                    Divider(
+                      color: Colors.white,
+                    ),
+                    Image.asset(
+                      "imagens/logoNome.png",
+                      height: 100,
+                    ),
+                    Divider(                    
+                        height: 20,
+                        color: Colors.green,                   
+                    ),
+                    Container(
+                        width: 1000,
+                        height: MediaQuery.of(context).size.height * 0.68,
+                        child: pesquisa["name"] == null
+                            ? ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                      onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Anuncio(
+                                                      titulo:
+                                                          "${snapshot.data.docs[index]["titulo"]}",
+                                                      descricao:
+                                                          "${snapshot.data.docs[index]["descricao"]}",
+                                                      preco:
+                                                          "${snapshot.data.docs[index]["preco"]}",
+                                                      image:
+                                                          "${snapshot.data.docs[index]["imagens"][0]}",
+                                                    )),
                                           ),
-                                        ))
-                );
-                
-              },
-              itemCount: snapshot.data.docs.length,
-            ) 
-                    : Card(
-                        child: ListTile(
-                        title: Text("${pesquisa["name"]}"),
-                        subtitle: Text("R\$${pesquisa["price"]}"),
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            pesquisa["image"],
-                            width: 80,
-                            height: 80,
-                          ),
-                        ),
-                      )))
-          ]),
-          onRefresh: () => getDados()),
-    );
-      }
-    });
-    
+                                      child: Container(
+                                          width: 260,
+                                          child: Card(
+                                            child: Container(
+                                              
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    
+                                                    child:Container(
+                                                      
+                                                      child: Image.network(
+                                                      snapshot.data.docs[index]
+                                                          ["imagens"][0],
+                                                      fit: BoxFit.cover,
+                                                      filterQuality:
+                                                          FilterQuality.high,
+                                                      loadingBuilder: (context,
+                                                          child, loading) {
+                                                        return loading != null
+                                                            ? LinearProgressIndicator()
+                                                            : child;
+                                                      },
+                                                      
+                                                    ),
+                                                    height: MediaQuery.of(context).size.height * 0.15,
+                                                      width:  MediaQuery.of(context).size.height * 0.15,
+                                                    ),                                                  
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        snapshot.data.docs[index]["titulo"],
+                                                        textAlign: TextAlign.left
+                                                        
+                                                      ),
+                                                      Divider(
+                                                        height: 60,
+                                                      ),
+                                                      Text(
+                                                        "R\$${snapshot.data.docs[index]["preco"]}",
+                                                        textAlign: TextAlign.left
+                                                      ),
+                                                    ],
+                                                  )
+                                                  
+                                                ],
+                                              ),
+                                              height: MediaQuery.of(context).size.height * 0.15,
+                                                      width:  MediaQuery.of(context).size.height * 0.15,
+                                            ),
+                                          )));
+                                },
+                                itemCount: snapshot.data.docs.length,
+                              )
+                            : Card(
+                                child: ListTile(
+                                title: Text("${pesquisa["name"]}"),
+                                subtitle: Text("R\$${pesquisa["price"]}"),
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.asset(
+                                    pesquisa["image"],
+                                    width: 80,
+                                    height: 80,
+                                  ),
+                                ),
+                              )))
+                  ]),
+                  onRefresh: () => getDados()),
+            );
+          }
+        });
   }
 }

@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Anuncio extends StatefulWidget {
-  Anuncio({Key key, this.name, this.describe, this.image, this.price})
+  Anuncio({Key key, this.titulo, this.descricao, this.image, this.preco})
       : super(key: key);
-  final String name;
-  final String describe;
+  final String titulo;
+  final String descricao;
   final String image;
-  final String price;
+  final String preco;
   @override
   _HomeState createState() => _HomeState();
 }
@@ -36,7 +36,7 @@ class _HomeState extends State<Anuncio> {
           backgroundColor: Colors.green,
           centerTitle: true,
           title: Text(
-            widget.name,
+            widget.titulo,
             style: (styleTextName),
           ),
         ),
@@ -45,9 +45,8 @@ class _HomeState extends State<Anuncio> {
           child: Column(
             children: <Widget>[
               Container(
-                  child: Image.asset(
+                  child: Image.network(
                     widget.image,
-                    height: 200,
                   ),
                   margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
                   decoration: BoxDecoration(
@@ -57,13 +56,13 @@ class _HomeState extends State<Anuncio> {
                     ),
                   )),
               Text(
-                "Preço: R\$" + widget.price,
+                "Preço: R\$" + widget.preco,
                 style: (styleTextPrice),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5),
                 child: Text(
-                  "Descrição: " + widget.describe,
+                  "Descrição: " + widget.descricao,
                   style: (styleTextDescribe),
                 ),
               ),

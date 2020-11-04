@@ -18,7 +18,7 @@ class Login extends StatefulWidget {
 }
 
 class _HomeState extends State<Login> {
-  
+  bool obscureText = false;
   TextEditingController controladorEmail = TextEditingController();
   TextEditingController controladorSenha = TextEditingController();
 
@@ -65,7 +65,7 @@ class _HomeState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    bool obscureText = true;
+    
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -93,6 +93,7 @@ class _HomeState extends State<Login> {
                 child: Form(
                   child: Column(
                     children: [
+
                       ClipRRect(
                         borderRadius: BorderRadius.circular(40),
                         child: Container(
@@ -109,6 +110,7 @@ class _HomeState extends State<Login> {
                               controladorEmail),
                         ),
                       ),
+
                       Divider(
                         height: 20,
                         color: Colors.green,
@@ -117,20 +119,44 @@ class _HomeState extends State<Login> {
                           borderRadius: BorderRadius.circular(40),
                           child: Container(
                             color: Colors.white,
-                            child: formulario(
-                                TextInputType.visiblePassword,
-                                "Digite sua senha",
-                                obscureText,
-                                Icon(
-                                  Icons.vpn_key,
-                                  color: Colors.green,
-                                ),
-                                true,
-                                controladorSenha),
-                          ))
+                            child: TextFormField(
+                              keyboardType: TextInputType.visiblePassword,
+                              controller: controladorSenha,
+                              obscureText: obscureText,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                  hintText: 'senha',
+                                  prefixIcon: Icon(
+                                Icons.vpn_key,
+                                color: Colors.green,
+                              ),
+                                  suffixIcon: IconButton(
+                  icon: Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.green,
+                  ),
+                  onPressed: () {
+                    print('entrada 1:$obscureText');
+                    
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                    print('saida:$obscureText');
+                  })
+                       ),
+                                     
+                            )
+                          )),
+                          Divider(
+                        height: 20,
+                        color: Colors.green,
+                      ),
                     ],
                   ),
-                )),
+                )
+                
+                ),
+                
               Container(
                 height: 40,
                 alignment: Alignment.centerRight,
@@ -146,6 +172,7 @@ class _HomeState extends State<Login> {
                         PageTransition(
                             child: EsqueceuSenha(),
                             type: PageTransitionType.rightToLeft),
+                            
                       );
                     }),
               ),
@@ -219,9 +246,12 @@ class _HomeState extends State<Login> {
                     color: Colors.green,
                   ),
                   onPressed: () {
+                    print('entrada 1:$obscureText');
+                    
                     setState(() {
                       obscureText = !obscureText;
                     });
+                    print('saida:$obscureText');
                   })
               : null,
           contentPadding: EdgeInsets.all(20),

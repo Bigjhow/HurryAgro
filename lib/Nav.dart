@@ -71,9 +71,13 @@ class _NavState extends State<Nav> {
             DrawerHeader(
               child: Column(
                 children: [ 
-                  
-                  Divider(),
-                  Text("Diego"),
+                  FirebaseAuth.instance.currentUser.photoURL !=null
+                  ?Container(
+                    child: Image.network(FirebaseAuth.instance.currentUser.photoURL),
+                  ):Container(
+                   child: Icon(Icons.person),
+                  ),
+                  Divider(),              
                 ],
               ),
             ),
