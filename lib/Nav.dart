@@ -70,7 +70,8 @@ class _NavState extends State<Nav> {
           child: ListView(children: [
             DrawerHeader(
               child: Column(
-                children: [      
+                children: [ 
+                  
                   Divider(),
                   Text("Diego"),
                 ],

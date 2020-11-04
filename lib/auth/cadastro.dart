@@ -37,9 +37,8 @@ class _HomeState extends State<Cadastro> {
     });
   }
 
-  void _cadastro() {
-    setState(() async{
-      String _nomeInformado = controladorNome.text;
+  Future cadastroEmailSenha(email, senha) async {
+    String _nomeInformado = controladorNome.text;
       String _emailInformado = controladorEmail.text;
       String _senhaInformado = controladorSenha.text;
       String _confSenhaInformado = controladorConfSenha.text;
@@ -49,20 +48,7 @@ class _HomeState extends State<Cadastro> {
           _senhaInformado != "" &&
           _confSenhaInformado != "" &&
           _senhaInformado == _confSenhaInformado) {
-        usuarios.add({
-          "email": '${controladorEmail.text}',
-          "senha": "${controladorSenha.text}",
-        });
 
-        print("Cadastro efetuado com sucesso");
-        
-      } else {
-        _textoBase = "Informações incorretas!!";
-      }
-    });
-  }
-
-  Future cadastroEmailSenha(email, senha) async {
     try {
       await auth.createUserWithEmailAndPassword(email: email, password: senha);
 
@@ -77,14 +63,18 @@ class _HomeState extends State<Cadastro> {
 
     } on FirebaseAuthException catch (e) {
       if (e.code == "weak-password") {
-        setState(() {
-          
+        setState(() {       
         });
       } else if (e.code == "email-already-in-use") {
         
       }
     } catch (e) {
       print(e);
+    }
+    }else{
+      await showDialog(
+      context: (context),
+      child: AlertDialog(content: Text("Informações incorretas")));
     }
   }
 
@@ -121,8 +111,12 @@ class _HomeState extends State<Cadastro> {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.green, fontSize: 18.0),
               ),
-              //TextFormField
-              formulario(false, "Nome", TextInputType.name, controladorNome,
+              Padding(
+                padding: EdgeInsets.all(20),
+              child: Column(
+                    children: [
+                        
+                formulario(false, "Nome", TextInputType.name, controladorNome,
                   "Nome vazio"),
               formulario(false, "Email", TextInputType.text, controladorEmail,
                   "Email vazio"),
@@ -150,6 +144,12 @@ class _HomeState extends State<Cadastro> {
                   color: Colors.green,
                 ),
               ),
+              
+                    ]                  
+              )
+              ),
+              //TextFormField
+              
             ],
           ),
         ),

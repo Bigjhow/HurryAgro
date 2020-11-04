@@ -9,11 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //---- Screens
 import 'package:hurryAgro/view/home/anuncio.dart';
 
-//---- Datas
-import 'package:hurryAgro/data/produtos.dart';
-
-import '../../data/produtos.dart';
-
 class Principal extends StatefulWidget {
   Principal({
     Key key,

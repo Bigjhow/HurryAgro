@@ -1,6 +1,7 @@
 //---- Packages
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Anuncio extends StatefulWidget {
   Anuncio({Key key, this.name, this.describe, this.image, this.price})

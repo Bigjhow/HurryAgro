@@ -18,6 +18,7 @@ class Login extends StatefulWidget {
 }
 
 class _HomeState extends State<Login> {
+  
   TextEditingController controladorEmail = TextEditingController();
   TextEditingController controladorSenha = TextEditingController();
 
@@ -27,10 +28,6 @@ class _HomeState extends State<Login> {
 
   String _textoBase = "Informe seu E-mail e sua Senha";
 
-
-  
-
-  bool obscureText = true;
 
   // _formKey = GlobalKey<FormState>();
   void _limparCampos() {
@@ -68,6 +65,7 @@ class _HomeState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    bool obscureText = true;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -90,15 +88,49 @@ class _HomeState extends State<Login> {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.orange, fontSize: 25.0),
               ),
-              formulario(
-                false,
-                "Email",
-                TextInputType.emailAddress,
-                controladorEmail,
-                "Informe o Email",
-              ),
-              formulario(true, "Senha", TextInputType.text, controladorSenha,
-                  "Informe a Senha"),
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: Form(
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(40),
+                        child: Container(
+                          color: Colors.white,
+                          child: formulario(
+                              TextInputType.emailAddress,
+                              "Digite seu email",
+                              false,
+                              Icon(
+                                Icons.email,
+                                color: Colors.green,
+                              ),
+                              false,
+                              controladorEmail),
+                        ),
+                      ),
+                      Divider(
+                        height: 20,
+                        color: Colors.green,
+                      ),
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: Container(
+                            color: Colors.white,
+                            child: formulario(
+                                TextInputType.visiblePassword,
+                                "Digite sua senha",
+                                obscureText,
+                                Icon(
+                                  Icons.vpn_key,
+                                  color: Colors.green,
+                                ),
+                                true,
+                                controladorSenha),
+                          ))
+                    ],
+                  ),
+                )),
               Container(
                 height: 40,
                 alignment: Alignment.centerRight,
@@ -162,23 +194,40 @@ class _HomeState extends State<Login> {
       ),
     );
   }
+  Widget formulario(
+      TextInputType keyBoardType,
+      String hintText,
+      bool obscureText,
+      Icon prefixIcon,
+      bool suffixIcon,
+      TextEditingController controller) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyBoardType,
+      obscureText: obscureText,
+      cursorColor: Colors.green,
+      decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: hintText,
+          fillColor: Colors.white,
+          focusColor: Colors.white,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon
+              ? IconButton(
+                  icon: Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.green,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                  })
+              : null,
+          contentPadding: EdgeInsets.all(20),
+          hoverColor: Colors.white),
+    );
+  }
 }
 
-Widget formulario(
-    bool obscureText,
-    String labelText,
-    TextInputType keyboardType,
-    TextEditingController controller,
-    String validator) {
-  return TextFormField(
-    keyboardType: keyboardType,
-    obscureText: obscureText,
-    decoration: InputDecoration(labelText: "$labelText"),
-    controller: controller,
-    validator: (value) {
-      if (value.isEmpty) {
-        return "$validator";
-      }
-    },
-  );
-}
+

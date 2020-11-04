@@ -1,6 +1,5 @@
 //---- Packages
 import 'package:flutter/material.dart';
-import 'package:hurryAgro/data/produtos.dart';
 import 'package:page_transition/page_transition.dart';
 
 //---- Screens
