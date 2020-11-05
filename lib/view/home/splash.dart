@@ -13,7 +13,7 @@ class _State extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 4), (timer) {
+    Timer.periodic(Duration(seconds: 3), (timer) {
       setState(() {
         route();
       });
@@ -30,28 +30,15 @@ class _State extends State<Splash> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.green,
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(
-                        bottom: 0, left: 20, right: 20, top: 75)),
-                Container(
-                  child: Image.asset(
-                    "imagens/logo.png",
-                    height: 300,
-                  ),
-                ),
-                Padding(padding: EdgeInsets.only(top: 30)),
-                CircularProgressIndicator(
-                  backgroundColor: Colors.blue,
-                  strokeWidth: 3,
-                ),
-              ],
-            ),
-          ),
-        ));
+      backgroundColor: Colors.green,
+      body: Center(
+        child:
+            Image.asset(
+                      "imagens/logo.png",
+                      width: MediaQuery.of(context).size.width * 0.85,
+                height: MediaQuery.of(context).size.height * 0.35,
+                    ),
+      ),
+    );
   }
 }

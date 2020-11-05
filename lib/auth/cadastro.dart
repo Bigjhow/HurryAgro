@@ -66,7 +66,9 @@ class _HomeState extends State<Cadastro> {
         setState(() {       
         });
       } else if (e.code == "email-already-in-use") {
-        
+        await showDialog(
+            context: (context),
+            child: AlertDialog(content: Text("Email ja cadastrado")));
       }
     } catch (e) {
       print(e);
@@ -99,13 +101,13 @@ class _HomeState extends State<Cadastro> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
+              Container(
+                padding: EdgeInsets.all(10),
+                child: SizedBox(
                   width: 220,
                   height: 220,
-                  child: Image.asset("imagens/logo.png")),
-              SizedBox(
-                height: 10,
-              ),
+                  child: Image.asset("imagens/logo.png")),),
+              
               Text(
                 _textoBase,
                 textAlign: TextAlign.center,
@@ -130,8 +132,8 @@ class _HomeState extends State<Cadastro> {
                   "senha errada"),
               Divider(),
               Container(
-                width: size.width * 0.8,
-                height: size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.90,
+                height: MediaQuery.of(context).size.height * 0.07,
                 child: RaisedButton(
                   onPressed: () async{
                     await cadastroEmailSenha(

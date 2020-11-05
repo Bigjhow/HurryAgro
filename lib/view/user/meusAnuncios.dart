@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:hurryAgro/data/produtos.dart';
 
 //---- Screens
-import 'package:hurryAgro/view/user/editarAnuncio.dart';
 
 class MeusAnuncios extends StatefulWidget {
   @override

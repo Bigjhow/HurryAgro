@@ -1,6 +1,7 @@
 //---- Packages
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/chat/chat.dart';
+import 'package:hurryAgro/view/user/conta.dart';
 import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:hurryAgro/model/message_model.dart';
@@ -12,7 +13,7 @@ import 'package:hurryAgro/view/home/principal.dart';
 import 'package:hurryAgro/view/sobre.dart';
 import 'package:hurryAgro/view/home/criarAnuncio.dart';
 import 'package:hurryAgro/auth/login.dart';
-
+import 'package:hurryAgro/view/desenvolvedores.dart';
 
 class Nav extends StatefulWidget {
   Nav({Key key, this.email, this.senha, this.image}) : super(key: key);
@@ -54,11 +55,16 @@ class _NavState extends State<Nav> {
       }
     }
   }
+  void makeRoutePage({BuildContext context, Widget pageRef}) {
+  Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => pageRef),
+      (Route<dynamic> route) => false);
+  }
 
   @override
   void initState() {
-    print(chats[0].sender.name);
-    print(FirebaseAuth.instance.currentUser.photoURL);
+    
     super.initState();
   }
 
@@ -70,17 +76,23 @@ class _NavState extends State<Nav> {
           child: ListView(children: [
             DrawerHeader(
               child: Column(
-                children: [ 
-                  FirebaseAuth.instance.currentUser.photoURL !=null
-                  ?Container(
-                    child: Image.network(FirebaseAuth.instance.currentUser.photoURL),
-                  ):Container(
-                   child: Icon(Icons.person),
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage("imagens/diego.jpg"),
                   ),
-                  Divider(),              
+                  Divider(),
+                  Text("Diego"),
                 ],
               ),
             ),
+            ListTile(
+                title: Text("Conta"),
+                onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Conta()),
+                    ),
+                leading: Icon(Icons.person)),
             ListTile(
                 title: Text("Meus Anuncios"),
                 onTap: () => Navigator.push(
@@ -88,55 +100,47 @@ class _NavState extends State<Nav> {
                       MaterialPageRoute(builder: (context) => MeusAnuncios()),
                     ),
                 leading: Icon(Icons.list)),
+            
             ListTile(
-                title: Text("Desenvolveres"), 
-                onTap: () => Sobre(),
+                title: Text("Desenvolveres"),
+                onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Desenvolvedores()),
+                    ),
                 leading: Icon(Icons.group)),
             ListTile(
                 title: Text("Sobre"),
-                subtitle: Text(
-                  " Visando a facilitação do comercio da área agrícola, foi desenvolvida uma plataforma livre para que todos possam fazer proveito. A HurryAgro conta com funções como a criação de anúncios de venda, com controle total ao criador, como descrição, preço, localidade, também é possível iniciar um chat com o vendedor, para que assim negociem a venda. A HurryAgro somente dá espaço para os anunciantes, não fica apar das logísticas referente a vendas, apenas do anuncio e conversação via chat.",
-                ),
+                onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Sobre()),
+                    ),
                 leading: Icon(Icons.info)),
             ListTile(
               title: Text("Sair"),
               onTap: () => {
                 showDialog(
-                  context: context,
-                  builder: (context){
-                return AlertDialog(
-                      title: Text(
-                        'Sair'
-                      ) ,
-                       content: Text(
-                         'Você realmente deseja sair?'
-                       ),
-                       
-                       actions: [
-                         FlatButton(
-                           onPressed: (){
-                             Navigator.push(
-                          context,
-                           PageTransition(
-                            child: Login(),
-                            type: PageTransitionType.rightToLeft));
-                           },
-                           child: Text(
-                             "Sim"
-                           ),
-                           ),
-                           FlatButton(
-                           onPressed: (){
-                             Navigator.pop(context);
-                           },
-                           child: Text(
-                             "Não"
-                           ),
-                           )
-                       ],
-                    );
-                  }
-                ),
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Sair'),
+                        content: Text('Você realmente deseja sair?'),
+                        actions: [
+                          FlatButton(
+                            onPressed: () {
+                              makeRoutePage(context: context, pageRef: Login());
+                            },
+                            child: Text("Sim"),
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Não"),
+                          )
+                        ],
+                      );
+                    }),
               },
               leading: Icon(Icons.exit_to_app),
             ),

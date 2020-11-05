@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hurryAgro/auth/cadastro.dart';
 import 'package:hurryAgro/auth/esqueceuSenha.dart';
 import 'package:hurryAgro/Nav.dart';
-import 'package:hurryAgro/data/users.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hurryAgro/localData/local.dart';
@@ -18,7 +17,7 @@ class Login extends StatefulWidget {
 }
 
 class _HomeState extends State<Login> {
-  bool obscureText = false;
+  bool obscureText = true;
   TextEditingController controladorEmail = TextEditingController();
   TextEditingController controladorSenha = TextEditingController();
 
@@ -146,7 +145,8 @@ class _HomeState extends State<Login> {
                        ),
                                      
                             )
-                          )),
+                          )
+                          ),
                           Divider(
                         height: 20,
                         color: Colors.green,
@@ -177,8 +177,8 @@ class _HomeState extends State<Login> {
                     }),
               ),
               Container(
-                width: size.width * 0.8,
-                height: size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.90,
+                height: MediaQuery.of(context).size.height * 0.07,
                 child: RaisedButton(
                   onPressed: () async{                  
                     await loginEmailSenha(
@@ -196,8 +196,8 @@ class _HomeState extends State<Login> {
               ),
               Divider(),
               Container(
-                width: size.width * 0.8,
-                height: size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.90,
+                height: MediaQuery.of(context).size.height * 0.07,
                 child: RaisedButton(
                   color: Colors.green,
                   onPressed: () {

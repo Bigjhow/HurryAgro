@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 //---- Screens
@@ -27,9 +26,7 @@ class _HomeState extends State<Principal> {
   QuerySnapshot anuncios;
   Future getDados() async {
     anuncios = await FirebaseFirestore.instance.collection('anuncios').get();
-    for (var i = 0; i < anuncios.size; i++) {
-      print(anuncios.docs[i]['titulo']);
-    }
+    
     return await FirebaseFirestore.instance.collection('anuncios').get();
   }
 
@@ -61,13 +58,13 @@ class _HomeState extends State<Principal> {
                       "imagens/logoNome.png",
                       height: 100,
                     ),
-                    Divider(                    
-                        height: 20,
-                        color: Colors.green,                   
+                    Divider(
+                      height: 5,
+                      color: Colors.green,
                     ),
                     Container(
                         width: 1000,
-                        height: MediaQuery.of(context).size.height * 0.68,
+                        height: MediaQuery.of(context).size.height * 0.67,
                         child: pesquisa["name"] == null
                             ? ListView.builder(
                                 scrollDirection: Axis.vertical,
@@ -91,53 +88,72 @@ class _HomeState extends State<Principal> {
                                           width: 260,
                                           child: Card(
                                             child: Container(
-                                              
                                               child: Row(
                                                 children: [
                                                   Padding(
                                                     padding: EdgeInsets.all(10),
-                                                    
-                                                    child:Container(
-                                                      
+                                                    child: Container(
                                                       child: Image.network(
-                                                      snapshot.data.docs[index]
-                                                          ["imagens"][0],
-                                                      fit: BoxFit.cover,
-                                                      filterQuality:
-                                                          FilterQuality.high,
-                                                      loadingBuilder: (context,
-                                                          child, loading) {
-                                                        return loading != null
-                                                            ? LinearProgressIndicator()
-                                                            : child;
-                                                      },
-                                                      
+                                                        snapshot.data
+                                                                .docs[index]
+                                                            ["imagens"][0],
+                                                        fit: BoxFit.cover,
+                                                        filterQuality:
+                                                            FilterQuality.high,
+                                                        loadingBuilder:
+                                                            (context, child,
+                                                                loading) {
+                                                          return loading != null
+                                                              ? LinearProgressIndicator()
+                                                              : child;
+                                                        },
+                                                      ),
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.15,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  . width*
+                                                              0.35,
                                                     ),
-                                                    height: MediaQuery.of(context).size.height * 0.15,
-                                                      width:  MediaQuery.of(context).size.height * 0.15,
-                                                    ),                                                  
                                                   ),
                                                   Column(
                                                     children: [
                                                       Text(
-                                                        snapshot.data.docs[index]["titulo"],
-                                                        textAlign: TextAlign.left
-                                                        
-                                                      ),
+                                                          snapshot.data
+                                                                  .docs[index]
+                                                              ["titulo"],
+                                                              style: TextStyle(
+                                                                fontSize: 20,
+                                                              ),
+                                                          textAlign:
+                                                              TextAlign.center),
                                                       Divider(
-                                                        height: 60,
+                                                        height: 45,
                                                       ),
                                                       Text(
-                                                        "R\$${snapshot.data.docs[index]["preco"]}",
-                                                        textAlign: TextAlign.left
-                                                      ),
+                                                          "R\$${snapshot.data.docs[index]["preco"]}",
+                                                          style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Colors.black38,
+                                                              ),
+                                                          textAlign:
+                                                              TextAlign.left),
                                                     ],
                                                   )
-                                                  
                                                 ],
                                               ),
-                                              height: MediaQuery.of(context).size.height * 0.15,
-                                                      width:  MediaQuery.of(context).size.height * 0.15,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.15,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.15,
                                             ),
                                           )));
                                 },

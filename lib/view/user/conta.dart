@@ -1,84 +1,51 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hurryAgro/auth/login.dart';
-import 'package:hurryAgro/view/user/meusAnuncios.dart';
 
 class Conta extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _DadosState createState() => _DadosState();
 }
 
-class _HomeState extends State<Conta> {
+class _DadosState extends State<Conta> {
   @override
   Widget build(BuildContext context) {
-    var textBase = TextStyle(fontSize: 20);
-
     return Scaffold(
       appBar: AppBar(
-        title: SizedBox(
-            width: 55, height: 55, child: Image.asset("imagens/logoNome.png")),
-        centerTitle: true,
-        backgroundColor: Colors.green,
+        title: Text(
+          "Conta",
+        ),
       ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+        body: SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(20),
         child: Column(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.only(top: 10, left: 50, right: 50),
-              child: Center(
-                child: Icon(
-                  Icons.account_circle,
-                  size: 75,
-                ),
-              ),
+          children: [
+            CircleAvatar(
+                    radius: 70,
+                    backgroundImage: AssetImage("imagens/diego.jpg"),
+                  ),
+            ListTile(
+              title: Text("Diego Nogueira Marques"),
+              subtitle: Text("Nome:"),
             ),
-            Container(
-              margin: const EdgeInsets.all(3.0),
-              padding: const EdgeInsets.all(3.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "Nome: João Pedro Lima",
-                        style: textBase,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "E-mail:jpLima@gmail.com",
-                        style: textBase,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "Localização:Itapeva - SP",
-                        style: textBase,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "Reputação:",
-                        style: textBase,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+            ListTile(
+              title: Text("18"),
+              subtitle: Text("Idade"),
+            ),
+            ListTile(
+              title: Text("diegoonogueiramarques@gmail.com"),
+              subtitle: Text("Email"),
+            ),
+            ListTile(
+              title: Text("(15) 997258743"),
+              subtitle: Text("Telefone"),
+            ),
+            ListTile(
+              title: Text("Nova Campina"),
+              subtitle: Text("Cidade"),
             ),
           ],
         ),
       ),
-    );
+    ));
   }
 }

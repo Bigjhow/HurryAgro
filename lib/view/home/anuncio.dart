@@ -1,7 +1,8 @@
 //---- Packages
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:hurryAgro/view/chat/chat.dart';
 
 class Anuncio extends StatefulWidget {
   Anuncio({Key key, this.titulo, this.descricao, this.image, this.preco})
@@ -45,8 +46,11 @@ class _HomeState extends State<Anuncio> {
           child: Column(
             children: <Widget>[
               Container(
+                  height: MediaQuery.of(context).size.height * 0.40,
+                  width: MediaQuery.of(context).size.width* 1,
                   child: Image.network(
                     widget.image,
+                    fit: BoxFit.cover,
                   ),
                   margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
                   decoration: BoxDecoration(
@@ -59,17 +63,24 @@ class _HomeState extends State<Anuncio> {
                 "Preço: R\$" + widget.preco,
                 style: (styleTextPrice),
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5),
+              Container(
+                padding: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10.0),
                 child: Text(
                   "Descrição: " + widget.descricao,
                   style: (styleTextDescribe),
                 ),
               ),
-              RaisedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.chat),
-                  label: Text("Entrar em contato"))
+              Container(
+                width: MediaQuery.of(context).size.width * 0.90,
+                height: MediaQuery.of(context).size.height * 0.07,
+                child: RaisedButton.icon(
+                    color: Colors.green,
+                    icon: Icon(Icons.chat),
+                    label: Text("Chat"),
+                    onPressed: () {
+                    }),
+              ),
             ],
           ),
         )));
