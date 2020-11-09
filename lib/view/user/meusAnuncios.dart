@@ -1,8 +1,10 @@
 //---- Packages
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //---- Datas
-import 'package:hurryAgro/data/produtos.dart';
 
 //---- Screens
 
@@ -12,9 +14,15 @@ class MeusAnuncios extends StatefulWidget {
 }
 
 class _HomeState extends State<MeusAnuncios> {
+  QuerySnapshot anuncios;
+
   Future getDados() async {
-    print("Recaregado");
-    return anuncios;
+    anuncios = await FirebaseFirestore.instance.collection('anuncios').get();
+    var idAuthor = FirebaseAuth.instance.currentUser.uid;
+    return await FirebaseFirestore.instance
+        .collection('anuncios')
+        .where("idAuthor", isEqualTo: "$idAuthor")
+        .get();
   }
 
   var _snack = GlobalKey<ScaffoldState>();
@@ -27,105 +35,163 @@ class _HomeState extends State<MeusAnuncios> {
       action: SnackBarAction(
           label: "Desfazer",
           onPressed: () {
-            setState(() {
-              anuncios.insert(index, produtoApagado);
-            });
+            setState(() {});
           }),
       duration: Duration(seconds: 3),
       backgroundColor: Colors.red,
     ));
+  }
+  Future delete() async {
+    
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: _snack,
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: SizedBox(
+              width: 55,
+              height: 55,
+              child: Image.asset("imagens/logoNome.png")),
+          centerTitle: true,
+          backgroundColor: Colors.green,
+        ),
         body: FutureBuilder(
           future: getDados(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return RefreshIndicator(
-                  child: SingleChildScrollView(
-                      child: Column(children: [
-                    Divider(
-                      color: Colors.white,
-                    ),
-                    Image.asset(
-                      "imagens/logoNome.png",
-                      height: 100,
-                    ),
-                    Container(
-                        width: 1000,
-                        height: 500,
-                        child: ListView.builder(
-                          itemCount: anuncios.length,
-                          itemBuilder: (context, index) {
-                            return Dismissible(
-                                direction: DismissDirection.startToEnd,
-                                background: Container(
-                                  color: Colors.red,
-                                  child: Align(
-                                      alignment: Alignment(-0.9, 0),
-                                      child: Icon(Icons.delete,
-                                          color: Colors.white)),
-                                ),
-                                onDismissed: (d) {
-                                  produtoApagado = anuncios[index];
-                                  setState(() {
-                                    anuncios.removeAt(index);
-                                  });
-                                  mostrarSnack(
-                                      index,
-                                      "O Produto: " +
-                                          produtoApagado["name"] +
-                                          " foi excluido");
-                                },
-                                key: Key(DateTime.now().toString()),
-                                child: GestureDetector(
-                                    onTap: () => {},
-                                    child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(120),
-                                        child: Card(
-                                            child: ListTile(
-                                          title: Text(anuncios[index]["name"]),
-                                          subtitle: Text(
-                                              "R\$${anuncios[index]["price"]}"),
-                                          leading: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            child: Image.asset(
-                                              anuncios[index]["image"],
-                                              width: 80,
-                                              height: 80,
-                                            ),
+              return SingleChildScrollView(
+                child: RefreshIndicator(
+                    child: Column(children: [
+                      Divider(
+                        color: Colors.white,
+                      ),
+                      Text(
+                        'Meus Anuncios',
+                        style: TextStyle(
+                          fontSize: 30,
+                        ),
+                      ),
+                      Divider(
+                        height: 5,
+                        color: Colors.green,
+                      ),
+                      Container(
+                          width: 1000,
+                          height: MediaQuery.of(context).size.height * 0.82,
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                  onTap: () => {},
+                                  child: Container(
+                                      width: 260,
+                                      child: Card(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Container(
+                                                  child: Image.network(
+                                                    snapshot.data.docs[index]
+                                                        ["imagens"][0],
+                                                    fit: BoxFit.cover,
+                                                    filterQuality:
+                                                        FilterQuality.high,
+                                                    loadingBuilder: (context,
+                                                        child, loading) {
+                                                      return loading != null
+                                                          ? LinearProgressIndicator()
+                                                          : child;
+                                                    },
+                                                  ),
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.15,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.35,
+                                                ),
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                      snapshot.data.docs[index]
+                                                          ["titulo"],
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  Divider(
+                                                    height: 45,
+                                                  ),
+                                                  Text(
+                                                      "R\$${snapshot.data.docs[index]["preco"]}",
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: Colors.black38,
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.left),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
+                                                  child: IconButton(
+                                                  icon: Icon(
+                                                    Icons.edit,
+                                                    size: 30,
+                                                  ),
+                                                  onPressed: () {}),
+                                              ),
+                                              Divider(),
+                                                  Container(
+                                                padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
+                                                  child: IconButton(
+                                                  icon: Icon(
+                                                    Icons.delete,
+                                                    color: Colors.red,
+                                                    size: 30,
+                                                  ),
+                                                  onPressed: () async{
+                                                    await Firestore.instance.collection("anuncios").doc(snapshot.data.docs[index].id).delete();
+                                                    print('clicado');
+                                                  }),
+                                              ),
+                                                                                         
+                                                ],
+                                              )
+                                              
+                                              
+                                            ],
                                           ),
-                                          trailing: IconButton(
-                                              icon: Icon(Icons.delete),
-                                              onPressed: () {
-                                                produtoApagado =
-                                                    anuncios[index];
-                                                setState(() {
-                                                  anuncios.removeAt(index);
-                                                });
-                                                mostrarSnack(
-                                                    index,
-                                                    "O Produto: " +
-                                                        produtoApagado["name"] +
-                                                        " foi excluido");
-                                              }),
-                                          /* onTap: () => Navigator.push(
-                                              context,
-                                               MaterialPageRoute(builder: (context) => EditarAnuncio()),
-                                            ),*/
-                                        )))));
-                          },
-                        ))
-                  ])),
-                  onRefresh: () => getDados());
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.15,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.15,
+                                        ),
+                                      )));
+                            },
+                            itemCount: snapshot.data.docs.length,
+                          ))
+                    ]),
+                    onRefresh: () => getDados()),
+              );
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
           },
         ));

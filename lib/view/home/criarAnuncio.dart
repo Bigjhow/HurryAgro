@@ -32,6 +32,7 @@ class _HomeState extends State<CriarAnuncio> {
         precoInformado != "" &&
         descricaoInformado != "") {
       var id = DateTime.now().toString();
+      var idAuthor = FirebaseAuth.instance.currentUser.uid;
       for (var i = 0; i < 20; i++) {
         try {
           await FirebaseStorage.instance
@@ -55,7 +56,7 @@ class _HomeState extends State<CriarAnuncio> {
         }
       }
 
-      await addAnuncio(id, controladorName.text, controladorDescribe.text,
+      await addAnuncio(idAuthor, id, controladorName.text, controladorDescribe.text,
           controladorPrice.text, linkImages);
 
       Future.delayed(Duration(seconds: 1), () => Navigator.pop(context));
@@ -71,8 +72,9 @@ class _HomeState extends State<CriarAnuncio> {
   TextEditingController controladorDescribe = TextEditingController();
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  Future addAnuncio(id, titulo, descricao, preco, imagens) async {
+  Future addAnuncio(idAuthor, id, titulo, descricao, preco, imagens) async {
     await firebaseFirestore.collection('anuncios').add({
+      'idAuthor': idAuthor,
       'id': id,
       'titulo': '$titulo',
       'descricao': '$descricao',

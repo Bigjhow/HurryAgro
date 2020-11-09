@@ -168,15 +168,6 @@ class _NavState extends State<Nav> {
                   hintText: "Pesquise aqui",
                   prefixIcon: IconButton(
                       icon: Icon(
-                        Icons.search,
-                        color: Colors.green,
-                      ),
-                      onPressed: () {
-                        search(_searchController.text);
-                        print('clicado');
-                      }),
-                  suffixIcon: IconButton(
-                      icon: Icon(
                         Icons.clear,
                         color: Colors.green,
                       ),
@@ -184,6 +175,16 @@ class _NavState extends State<Nav> {
                         _searchController.clear();
                         search(_searchController.text);
                       }),
+                  suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.search,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        search(_searchController.text);
+                        print('clicado');
+                      }),
+                      
                 ),
               ),
               decoration: BoxDecoration(color: Colors.white),

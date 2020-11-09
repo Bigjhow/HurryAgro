@@ -56,7 +56,7 @@ class _HomeState extends State<Principal> {
                     ),
                     Image.asset(
                       "imagens/logoNome.png",
-                      height: 100,
+                      height: 120,
                     ),
                     Divider(
                       height: 5,
