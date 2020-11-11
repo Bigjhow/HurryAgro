@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Nav.dart';
-import 'package:hurryAgro/data/users.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hurryAgro/localData/local.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -21,8 +22,6 @@ class _HomeState extends State<Cadastro> {
 
   String _textoBase = "Preencha os campos para efetuar o cadastro";
 
-  
-
   FirebaseAuth auth = FirebaseAuth.instance;
 
   void _limparCampos() {
@@ -36,47 +35,56 @@ class _HomeState extends State<Cadastro> {
       _formKey = GlobalKey<FormState>();
     });
   }
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  Future addUser( id, nome, email, senha) async {
+    await firebaseFirestore.collection('users').add({
+      'id': id,
+      'nome': '$nome',
+      'email': '$email',
+      'senha': '$senha',
+    });
+  }
 
   Future cadastroEmailSenha(email, senha) async {
     String _nomeInformado = controladorNome.text;
-      String _emailInformado = controladorEmail.text;
-      String _senhaInformado = controladorSenha.text;
-      String _confSenhaInformado = controladorConfSenha.text;
+    String _emailInformado = controladorEmail.text;
+    String _senhaInformado = controladorSenha.text;
+    String _confSenhaInformado = controladorConfSenha.text;
 
-      if (_nomeInformado != "" &&
-          _emailInformado != "" &&
-          _senhaInformado != "" &&
-          _confSenhaInformado != "" &&
-          _senhaInformado == _confSenhaInformado) {
+    if (_nomeInformado != "" &&
+        _emailInformado != "" &&
+        _senhaInformado != "" &&
+        _confSenhaInformado != "" &&
+        _senhaInformado == _confSenhaInformado) {
+      try {
+        await auth.createUserWithEmailAndPassword(
+            email: email, password: senha);
 
-    try {
-      await auth.createUserWithEmailAndPassword(email: email, password: senha);
+        User user = FirebaseAuth.instance.currentUser;
 
-      User user = FirebaseAuth.instance.currentUser;
-
-      await user.sendEmailVerification();
-      await saveData();
-      Navigator.pushReplacement(
+        await user.sendEmailVerification();
+        await saveData();
+        var id = FirebaseAuth.instance.currentUser.uid;
+        await addUser(id, _nomeInformado, _emailInformado, _senhaInformado);
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Nav()),
         );
-
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "weak-password") {
-        setState(() {       
-        });
-      } else if (e.code == "email-already-in-use") {
-        await showDialog(
-            context: (context),
-            child: AlertDialog(content: Text("Email ja cadastrado")));
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "weak-password") {
+          setState(() {});
+        } else if (e.code == "email-already-in-use") {
+          await showDialog(
+              context: (context),
+              child: AlertDialog(content: Text("Email ja cadastrado")));
+        }
+      } catch (e) {
+        print(e);
       }
-    } catch (e) {
-      print(e);
-    }
-    }else{
+    } else {
       await showDialog(
-      context: (context),
-      child: AlertDialog(content: Text("Informações incorretas")));
+          context: (context),
+          child: AlertDialog(content: Text("Informações incorretas")));
     }
   }
 
@@ -104,54 +112,68 @@ class _HomeState extends State<Cadastro> {
               Container(
                 padding: EdgeInsets.all(10),
                 child: SizedBox(
-                  width: 220,
-                  height: 220,
-                  child: Image.asset("imagens/logo.png")),),
-              
+                    width: 220,
+                    height: 220,
+                    child: Image.asset("imagens/logo.png")),
+              ),
               Text(
                 _textoBase,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.green, fontSize: 18.0),
               ),
               Padding(
-                padding: EdgeInsets.all(20),
-              child: Column(
-                    children: [
-                        
-                formulario(false, "Nome", TextInputType.name, controladorNome,
-                  "Nome vazio"),
-              formulario(false, "Email", TextInputType.text, controladorEmail,
-                  "Email vazio"),
-              formulario(true, "Senha", TextInputType.visiblePassword,
-                  controladorSenha, "Digite sua senha"),
-              formulario(
-                  true,
-                  "Confirmar Nova Senha",
-                  TextInputType.visiblePassword,
-                  controladorConfSenha,
-                  "senha errada"),
-              Divider(),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.90,
-                height: MediaQuery.of(context).size.height * 0.07,
-                child: RaisedButton(
-                  onPressed: () async{
-                    await cadastroEmailSenha(
-                      controladorEmail.text.trim(), controladorSenha.text.trim());
-                  },
-                  child: Text(
-                    "Cadastrar",
-                    style: styleTextButtom,
-                  ),
-                  color: Colors.green,
-                ),
-              ),
-              
-                    ]                  
-              )
-              ),
+                  padding: EdgeInsets.all(20),
+                  child: Column(children: [
+                    /*GestureDetector(
+                      onTap: () => {
+                        ImagePicker.pickImage(source: ImageSource.gallery),
+                      },
+                      child: Container(
+                        width: 150.0,
+                        height: 150.0,
+                        child: Center(
+                          child: Icon(
+                            Icons.add_circle_outline,
+                            size: 50,
+                            color: Colors.black38,
+                          ),
+                        ),
+                        decoration: new BoxDecoration(
+                        color: Colors.green,
+                        shape: BoxShape.circle,
+                      ),
+                      ),
+                    ),*/
+                    formulario(false, "Nome", TextInputType.name,
+                        controladorNome, "Nome vazio"),
+                    formulario(false, "Email", TextInputType.text,
+                        controladorEmail, "Email vazio"),
+                    formulario(true, "Senha", TextInputType.visiblePassword,
+                        controladorSenha, "Digite sua senha"),
+                    formulario(
+                        true,
+                        "Confirmar Nova Senha",
+                        TextInputType.visiblePassword,
+                        controladorConfSenha,
+                        "senha errada"),
+                    Divider(),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.90,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      child: RaisedButton(
+                        onPressed: () async {
+                          await cadastroEmailSenha(controladorEmail.text.trim(),
+                              controladorSenha.text.trim());
+                        },
+                        child: Text(
+                          "Cadastrar",
+                          style: styleTextButtom,
+                        ),
+                        color: Colors.green,
+                      ),
+                    ),
+                  ])),
               //TextFormField
-              
             ],
           ),
         ),
