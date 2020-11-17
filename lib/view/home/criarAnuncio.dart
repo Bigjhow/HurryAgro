@@ -108,6 +108,27 @@ class _HomeState extends State<CriarAnuncio> {
                 style: TextStyle(
                   fontSize: 30,
                 )),
+                Divider(),
+                GestureDetector(
+                      onTap: () => {
+                       getImage(),
+                      },
+                      child: Container(
+                        width: 150.0,
+                        height: 150.0,
+                        child: Center(
+                          child: Icon(
+                            Icons.photo_camera,
+                            size: 50,
+                            color: Colors.black38,
+                          ),
+                        ),
+                        decoration: new BoxDecoration(
+                        color: Colors.green,
+                        shape: BoxShape.circle,
+                      ),
+                      ),
+                    ),
             formulario(false, "Titulo", TextInputType.name, controladorName,
                 "Titulo vazio"),
             formulario(false, "Preço", TextInputType.number, controladorPrice,
@@ -115,12 +136,7 @@ class _HomeState extends State<CriarAnuncio> {
             formulario(false, "Descrição", TextInputType.text,
                 controladorDescribe, "Descrição vazio"),
             Divider(),
-            RaisedButton.icon(
-                icon: Icon(Icons.attach_file),
-                label: Text(" Selecionar uma foto"),
-                onPressed: () {
-                  getImage();
-                }),
+            
             Divider(),
             RaisedButton(
               onPressed: () async {

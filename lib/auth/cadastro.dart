@@ -4,6 +4,9 @@ import '../Nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hurryAgro/localData/local.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -11,6 +14,19 @@ class Cadastro extends StatefulWidget {
 }
 
 class _HomeState extends State<Cadastro> {
+  bool obscureText = false;
+  File sampleImage;
+  String imageUser = '';
+  bool _isChecked = false;
+
+  Future getImage() async {
+    var tempImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imageUser = tempImage.path;
+    });
+    print(imageUser);
+  }
+
   TextEditingController controladorNome = TextEditingController();
   TextEditingController controladorEmail = TextEditingController();
   TextEditingController controladorSenha = TextEditingController();
@@ -35,13 +51,15 @@ class _HomeState extends State<Cadastro> {
       _formKey = GlobalKey<FormState>();
     });
   }
+
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  Future addUser( id, nome, email, senha) async {
+  Future addUser(id, nome, email, senha, imageUser) async {
     await firebaseFirestore.collection('users').add({
       'id': id,
       'nome': '$nome',
       'email': '$email',
       'senha': '$senha',
+      'image': imageUser,
     });
   }
 
@@ -65,7 +83,27 @@ class _HomeState extends State<Cadastro> {
         await user.sendEmailVerification();
         await saveData();
         var id = FirebaseAuth.instance.currentUser.uid;
-        await addUser(id, _nomeInformado, _emailInformado, _senhaInformado);
+
+        try {
+          await FirebaseStorage.instance
+              .ref('photoUsers/$id')
+              .putFile(File(imageUser));
+        } catch (e) {
+          print('erro: image');
+        }
+
+        try {
+          imageUser = await FirebaseStorage.instance
+              .ref('photoUsers/$id')
+              .getDownloadURL();
+          print(imageUser);
+        } catch (e) {
+          print('erro:');
+        }
+
+        await addUser(
+            id, _nomeInformado, _emailInformado, _senhaInformado, imageUser);
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Nav()),
@@ -94,12 +132,12 @@ class _HomeState extends State<Cadastro> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        title: SizedBox(
+            width: 55, height: 55, child: Image.asset("imagens/logoNome.png")),
+        centerTitle: true,
         backgroundColor: Colors.green,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: _limparCampos,
-          )
+        actions: [
+          IconButton(icon: Icon(Icons.refresh), onPressed: _limparCampos)
         ],
       ),
       body: SingleChildScrollView(
@@ -109,13 +147,6 @@ class _HomeState extends State<Cadastro> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(10),
-                child: SizedBox(
-                    width: 220,
-                    height: 220,
-                    child: Image.asset("imagens/logo.png")),
-              ),
               Text(
                 _textoBase,
                 textAlign: TextAlign.center,
@@ -124,26 +155,33 @@ class _HomeState extends State<Cadastro> {
               Padding(
                   padding: EdgeInsets.all(20),
                   child: Column(children: [
-                    /*GestureDetector(
+                    GestureDetector(
                       onTap: () => {
-                        ImagePicker.pickImage(source: ImageSource.gallery),
+                        getImage(),
                       },
                       child: Container(
                         width: 150.0,
                         height: 150.0,
-                        child: Center(
-                          child: Icon(
-                            Icons.add_circle_outline,
-                            size: 50,
-                            color: Colors.black38,
-                          ),
-                        ),
+                        child: imageUser == ''
+                            ? Center(
+                                child: Icon(
+                                  Icons.photo_camera,
+                                  size: 50,
+                                  color: Colors.black38,
+                                ),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(70.0),
+                                child: Image.file(
+                                  File(imageUser),
+                                  fit: BoxFit.cover,
+                                )),
                         decoration: new BoxDecoration(
-                        color: Colors.green,
-                        shape: BoxShape.circle,
+                          color: Colors.green,
+                          shape: BoxShape.circle,
+                        ),
                       ),
-                      ),
-                    ),*/
+                    ),
                     formulario(false, "Nome", TextInputType.name,
                         controladorNome, "Nome vazio"),
                     formulario(false, "Email", TextInputType.text,

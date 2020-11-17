@@ -92,7 +92,6 @@ class _HomeState extends State<Login> {
                 child: Form(
                   child: Column(
                     children: [
-
                       ClipRRect(
                         borderRadius: BorderRadius.circular(40),
                         child: Container(

@@ -7,6 +7,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:hurryAgro/model/message_model.dart';
 import 'package:hurryAgro/data/produtos.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 
 //---- Screens
 import 'package:hurryAgro/view/home/principal.dart';
@@ -25,10 +27,12 @@ class Nav extends StatefulWidget {
 }
 
 class _NavState extends State<Nav> {
+  
   int _index = 0;
   Map anuncio = {"name": null};
   Message chat;
   TextEditingController _searchController = TextEditingController();
+  QuerySnapshot user;
 
   Future search(search) async {
     if (_index == 0) {
@@ -55,16 +59,25 @@ class _NavState extends State<Nav> {
       }
     }
   }
+
+  Future getDados() async {
+    user = await FirebaseFirestore.instance.collection('users').get();
+    var idAt = FirebaseAuth.instance.currentUser.uid;
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .where("id", isEqualTo: "$idAt")
+        .get();
+  }
+
   void makeRoutePage({BuildContext context, Widget pageRef}) {
-  Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => pageRef),
-      (Route<dynamic> route) => false);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => pageRef),
+        (Route<dynamic> route) => false);
   }
 
   @override
   void initState() {
-    
     super.initState();
   }
 
@@ -75,16 +88,28 @@ class _NavState extends State<Nav> {
         drawer: Drawer(
           child: ListView(children: [
             DrawerHeader(
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage("imagens/diego.jpg"),
-                  ),
-                  Divider(),
-                  Text("Diego"),
-                ],
-              ),
+              child:FutureBuilder(
+                future: getDados(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                     return ClipRRect(
+                                borderRadius: BorderRadius.circular(200.0),
+                    child: Image.network(
+                      snapshot.data.docs[0]["image"],
+                      
+                      loadingBuilder: (context, child, loading) {
+                        return loading != null
+                            ? LinearProgressIndicator()
+                            : child;
+                      },
+                    ),
+                     );
+                  }
+                }),
             ),
             ListTile(
                 title: Text("Conta"),
@@ -100,7 +125,6 @@ class _NavState extends State<Nav> {
                       MaterialPageRoute(builder: (context) => MeusAnuncios()),
                     ),
                 leading: Icon(Icons.list)),
-            
             ListTile(
                 title: Text("Desenvolveres"),
                 onTap: () => Navigator.push(
@@ -184,7 +208,6 @@ class _NavState extends State<Nav> {
                         search(_searchController.text);
                         print('clicado');
                       }),
-                      
                 ),
               ),
               decoration: BoxDecoration(color: Colors.white),
