@@ -19,7 +19,6 @@ Future getDados() async {
   return await FirebaseFirestore.instance.collection('users').get();
 }
 
-
 class _ChatState extends State<Chat> {
   QuerySnapshot anuncios;
   @override
@@ -36,24 +35,39 @@ class _ChatState extends State<Chat> {
               itemCount: snapshot.data.docs.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPv(
-                    nome: snapshot.data.docs[index]["nome"],
-                    id: snapshot.data.docs[index]["id"].toString(), 
-                  )
-                  )),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChatPv(
+                                  nome: snapshot.data.docs[index]["nome"],
+                                  id: snapshot.data.docs[index]["id"]
+                                      .toString(),
+                                  image: snapshot.data.docs[index]["image"],
+                                ))),
                     child: Container(
                         padding: EdgeInsets.all(16),
                         child: Column(
                           children: [
                             Row(
                               children: [
-                                Text(snapshot.data.docs[index]["nome"],
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                    textAlign: TextAlign.center),
+                                CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                    snapshot.data.docs[index]["image"],
+                                  ),
+                                  radius: 32.0,
+                                ),
+                                
+                                Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(snapshot.data.docs[index]["nome"],
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                      textAlign: TextAlign.center),
+                                ),
                               ],
                             ),
+                            Divider(),
                           ],
                         )));
               },
