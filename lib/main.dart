@@ -8,7 +8,7 @@ import  'package:hurryAgro/Nav.dart';
 
 void main()  async{
    WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(); 
   runApp(MyApp());
 }
 

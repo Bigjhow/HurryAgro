@@ -100,7 +100,6 @@ class _NavState extends State<Nav> {
                                 borderRadius: BorderRadius.circular(200.0),
                     child: Image.network(
                       snapshot.data.docs[0]["image"],
-                      
                       loadingBuilder: (context, child, loading) {
                         return loading != null
                             ? LinearProgressIndicator()
@@ -110,6 +109,7 @@ class _NavState extends State<Nav> {
                      );
                   }
                 }),
+                
             ),
             ListTile(
                 title: Text("Conta"),
@@ -153,6 +153,7 @@ class _NavState extends State<Nav> {
                           FlatButton(
                             onPressed: () {
                               makeRoutePage(context: context, pageRef: Login());
+                              FirebaseAuth.instance.signOut();
                             },
                             child: Text("Sim"),
                           ),

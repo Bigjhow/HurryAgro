@@ -2,21 +2,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:hurryAgro/view/chat/chat.dart';
+import 'package:hurryAgro/view/chat/chatPv.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Anuncio extends StatefulWidget {
-  Anuncio({Key key, this.titulo, this.descricao, this.image, this.preco})
+  Anuncio({Key key, this.titulo, this.descricao, this.image, this.preco, this.idAuthor})
       : super(key: key);
   final String titulo;
   final String descricao;
   final String image;
   final String preco;
+  final String idAuthor;
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Anuncio> {
 //---- Variables
+  QuerySnapshot user;
 
   var styleTextName = TextStyle(
     fontSize: 30,
@@ -29,6 +35,15 @@ class _HomeState extends State<Anuncio> {
     fontSize: 20,
     color: Colors.blueAccent,
   );
+
+  Future getDados() async {
+    user = await FirebaseFirestore.instance.collection('users').get();
+    var idAuthor = FirebaseAuth.instance.currentUser.uid;
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .where("id", isEqualTo: "$idAuthor")
+        .get();
+  }
 
   @override
   Widget build(BuildContext context) {

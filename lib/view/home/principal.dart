@@ -82,6 +82,8 @@ class _HomeState extends State<Principal> {
                                                           "${snapshot.data.docs[index]["preco"]}",
                                                       image:
                                                           "${snapshot.data.docs[index]["imagens"][0]}",
+                                                      idAuthor:
+                                                        "${snapshot.data.docs[index]["idAuthor"]}",
                                                     )),
                                           ),
                                       child: Container(
