@@ -5,16 +5,13 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Future<File> getData() async {
-    final directory = await getApplicationDocumentsDirectory();
-    var file = File("${directory.path}/data.json");
-    return file;
-  }
+  final directory = await getApplicationDocumentsDirectory();
+  var file = File("${directory.path}/data.json");
+  return file;
+}
 
-  Future saveData() async {
-    final file = await getData();
-    return await file.writeAsString(jsonEncode({
-        'screen': "true",
-        'image' : await FirebaseAuth.instance.currentUser.photoURL,
-        'nome' : await FirebaseAuth.instance.currentUser.displayName,
-     }));
-  }
+Future saveData(Map object) async {
+  final file = await getData();
+  await file.writeAsStringSync(jsonEncode(object));
+  print(await file.readAsString());
+}

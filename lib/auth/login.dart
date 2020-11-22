@@ -27,7 +27,6 @@ class _HomeState extends State<Login> {
 
   String _textoBase = "Informe seu E-mail e sua Senha";
 
-
   // _formKey = GlobalKey<FormState>();
   void _limparCampos() {
     controladorEmail.text = "";
@@ -37,14 +36,19 @@ class _HomeState extends State<Login> {
       _textoBase = "Informe seu E-mail e sua Senha";
     });
   }
-  
+
   FirebaseAuth auth = FirebaseAuth.instance;
 
   Future loginEmailSenha(email, senha) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: senha);
-      await saveData();
-      Navigator.pushReplacement(context,
+      await saveData({
+        "carrousel": true,
+        'login': true,
+        'image': await FirebaseAuth.instance.currentUser.photoURL,
+        'nome': await FirebaseAuth.instance.currentUser.displayName,
+      });
+      await Navigator.pushReplacement(context,
           PageTransition(child: Nav(), type: PageTransitionType.bottomToTop));
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
@@ -61,10 +65,8 @@ class _HomeState extends State<Login> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -88,74 +90,66 @@ class _HomeState extends State<Login> {
                 style: TextStyle(color: Colors.orange, fontSize: 25.0),
               ),
               Padding(
-                padding: EdgeInsets.all(20),
-                child: Form(
-                  child: Column(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(40),
-                        child: Container(
-                          color: Colors.white,
-                          child: formulario(
-                              TextInputType.emailAddress,
-                              "Digite seu email",
-                              false,
-                              Icon(
-                                Icons.email,
-                                color: Colors.green,
-                              ),
-                              false,
-                              controladorEmail),
-                        ),
-                      ),
-
-                      Divider(
-                        height: 20,
-                        color: Colors.green,
-                      ),
-                      ClipRRect(
+                  padding: EdgeInsets.all(20),
+                  child: Form(
+                    child: Column(
+                      children: [
+                        ClipRRect(
                           borderRadius: BorderRadius.circular(40),
                           child: Container(
                             color: Colors.white,
-                            child: TextFormField(
-                              keyboardType: TextInputType.visiblePassword,
-                              controller: controladorSenha,
-                              obscureText: obscureText,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                  hintText: 'senha',
-                                  prefixIcon: Icon(
-                                Icons.vpn_key,
-                                color: Colors.green,
-                              ),
-                                  suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.remove_red_eye,
-                    color: Colors.green,
-                  ),
-                  onPressed: () {
-                    print('entrada 1:$obscureText');
-                    
-                    setState(() {
-                      obscureText = !obscureText;
-                    });
-                    print('saida:$obscureText');
-                  })
-                       ),
-                                     
-                            )
-                          )
+                            child: formulario(
+                                TextInputType.emailAddress,
+                                "Digite seu email",
+                                false,
+                                Icon(
+                                  Icons.email,
+                                  color: Colors.green,
+                                ),
+                                false,
+                                controladorEmail),
                           ),
-                          Divider(
-                        height: 20,
-                        color: Colors.green,
-                      ),
-                    ],
-                  ),
-                )
-                
-                ),
-                
+                        ),
+                        Divider(
+                          height: 20,
+                          color: Colors.green,
+                        ),
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(40),
+                            child: Container(
+                                color: Colors.white,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.visiblePassword,
+                                  controller: controladorSenha,
+                                  obscureText: obscureText,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'senha',
+                                      prefixIcon: Icon(
+                                        Icons.vpn_key,
+                                        color: Colors.green,
+                                      ),
+                                      suffixIcon: IconButton(
+                                          icon: Icon(
+                                            Icons.remove_red_eye,
+                                            color: Colors.green,
+                                          ),
+                                          onPressed: () {
+                                            print('entrada 1:$obscureText');
+
+                                            setState(() {
+                                              obscureText = !obscureText;
+                                            });
+                                            print('saida:$obscureText');
+                                          })),
+                                ))),
+                        Divider(
+                          height: 20,
+                          color: Colors.green,
+                        ),
+                      ],
+                    ),
+                  )),
               Container(
                 height: 40,
                 alignment: Alignment.centerRight,
@@ -171,7 +165,6 @@ class _HomeState extends State<Login> {
                         PageTransition(
                             child: EsqueceuSenha(),
                             type: PageTransitionType.rightToLeft),
-                            
                       );
                     }),
               ),
@@ -179,9 +172,9 @@ class _HomeState extends State<Login> {
                 width: MediaQuery.of(context).size.width * 0.90,
                 height: MediaQuery.of(context).size.height * 0.07,
                 child: RaisedButton(
-                  onPressed: () async{                  
-                    await loginEmailSenha(
-                      controladorEmail.text.trim(), controladorSenha.text.trim());
+                  onPressed: () async {
+                    await loginEmailSenha(controladorEmail.text.trim(),
+                        controladorSenha.text.trim());
                   },
                   child: Text(
                     "Login",
@@ -220,6 +213,7 @@ class _HomeState extends State<Login> {
       ),
     );
   }
+
   Widget formulario(
       TextInputType keyBoardType,
       String hintText,
@@ -246,7 +240,7 @@ class _HomeState extends State<Login> {
                   ),
                   onPressed: () {
                     print('entrada 1:$obscureText');
-                    
+
                     setState(() {
                       obscureText = !obscureText;
                     });
@@ -258,5 +252,3 @@ class _HomeState extends State<Login> {
     );
   }
 }
-
-

@@ -1,7 +1,6 @@
 //---- Packages
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/auth/receberCodigo.dart';
-import 'package:hurryAgro/data/users.dart';
 import 'package:page_transition/page_transition.dart';
 
 //---- Screens
@@ -29,26 +28,6 @@ class _HomeState extends State<EsqueceuSenha> {
     setState(() {
       _textoBase = "Informe seu E-mail";
     });
-  }
-
-  _verificar() {
-    if (_formKey.currentState.validate()) {
-      try {
-        for (var x = 0; x <= usuarios.length; x++) {
-          if (usuarios[x]["email"] == controladorEmail.text) {
-            return Navigator.push(
-                context,
-                PageTransition(
-                    child: ReceberCodigo(),
-                    type: PageTransitionType.rightToLeft,
-                    duration: Duration(milliseconds: 800)));
-          }
-        }
-        return _textoBase = "Email incorreto";
-      } catch (e) {
-        print(e);
-      }
-    }
   }
 
   @override
@@ -87,9 +66,7 @@ class _HomeState extends State<EsqueceuSenha> {
                 width: size.width * 0.8,
                 height: size.height * 0.05,
                 child: RaisedButton(
-                  onPressed: () {
-                    _verificar();
-                  },
+                  onPressed: () {},
                   child: Text(
                     "Receber Código",
                     style: TextStyle(

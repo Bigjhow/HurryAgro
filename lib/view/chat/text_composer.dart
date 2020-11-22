@@ -3,7 +3,6 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class TextComposer extends StatefulWidget {
-
   TextComposer(this.sendMessage);
 
   final Function({String text, File imgFile}) sendMessage;
@@ -13,70 +12,70 @@ class TextComposer extends StatefulWidget {
 }
 
 class _TextComposerState extends State<TextComposer> {
-
   final TextEditingController _controller = TextEditingController();
 
   bool _isComposed = false;
 
-  void _reset(){
+  void _reset() {
     _controller.clear();
-                  setState(() {
-                    _isComposed = false;
-                  });
+    setState(() {
+      _isComposed = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      child: Row(
-        children: [
-          IconButton(
-            icon: Icon(
-              Icons.photo_camera,
-            ),
-            onPressed: ()async{
-              final File imgFile = await ImagePicker.pickImage(source: ImageSource.camera);
-              if(imgFile == null) return;
-              widget.sendMessage(imgFile: imgFile);
-            },
+      child: Row(children: [
+        IconButton(
+          icon: Icon(
+            Icons.photo_camera,
           ),
-          IconButton(
-            icon: Icon(
-              Icons.photo,
-            ),
-            onPressed: ()async{
-              final File imgFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-              if(imgFile == null) return;
-              widget.sendMessage(imgFile: imgFile);
-            },
+          onPressed: () async {
+            final File imgFile =
+                await ImagePicker.pickImage(source: ImageSource.camera);
+            if (imgFile == null) return;
+            widget.sendMessage(imgFile: imgFile);
+          },
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.photo,
           ),
-          Expanded(
+          onPressed: () async {
+            final File imgFile =
+                await ImagePicker.pickImage(source: ImageSource.gallery);
+            if (imgFile == null) return;
+            widget.sendMessage(imgFile: imgFile);
+          },
+        ),
+        Expanded(
             child: TextField(
-              controller: _controller,
-              decoration: InputDecoration.collapsed(hintText: 'Enviar Mensagem'),
-              onChanged: (text){
-                setState(() {
-                  _isComposed = text.isNotEmpty;
-                });
-              },
-              onSubmitted: (text){
-                  widget.sendMessage(text: text);
+          controller: _controller,
+          decoration: InputDecoration.collapsed(hintText: 'Enviar Mensagem'),
+          onChanged: (text) {
+            setState(() {
+              _isComposed = text.isNotEmpty;
+            });
+          },
+          onSubmitted: (text) {
+            widget.sendMessage(text: text);
+            _reset();
+          },
+        )),
+        IconButton(
+          icon: Icon(
+            Icons.send,
+          ),
+          onPressed: _isComposed
+              ? () {
+                  widget.sendMessage(text: _controller.text);
                   _reset();
-              },
-            )
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.send,
-            ),
-            onPressed: _isComposed  ? (){
-              widget.sendMessage(text: _controller.text);
-              _reset();
-            }: null,
-          ),
-        ]
-      ),
+                }
+              : null,
+        ),
+      ]),
     );
   }
 }

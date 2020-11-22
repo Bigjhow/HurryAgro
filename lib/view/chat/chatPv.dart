@@ -16,22 +16,25 @@ class ChatPv extends StatefulWidget {
 }
 
 class _ChatPvState extends State<ChatPv> {
-
   QuerySnapshot messages;
-  
+
   bool mine;
   bool isLoading = false;
   var id = FirebaseAuth.instance.currentUser.uid;
 
   Future getDados() async {
     messages = await FirebaseFirestore.instance.collection('messages').get();
-    
+
     return await FirebaseFirestore.instance.collection('messages').get();
   }
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   Future addMessage(data) async {
-  
+    await firebaseFirestore.collection('mensagens').add({
+      'data': data,
+      'idSender': id,
+      'time': Timestamp.now(),
+    });
   }
 
   void sendMessage({String text, File imgFile}) async {
@@ -42,7 +45,6 @@ class _ChatPvState extends State<ChatPv> {
       var idt = DateTime.now().toString();
       try {
         await FirebaseStorage.instance.ref('photoChat/$idt').putFile(imgFile);
-        
       } catch (e) {
         print('erro: image');
       }
@@ -52,12 +54,10 @@ class _ChatPvState extends State<ChatPv> {
             .ref('photoChat/$idt')
             .getDownloadURL();
         print(imgFile);
-        
       } catch (e) {
         print('erro:');
       }
       data['imageUrl'] = url;
-      
     }
     if (text != null) data['text'] = text;
     await addMessage(data);
@@ -85,29 +85,30 @@ class _ChatPvState extends State<ChatPv> {
         body: Column(
           children: [
             Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('messages').orderBy('time').snapshots(),
-                builder: (context, snapshot){
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      default:
-                        List<DocumentSnapshot>documents = snapshot.data.documents.reversed.toList();
-                        return ListView.builder(
-                          itemCount: documents.length,
-                          reverse: true,
-                          itemBuilder: (context, index){
-                            return chatMessage(documents[index]['data'], true);
-                          }
-                        );
-                    }
-                }
-              )
-            ),
-            
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('messages')
+                        .orderBy('time')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                        case ConnectionState.waiting:
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        default:
+                          List<DocumentSnapshot> documents =
+                              snapshot.data.documents.reversed.toList();
+                          return ListView.builder(
+                              itemCount: documents.length,
+                              reverse: true,
+                              itemBuilder: (context, index) {
+                                return chatMessage(
+                                    documents[index]['data'], true);
+                              });
+                      }
+                    })),
             TextComposer(
               sendMessage,
             ),

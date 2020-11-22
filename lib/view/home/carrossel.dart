@@ -6,6 +6,8 @@ import 'package:hurryAgro/helpers/Strings.dart';
 import 'package:hurryAgro/view/home/splash.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../localData/local.dart';
+
 class Carrossel extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -46,7 +48,8 @@ class _HomeState extends State<Carrossel> {
                         fontWeight: FontWeight.w600),
                   ),
                 ),
-                onTap: () {
+                onTap: () async {
+                  await saveData({"carrousel": true});
                   Navigator.pushReplacement(
                       context,
                       PageTransition(

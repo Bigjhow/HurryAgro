@@ -1,11 +1,12 @@
 //---- Packages
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/chat/chat.dart';
 import 'package:hurryAgro/view/user/conta.dart';
 import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:hurryAgro/model/message_model.dart';
-import 'package:hurryAgro/data/produtos.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
@@ -17,6 +18,8 @@ import 'package:hurryAgro/view/home/criarAnuncio.dart';
 import 'package:hurryAgro/auth/login.dart';
 import 'package:hurryAgro/view/desenvolvedores.dart';
 
+import 'localData/local.dart';
+
 class Nav extends StatefulWidget {
   Nav({Key key, this.email, this.senha, this.image}) : super(key: key);
   final String email;
@@ -27,38 +30,11 @@ class Nav extends StatefulWidget {
 }
 
 class _NavState extends State<Nav> {
-  
   int _index = 0;
   Map anuncio = {"name": null};
   Message chat;
   TextEditingController _searchController = TextEditingController();
   QuerySnapshot user;
-
-  Future search(search) async {
-    if (_index == 0) {
-      for (var x = 0; x <= anuncios.length; x++) {
-        if (search == anuncios[x]["name"]) {
-          setState(() {
-            anuncio = anuncios[x];
-          });
-          return anuncio;
-        } else if (x == anuncio.length) {
-          return search;
-        }
-      }
-    } else {
-      for (var x = 0; x < chats.length; x++) {
-        if (search == chats[x].sender.name) {
-          setState(() {
-            chat = chats[x];
-          });
-          print('ESTA AQUI NAO É MESMO');
-        } else {
-          print('nao encontrado');
-        }
-      }
-    }
-  }
 
   Future getDados() async {
     user = await FirebaseFirestore.instance.collection('users').get();
@@ -88,28 +64,28 @@ class _NavState extends State<Nav> {
         drawer: Drawer(
           child: ListView(children: [
             DrawerHeader(
-              child:FutureBuilder(
-                future: getDados(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.connectionState == ConnectionState.done) {
-                     return ClipRRect(
-                                borderRadius: BorderRadius.circular(200.0),
-                    child: Image.network(
-                      snapshot.data.docs[0]["image"],
-                      loadingBuilder: (context, child, loading) {
-                        return loading != null
-                            ? LinearProgressIndicator()
-                            : child;
-                      },
-                    ),
-                     );
-                  }
-                }),
-                
+              child: FutureBuilder(
+                  future: getDados(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(200.0),
+                        child: Image.network(
+                          snapshot.data.docs[0]["image"],
+                          loadingBuilder: (context, child, loading) {
+                            return loading != null
+                                ? LinearProgressIndicator()
+                                : child;
+                          },
+                        ),
+                      );
+                    }
+                  }),
             ),
             ListTile(
                 title: Text("Conta"),
@@ -151,9 +127,14 @@ class _NavState extends State<Nav> {
                         content: Text('Você realmente deseja sair?'),
                         actions: [
                           FlatButton(
-                            onPressed: () {
+                            onPressed: () async {
                               makeRoutePage(context: context, pageRef: Login());
-                              FirebaseAuth.instance.signOut();
+                              final file = await getData();
+                              print(file.readAsString());
+                              await file.writeAsStringSync(
+                                  jsonEncode({"carrousel": true}));
+                              await FirebaseAuth.instance.signOut();
+                              print(await file.readAsString());
                             },
                             child: Text("Sim"),
                           ),
@@ -180,7 +161,6 @@ class _NavState extends State<Nav> {
               child: TextField(
                 controller: _searchController,
                 onSubmitted: (value) {
-                  search(_searchController.text);
                   print('clicado');
                 },
                 showCursor: true,
@@ -198,7 +178,6 @@ class _NavState extends State<Nav> {
                       ),
                       onPressed: () {
                         _searchController.clear();
-                        search(_searchController.text);
                       }),
                   suffixIcon: IconButton(
                       icon: Icon(
@@ -206,7 +185,6 @@ class _NavState extends State<Nav> {
                         color: Colors.green,
                       ),
                       onPressed: () {
-                        search(_searchController.text);
                         print('clicado');
                       }),
                 ),
@@ -217,7 +195,7 @@ class _NavState extends State<Nav> {
         ),
         body: _index == 0
             ? Principal(
-                datas: anuncios,
+                datas: [{}],
                 pesquisa: anuncio,
               )
             : Chat(chat: chat),

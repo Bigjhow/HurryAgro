@@ -3,12 +3,13 @@ import 'package:hurryAgro/view/home/carrossel.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'dart:convert';
 import 'package:hurryAgro/localData/local.dart';
-import  'package:hurryAgro/Nav.dart';
+import 'package:hurryAgro/Nav.dart';
 
+import 'auth/login.dart';
 
-void main()  async{
-   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -18,7 +19,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-   Map dataUser = {"screen": false};
+  Map dataUser = {"login": false, "carrousel": false};
 
   //---- Functions
 
@@ -34,19 +35,24 @@ class _MyAppState extends State<MyApp> {
       print(e);
     }
   }
+
   @override
   void initState() {
     super.initState();
     _readData();
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hurry Agro',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.green, fontFamily: "NotoSans"),
-      home: dataUser["screen"] != false ? Nav() : Carrossel(),
+      home: dataUser["login"] == true
+          ? Nav()
+          : dataUser["carrousel"] == false
+              ? Carrossel()
+              : Login(),
     );
   }
 }
-

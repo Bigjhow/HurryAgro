@@ -81,7 +81,12 @@ class _HomeState extends State<Cadastro> {
         User user = FirebaseAuth.instance.currentUser;
 
         await user.sendEmailVerification();
-        await saveData();
+        await saveData({
+          "carrousel": true,
+          'login': true,
+          'image': await FirebaseAuth.instance.currentUser.photoURL,
+          'nome': await FirebaseAuth.instance.currentUser.displayName,
+        });
         var id = FirebaseAuth.instance.currentUser.uid;
 
         try {
