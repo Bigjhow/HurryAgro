@@ -24,10 +24,21 @@ class _HomeState extends State<Anuncio> {
 //---- Variables
   QuerySnapshot user;
 
+  var idUm = FirebaseAuth.instance.currentUser.uid;
+
   var styleTextName = TextStyle(
     fontSize: 30,
     color: Colors.white,
   );
+
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+  Future addChat(idUm, idAuthor) async {
+    await firebaseFirestore.collection('chat').add({
+      'idUm': idUm,
+      'idDois': idAuthor,
+    });
+  }
 
   var styleTextDescribe = TextStyle(fontSize: 16);
 
@@ -36,14 +47,6 @@ class _HomeState extends State<Anuncio> {
     color: Colors.blueAccent,
   );
 
-  Future getDados() async {
-    user = await FirebaseFirestore.instance.collection('users').get();
-    var idAuthor = FirebaseAuth.instance.currentUser.uid;
-    return await FirebaseFirestore.instance
-        .collection('users')
-        .where("id", isEqualTo: "$idAuthor")
-        .get();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +96,8 @@ class _HomeState extends State<Anuncio> {
                     color: Colors.green,
                     icon: Icon(Icons.chat),
                     label: Text("Chat"),
-                    onPressed: () {
-                      
+                    onPressed: () async{
+                      await addChat( idUm, widget.idAuthor);
                     }),
               ),
             ],

@@ -41,6 +41,16 @@ class _TextComposerState extends State<TextComposer> {
               widget.sendMessage(imgFile: imgFile);
             },
           ),
+          IconButton(
+            icon: Icon(
+              Icons.photo,
+            ),
+            onPressed: ()async{
+              final File imgFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+              if(imgFile == null) return;
+              widget.sendMessage(imgFile: imgFile);
+            },
+          ),
           Expanded(
             child: TextField(
               controller: _controller,
