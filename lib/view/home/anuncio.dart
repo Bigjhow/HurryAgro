@@ -1,8 +1,6 @@
 //---- Packages
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:hurryAgro/view/chat/chatPv.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,7 +32,7 @@ class _HomeState extends State<Anuncio> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   Future addChat(idUm, idAuthor) async {
-    await firebaseFirestore.collection('chat').add({
+    await firebaseFirestore.collection('chatRoom').add({
       'idUm': idUm,
       'idDois': idAuthor,
     });

@@ -16,18 +16,53 @@ class chatMessage extends StatelessWidget {
               crossAxisAlignment: mine ? CrossAxisAlignment.end :CrossAxisAlignment.start,
               children: [
                 data['imageUrl'] != null ?
-                Image.network(data['imageUrl'], width: 250,):
+                
                 Container(
-                  padding: const EdgeInsets.only(left: 16),
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.80,
+                      ),
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.symmetric(vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                       BoxShadow(
+                       color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                     blurRadius: 5,
+                       ),
+                      ],
+                    ),
+                  child:
+                Image.network(data['imageUrl'], width: 250,)
+                  ):
+
+                Container(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.80,
+                      ),
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.symmetric(vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                       BoxShadow(
+                       color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                     blurRadius: 5,
+                       ),
+                      ],
+                    ),
                   child: Text(
                     data['text'],
                     textAlign: mine ? TextAlign.end : TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    )
-                )
-                ),
+                     style: TextStyle(
+                     
+                    color: Colors.black54,)
+            ),
+                  ),
                 
               ],
             )

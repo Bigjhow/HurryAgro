@@ -115,7 +115,7 @@ class _HomeState extends State<CriarAnuncio> {
                       },
                       child: Container(
                         width: 150.0,
-                        height: 150.0,
+                        height: 100.0,
                         child: Center(
                           child: Icon(
                             Icons.photo_camera,
@@ -125,10 +125,11 @@ class _HomeState extends State<CriarAnuncio> {
                         ),
                         decoration: new BoxDecoration(
                         color: Colors.green,
-                        shape: BoxShape.circle,
+  
                       ),
                       ),
                     ),
+            
             formulario(false, "Titulo", TextInputType.name, controladorName,
                 "Titulo vazio"),
             formulario(false, "Preço", TextInputType.number, controladorPrice,
@@ -136,11 +137,11 @@ class _HomeState extends State<CriarAnuncio> {
             formulario(false, "Descrição", TextInputType.text,
                 controladorDescribe, "Descrição vazio"),
             Divider(),
-            
-            Divider(),
+          
             RaisedButton(
               onPressed: () async {
                 await verifAnuncio();
+                print(images[0]);
               },
               child: Text("Criar Anúncio"),
               color: Colors.green,

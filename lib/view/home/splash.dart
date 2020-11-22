@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/auth/login.dart';
 import 'package:page_transition/page_transition.dart';
+import 'dart:convert';
+import 'package:hurryAgro/localData/local.dart';
+import 'package:hurryAgro/Nav.dart';
+import 'package:hurryAgro/view/home/carrossel.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -10,9 +14,28 @@ class Splash extends StatefulWidget {
 }
 
 class _State extends State<Splash> {
+
+  Map dataUser = {"login": false, "carrousel": false};
+
+  //---- Functions
+
+  Future _readData() async {
+    try {
+      final file = await getData();
+      setState(() {
+        dataUser = jsonDecode(file.readAsStringSync());
+      });
+      print(dataUser);
+      return dataUser;
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _readData();
     Timer.periodic(Duration(seconds: 3), (timer) {
       setState(() {
         route();
@@ -23,7 +46,11 @@ class _State extends State<Splash> {
 
   route() {
     Navigator.pushReplacement(context,
-        PageTransition(child: Login(), type: PageTransitionType.bottomToTop));
+        PageTransition(child: dataUser["login"] == true
+          ? Nav()
+          : dataUser["carrousel"] == false
+              ? Carrossel()
+              : Login(), type: PageTransitionType.bottomToTop));
   }
 
   @override

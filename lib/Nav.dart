@@ -74,7 +74,7 @@ class _NavState extends State<Nav> {
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
                       return ClipRRect(
-                        borderRadius: BorderRadius.circular(200.0),
+                        borderRadius: BorderRadius.circular(70.0),
                         child: Image.network(
                           snapshot.data.docs[0]["image"],
                           loadingBuilder: (context, child, loading) {

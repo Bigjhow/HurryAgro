@@ -35,13 +35,17 @@ class _ChatPvState extends State<ChatPv> {
       'idSender': id,
       'time': Timestamp.now(),
     });
-  }
 
+  }
+  
   void sendMessage({String text, File imgFile}) async {
     String url = '';
     Map<String, dynamic> data = {};
 
     if (imgFile != null) {
+      setState(() {
+        isLoading = true;
+      });
       var idt = DateTime.now().toString();
       try {
         await FirebaseStorage.instance.ref('photoChat/$idt').putFile(imgFile);
@@ -61,6 +65,9 @@ class _ChatPvState extends State<ChatPv> {
     }
     if (text != null) data['text'] = text;
     await addMessage(data);
+    setState(() {
+        isLoading = false;
+      });
   }
 
   @override
@@ -87,7 +94,7 @@ class _ChatPvState extends State<ChatPv> {
             Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
-                        .collection('messages')
+                        .collection('mensagens')
                         .orderBy('time')
                         .snapshots(),
                     builder: (context, snapshot) {
@@ -109,6 +116,7 @@ class _ChatPvState extends State<ChatPv> {
                               });
                       }
                     })),
+                    isLoading != false ? LinearProgressIndicator(): Container(),
             TextComposer(
               sendMessage,
             ),
