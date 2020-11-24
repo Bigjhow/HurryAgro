@@ -39,10 +39,10 @@ class _ChatState extends State<Chat> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ChatPv(
-                                  nome: snapshot.data.docs[index]["nome"],
+                                
                                   id: snapshot.data.docs[index]["id"]
                                       .toString(),
-                                  image: snapshot.data.docs[index]["image"],
+                                  
                                 ))),
                     child: Container(
                         padding: EdgeInsets.all(16),

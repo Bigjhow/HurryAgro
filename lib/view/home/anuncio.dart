@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hurryAgro/view/chat/chatPv.dart';
 
 class Anuncio extends StatefulWidget {
   Anuncio({Key key, this.titulo, this.descricao, this.image, this.preco, this.idAuthor})
@@ -32,7 +33,8 @@ class _HomeState extends State<Anuncio> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   Future addChat(idUm, idAuthor) async {
-    await firebaseFirestore.collection('chatRoom').add({
+    
+    await firebaseFirestore.collection('chatRoom').doc(idUm+'_'+widget.idAuthor).set({
       'idUm': idUm,
       'idDois': idAuthor,
     });
@@ -96,6 +98,14 @@ class _HomeState extends State<Anuncio> {
                     label: Text("Chat"),
                     onPressed: () async{
                       await addChat( idUm, widget.idAuthor);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChatPv(
+                                
+                                  id: widget.idAuthor.toString(),
+                                  
+                                )));
                     }),
               ),
             ],
