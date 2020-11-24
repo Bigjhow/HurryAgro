@@ -41,9 +41,9 @@ class _HomeState extends State<MeusAnuncios> {
       backgroundColor: Colors.red,
     ));
   }
-  Future delete() async {
-    
-  }
+  
+
+  Future delete() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -143,33 +143,68 @@ class _HomeState extends State<MeusAnuncios> {
                                               Column(
                                                 children: [
                                                   Container(
-                                                padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
-                                                  child: IconButton(
-                                                  icon: Icon(
-                                                    Icons.edit,
-                                                    size: 30,
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            70, 0, 0, 0),
+                                                    child: IconButton(
+                                                        icon: Icon(
+                                                          Icons.edit,
+                                                          size: 30,
+                                                        ),
+                                                        onPressed: () {}),
                                                   ),
-                                                  onPressed: () {}),
-                                              ),
-                                              Divider(),
+                                                  Divider(),
                                                   Container(
-                                                padding: EdgeInsets.fromLTRB(70, 0, 0, 0),
-                                                  child: IconButton(
-                                                  icon: Icon(
-                                                    Icons.delete,
-                                                    color: Colors.red,
-                                                    size: 30,
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            70, 0, 0, 0),
+                                                    child: IconButton(
+                                                        icon: Icon(
+                                                          Icons.delete,
+                                                          color: Colors.red,
+                                                          size: 30,
+                                                        ),
+                                                        onPressed: () async {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return AlertDialog(
+                                                                  title: Text(
+                                                                      'Apagar'),
+                                                                  content: Text(
+                                                                      'Você realmente deseja Apagar esse Anuncio?'),
+                                                                  actions: [
+                                                                    FlatButton(
+                                                                      onPressed:
+                                                                          () async {
+                                                                        await Firestore
+                                                                            .instance
+                                                                            .collection("anuncios")
+                                                                            .doc(snapshot.data.docs[index].id)
+                                                                            .delete();
+                                                                            Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child: Text(
+                                                                          "Sim"),
+                                                                    ),
+                                                                    FlatButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child: Text(
+                                                                          "Não"),
+                                                                    )
+                                                                  ],
+                                                                );
+                                                              });
+                                                        }),
                                                   ),
-                                                  onPressed: () async{
-                                                    await Firestore.instance.collection("anuncios").doc(snapshot.data.docs[index].id).delete();
-                                                    print('clicado');
-                                                  }),
-                                              ),
-                                                                                         
                                                 ],
                                               )
-                                              
-                                              
                                             ],
                                           ),
                                           height: MediaQuery.of(context)

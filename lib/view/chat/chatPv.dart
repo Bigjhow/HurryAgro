@@ -9,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class ChatPv extends StatefulWidget {
   ChatPv({Key key, this.id}) : super(key: key);
   final String id;
-  
+
   @override
   _ChatPvState createState() => _ChatPvState();
 }
@@ -21,38 +21,37 @@ class _ChatPvState extends State<ChatPv> {
   bool isLoading = false;
   var id = FirebaseAuth.instance.currentUser.uid;
 
-
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   Future addMessage(data) async {
     dados = await firebaseFirestore
         .collection("chatRoom")
-        .doc(widget.id+'_'+id)
+        .doc(widget.id + '_' + id)
         .collection("mensagens")
         .get();
-        try {
-        print(dados.docs[0]['data']);
-        await firebaseFirestore
-        .collection("chatRoom")
-        .doc(widget.id+'_'+id)
-        .collection("mensagens")
-        .add({
-      'data': data,
-      'idSender': id,
-      'time': Timestamp.now(),
-    });
-
-      } catch (e) {
-        await firebaseFirestore
-        .collection("chatRoom")
-        .doc(id+'_'+widget.id)
-        .collection("mensagens")
-        .add({
-      'data': data,
-      'idSender': id,
-      'time': Timestamp.now(),
-    });
-      }
+    try {
+      print(dados.docs[0]['data']);
+      await firebaseFirestore
+          .collection("chatRoom")
+          .doc(widget.id + '_' + id)
+          .collection("mensagens")
+          .add({
+        'data': data,
+        'idSender': id,
+        'time': Timestamp.now(),
+      });
+    } catch (e) {
+      await firebaseFirestore
+          .collection("chatRoom")
+          .doc(id + '_' + widget.id)
+          .collection("mensagens")
+          .add({
+        'data': data,
+        'idSender': id,
+        'time': Timestamp.now(),
+      });
+    }
   }
+
   void sendMessage({String text, File imgFile}) async {
     String url = '';
     Map<String, dynamic> data = {};
@@ -110,7 +109,7 @@ class _ChatPvState extends State<ChatPv> {
                 child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection('chatRoom')
-                        .doc(id+'_'+widget.id)
+                        .doc(id + '_' + widget.id)
                         .collection("mensagens")
                         .orderBy('time')
                         .snapshots(),
@@ -123,13 +122,13 @@ class _ChatPvState extends State<ChatPv> {
                           );
                         default:
                           List<DocumentSnapshot> documents =
-                              snapshot.data.documents.reversed.toList();
+                              snapshot.data.docs.reversed.toList();
                           return ListView.builder(
                               itemCount: documents.length,
                               reverse: true,
                               itemBuilder: (context, index) {
-                                return chatMessage(
-                                    documents[index]['data'], documents[index]['idSender'] == id );
+                                return chatMessage(documents[index]['data'],
+                                    documents[index]['idSender'] == id);
                               });
                       }
                     })),
