@@ -32,7 +32,7 @@ class _ChatPvState extends State<ChatPv> {
   Future addMessage(data) async {
     await firebaseFirestore
         .collection("chatRoom")
-        .document(id)
+        .document(id+'_'+widget.id)
         .collection("mensagens")
         .add({
       'data': data,
@@ -98,7 +98,7 @@ class _ChatPvState extends State<ChatPv> {
                 child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection('chatRoom')
-                        .document(id)
+                        .document(id+'_'+widget.id)
                         .collection("mensagens")
                         .orderBy('time')
                         .snapshots(),
