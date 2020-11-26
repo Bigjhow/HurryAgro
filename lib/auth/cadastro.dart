@@ -17,7 +17,6 @@ class _HomeState extends State<Cadastro> {
   bool obscureText = false;
   File sampleImage;
   String imageUser = '';
-  bool _isChecked = false;
 
   Future getImage() async {
     var tempImage = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -73,6 +72,7 @@ class _HomeState extends State<Cadastro> {
         _emailInformado != "" &&
         _senhaInformado != "" &&
         _confSenhaInformado != "" &&
+        imageUser != "" &&
         _senhaInformado == _confSenhaInformado) {
       try {
         await auth.createUserWithEmailAndPassword(

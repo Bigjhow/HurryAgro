@@ -6,7 +6,6 @@ import 'package:hurryAgro/view/chat/chat.dart';
 import 'package:hurryAgro/view/user/conta.dart';
 import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:hurryAgro/model/message_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
@@ -32,7 +31,6 @@ class Nav extends StatefulWidget {
 class _NavState extends State<Nav> {
   int _index = 0;
   Map anuncio = {"name": null};
-  Message chat;
   TextEditingController _searchController = TextEditingController();
   QuerySnapshot user;
 
@@ -73,17 +71,25 @@ class _NavState extends State<Nav> {
                       );
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(70.0),
-                        child: Image.network(
-                          snapshot.data.docs[0]["image"],
-                          loadingBuilder: (context, child, loading) {
-                            return loading != null
-                                ? LinearProgressIndicator()
-                                : child;
-                          },
+                      return Column(children: [
+                        Container(
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              snapshot.data.docs[0]["image"],
+                            ),
+                            radius: 56.0,
+                          ),
                         ),
-                      );
+                        Container(
+                          child: Text(
+                            snapshot.data.docs[0]["nome"],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        )
+                      ]);
                     }
                   }),
             ),
@@ -198,7 +204,7 @@ class _NavState extends State<Nav> {
                 datas: [{}],
                 pesquisa: anuncio,
               )
-            : Chat(chat: chat),
+            : Chat(),
         floatingActionButton: _index == 0
             ? FloatingActionButton(
                 child: Icon(Icons.add),

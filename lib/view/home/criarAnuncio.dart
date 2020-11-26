@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 
 //---- Datas
 
@@ -15,13 +16,16 @@ class CriarAnuncio extends StatefulWidget {
 
 class _HomeState extends State<CriarAnuncio> {
   File sampleImage;
-  List images = [];
+   String imageProduct = '';
   Future getImage() async {
-    var tempImage = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      images.add(tempImage.path);
+    try{
+      var tempImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+      imageProduct = tempImage.path;
     });
-    print(images[0]);
+    }catch (e){
+      print('erro');
+    }
   }
 
   verifAnuncio() async {
@@ -30,36 +34,35 @@ class _HomeState extends State<CriarAnuncio> {
     String descricaoInformado = controladorDescribe.text;
     if (tituloInformado != "" &&
         precoInformado != "" &&
-        descricaoInformado != "") {
+        descricaoInformado != "" &&
+        imageProduct != ""
+        ) {
       var id = DateTime.now().toString();
       var idAuthor = FirebaseAuth.instance.currentUser.uid;
-      for (var i = 0; i < 20; i++) {
-        try {
+
+      try {
           await FirebaseStorage.instance
-              .ref(
-                  'photoProducts/${FirebaseAuth.instance.currentUser.uid}/$id/$i')
-              .putFile(File(images[i]));
+              .ref('photoProducts/${FirebaseAuth.instance.currentUser.uid}/$id/')
+              .putFile(File(imageProduct));
         } catch (e) {
-          print('erro:');
+          print('erro: image');
         }
-      }
-      List linkImages = [];
-      for (var i = 0; i < 20; i++) {
+
         try {
-          linkImages.add(await FirebaseStorage.instance
-              .ref(
-                  'photoProducts/${FirebaseAuth.instance.currentUser.uid}/$id/$i')
-              .getDownloadURL());
-          print(linkImages[i]);
+          imageProduct = await FirebaseStorage.instance
+              .ref('photoProducts/${FirebaseAuth.instance.currentUser.uid}/$id/')
+              .getDownloadURL();
+          print(imageProduct);
         } catch (e) {
           print('erro:');
         }
-      }
+      
+      
 
       await addAnuncio(idAuthor, id, controladorName.text, controladorDescribe.text,
-          controladorPrice.text, linkImages);
+          controladorPrice.text, imageProduct);
 
-      Future.delayed(Duration(seconds: 1), () => Navigator.pop(context));
+      Navigator.pop(context);
     } else {
       await showDialog(
           context: (context),
@@ -72,14 +75,14 @@ class _HomeState extends State<CriarAnuncio> {
   TextEditingController controladorDescribe = TextEditingController();
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  Future addAnuncio(idAuthor, id, titulo, descricao, preco, imagens) async {
+  Future addAnuncio(idAuthor, id, titulo, descricao, preco, imageProduct) async {
     await firebaseFirestore.collection('anuncios').add({
       'idAuthor': idAuthor,
       'id': id,
       'titulo': '$titulo',
       'descricao': '$descricao',
       'preco': '$preco',
-      'imagens': imagens
+      'imagens': imageProduct
     });
   }
 
@@ -111,22 +114,28 @@ class _HomeState extends State<CriarAnuncio> {
                 Divider(),
                 GestureDetector(
                       onTap: () => {
+                        
                        getImage(),
                       },
                       child: Container(
-                        width: 150.0,
-                        height: 100.0,
-                        child: Center(
-                          child: Icon(
-                            Icons.photo_camera,
-                            size: 50,
-                            color: Colors.black38,
-                          ),
-                        ),
+                        width: MediaQuery.of(context).size.width * 0.90,
+                      height: MediaQuery.of(context).size.height * 0.32,
+                        child: imageProduct == ''
+                            ? Center(
+                                child: Icon(
+                                  Icons.photo_camera,
+                                  size: 50,
+                                  color: Colors.black38,
+                                ),
+                              )
+                            : ClipRRect(
+                                child: Image.file(
+                                  File(imageProduct),
+                                  
+                                )),
                         decoration: new BoxDecoration(
-                        color: Colors.green,
-  
-                      ),
+                          color: Colors.green,
+                        ),
                       ),
                     ),
             
@@ -137,15 +146,19 @@ class _HomeState extends State<CriarAnuncio> {
             formulario(false, "Descrição", TextInputType.text,
                 controladorDescribe, "Descrição vazio"),
             Divider(),
-          
-            RaisedButton(
+          Container(
+            child: RaisedButton(
               onPressed: () async {
                 await verifAnuncio();
-                print(images[0]);
+                print(imageProduct);
               },
               child: Text("Criar Anúncio"),
               color: Colors.green,
             ),
+            width: MediaQuery.of(context).size.width * 0.90,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      ),
+            
           ],
         ),
       ),

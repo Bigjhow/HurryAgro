@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hurryAgro/view/home/principal.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 //---- Datas
 import 'package:image_picker/image_picker.dart';
 
@@ -18,13 +22,82 @@ class EditarAnuncio extends StatefulWidget {
 }
 
 class _HomeState extends State<EditarAnuncio> {
-  TextEditingController controladorName = TextEditingController();
-  TextEditingController controladorPrice = TextEditingController();
-  TextEditingController controladorDescribe = TextEditingController();
+  TextEditingController controladorName;
+  TextEditingController controladorPrice;
+  TextEditingController controladorDescribe;
+  TextEditingController controladorImage;
+
+
+
+   String imageProduct = '';
+
+
+  Future getImage() async {
+    try{
+      var tempImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+      imageProduct = tempImage.path;
+    });
+    }catch (e){
+      print('erro');
+    }
+  }
+
+  verifAnuncio() async {
+    String tituloInformado = controladorName.text;
+    String precoInformado = controladorPrice.text;
+    String descricaoInformado = controladorDescribe.text;
+    if (tituloInformado != "" &&
+        precoInformado != "" &&
+        descricaoInformado != "" &&
+        imageProduct != ""
+        ) {
+      var id = DateTime.now().toString();
+      var idAuthor = FirebaseAuth.instance.currentUser.uid;
+
+      try {
+          await FirebaseStorage.instance
+              .ref('photoProducts/${FirebaseAuth.instance.currentUser.uid}/$id/')
+              .putFile(File(imageProduct));
+        } catch (e) {
+          print('erro: image');
+        }
+
+        try {
+          imageProduct = await FirebaseStorage.instance
+              .ref('photoProducts/${FirebaseAuth.instance.currentUser.uid}/$id/')
+              .getDownloadURL();
+          print(imageProduct);
+        } catch (e) {
+          print('erro:');
+        }
+      
+
+      Navigator.pop(context);
+    } else {
+      await showDialog(
+          context: (context),
+          child: AlertDialog(content: Text("Informações incorretas")));
+    }
+  }
+
+  @override
+  void initState() {
+
+    controladorName = new TextEditingController(text: widget.name);
+    controladorPrice = new TextEditingController(text: widget.price);
+    controladorDescribe = new TextEditingController(text: widget.describe);
+    controladorImage = new TextEditingController(text: widget.image);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var textStyle = TextStyle(
         color: Colors.green, fontSize: 17, fontWeight: FontWeight.bold);
+
+  
+   
 
     return Scaffold(
       appBar: AppBar(
@@ -39,46 +112,56 @@ class _HomeState extends State<EditarAnuncio> {
         child: ListView(
           padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           children: <Widget>[
-            SizedBox(
-              height: 10,
-            ),
             Text("Edição de Anuncio:",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30,
                 )),
-            formulario(false, "Titulo" + widget.name, TextInputType.name,
-                controladorName, "Titulo vazio"),
-            formulario(false, "Preço" + widget.price, TextInputType.number,
-                controladorPrice, "Preço vazio"),
-            formulario(false, "Descrição" + widget.describe, TextInputType.text,
-                controladorDescribe, "Descrição vazio"),
-            RaisedButton.icon(
-                icon: Icon(Icons.camera_alt),
-                label: Text("Tirar ou uma foto"),
-                onPressed: () {
-                  ImagePicker.platform.pickImage(source: ImageSource.camera);
-                }),
-            RaisedButton.icon(
-                icon: Icon(Icons.attach_file),
-                label: Text(" Selecionar uma foto"),
-                onPressed: () {
-                  ImagePicker.platform.pickImage(source: ImageSource.gallery);
-                }),
-            RaisedButton(
-              onPressed: () {
-                Future.delayed(
-                    Duration(seconds: 1), () => Navigator.pop(context));
+                Divider(),
+            GestureDetector(
+                      onTap: () => { 
+                        getImage(),            
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.90,
+                      height: MediaQuery.of(context).size.height * 0.32,
+                        child: ClipRRect(
+                                child: Image.network(
+                                  controladorImage.text,                               
+                                )),
+                        decoration: new BoxDecoration(
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                    
+            formulario(false, "Nome", TextInputType.name, controladorName,
+                "Preço vazio"),
+                formulario(false, "Descrição", TextInputType.text, controladorDescribe,
+                "Preço vazio"),
+                formulario(false, "Preço", TextInputType.number, controladorPrice,
+                "Preço vazio"),
+            SizedBox(
+              height: 10,
+            ),
+            
+            Container(
+            child: RaisedButton(
+              onPressed: () async {     
+                        
               },
-              child: Text("Salvar Anúncio"),
-            )
+              child: Text("Criar Anúncio"),
+              color: Colors.green,
+            ),
+            width: MediaQuery.of(context).size.width * 0.90,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      ),
           ],
         ),
       ),
     );
   }
 }
-
 Widget formulario(
     bool obscureText,
     String labelText,

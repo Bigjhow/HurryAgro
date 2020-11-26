@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hurryAgro/model/message_model.dart';
 import 'package:hurryAgro/view/chat/chatPv.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Chat extends StatefulWidget {
-  Chat({Key key, this.chat}) : super(key: key);
-  final Message chat;
+  Chat({Key key}) : super(key: key);
   @override
   _ChatState createState() => _ChatState();
 }

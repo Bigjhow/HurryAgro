@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:hurryAgro/view/user/editarAnuncio.dart';
 //---- Datas
 
 //---- Screens
@@ -81,7 +81,9 @@ class _HomeState extends State<MeusAnuncios> {
                           width: 1000,
                           height: MediaQuery.of(context).size.height * 0.82,
                           child: ListView.builder(
+                            itemCount: snapshot.data.docs.length,
                             scrollDirection: Axis.vertical,
+                            
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                   onTap: () => {},
@@ -96,7 +98,7 @@ class _HomeState extends State<MeusAnuncios> {
                                                 child: Container(
                                                   child: Image.network(
                                                     snapshot.data.docs[index]
-                                                        ["imagens"][0],
+                                                        ["imagens"],
                                                     fit: BoxFit.cover,
                                                     filterQuality:
                                                         FilterQuality.high,
@@ -151,7 +153,22 @@ class _HomeState extends State<MeusAnuncios> {
                                                           Icons.edit,
                                                           size: 30,
                                                         ),
-                                                        onPressed: () {}),
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => EditarAnuncio(
+                                                      name:
+                                                          "${snapshot.data.docs[index]["titulo"]}",
+                                                      describe:
+                                                          "${snapshot.data.docs[index]["descricao"]}",
+                                                      price:
+                                                          "${snapshot.data.docs[index]["preco"]}",
+                                                      image:
+                                                          "${snapshot.data.docs[index]["imagens"]}",                                                     
+                                                    ))
+                                          );
+                                                        }),
                                                   ),
                                                   Divider(),
                                                   Container(
@@ -217,8 +234,7 @@ class _HomeState extends State<MeusAnuncios> {
                                               0.15,
                                         ),
                                       )));
-                            },
-                            itemCount: snapshot.data.docs.length,
+                            },                           
                           ))
                     ]),
                     onRefresh: () => getDados()),

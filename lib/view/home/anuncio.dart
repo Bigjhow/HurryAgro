@@ -96,7 +96,8 @@ class _HomeState extends State<Anuncio> {
                     color: Colors.green,
                     icon: Icon(Icons.chat),
                     label: Text("Chat"),
-                    onPressed: () async{
+                    onPressed: idUm != widget.idAuthor ? () async{
+                      
                       await addChat( idUm, widget.idAuthor);
                       Navigator.push(
                         context,
@@ -106,7 +107,8 @@ class _HomeState extends State<Anuncio> {
                                   id: widget.idAuthor.toString(),
                                   
                                 )));
-                    }),
+                    }: null,
+                    )
               ),
             ],
           ),

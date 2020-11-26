@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //---- Screens
 import 'package:hurryAgro/view/home/anuncio.dart';
@@ -26,16 +27,18 @@ class _HomeState extends State<Principal> {
   QuerySnapshot anuncios;
   Future getDados() async {
     anuncios = await FirebaseFirestore.instance.collection('anuncios').get();
-    
     return await FirebaseFirestore.instance.collection('anuncios').get();
   }
 
   Map pesquisa = {"name": null};
   List datas;
   @override
-  void initState() {
+  void initState(){
     super.initState();
     datas = widget.datas;
+
+    
+    
   }
 
   @override
@@ -81,7 +84,7 @@ class _HomeState extends State<Principal> {
                                                       preco:
                                                           "${snapshot.data.docs[index]["preco"]}",
                                                       image:
-                                                          "${snapshot.data.docs[index]["imagens"][0]}",
+                                                          "${snapshot.data.docs[index]["imagens"]}",
                                                       idAuthor:
                                                         "${snapshot.data.docs[index]["idAuthor"]}",
                                                     )),
@@ -98,7 +101,7 @@ class _HomeState extends State<Principal> {
                                                       child: Image.network(
                                                         snapshot.data
                                                                 .docs[index]
-                                                            ["imagens"][0],
+                                                            ["imagens"],
                                                         fit: BoxFit.cover,
                                                         filterQuality:
                                                             FilterQuality.high,
@@ -162,18 +165,9 @@ class _HomeState extends State<Principal> {
                                 itemCount: snapshot.data.docs.length,
                               )
                             : Card(
-                                child: ListTile(
-                                title: Text("${pesquisa["name"]}"),
-                                subtitle: Text("R\$${pesquisa["price"]}"),
-                                leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.asset(
-                                    pesquisa["image"],
-                                    width: 80,
-                                    height: 80,
-                                  ),
-                                ),
-                              )))
+                                child: Container(
+                                  child: null,
+                                )))
                   ]),
                   onRefresh: () => getDados()),
             );

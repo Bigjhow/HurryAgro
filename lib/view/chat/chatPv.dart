@@ -20,6 +20,18 @@ class _ChatPvState extends State<ChatPv> {
   bool mine;
   bool isLoading = false;
   var id = FirebaseAuth.instance.currentUser.uid;
+  
+  bool tela = false;
+
+  QuerySnapshot user;
+
+  Future getDados() async {
+    user = await FirebaseFirestore.instance.collection('users').get();
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .where("id", isEqualTo: "${widget.id}")
+        .get();
+  }
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   Future addMessage(data) async {
@@ -30,6 +42,10 @@ class _ChatPvState extends State<ChatPv> {
         .get();
     try {
       print(dados.docs[0]['data']);
+      setState(() {
+        tela = true;
+        print(tela);
+      });
       await firebaseFirestore
           .collection("chatRoom")
           .doc(widget.id + '_' + id)
@@ -38,6 +54,7 @@ class _ChatPvState extends State<ChatPv> {
         'data': data,
         'idSender': id,
         'time': Timestamp.now(),
+        
       });
     } catch (e) {
       await firebaseFirestore
@@ -49,6 +66,7 @@ class _ChatPvState extends State<ChatPv> {
         'idSender': id,
         'time': Timestamp.now(),
       });
+      print(tela);
     }
   }
 
@@ -88,28 +106,49 @@ class _ChatPvState extends State<ChatPv> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Row(
+          title: FutureBuilder(
+                  future: getDados(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      return Row(
             children: [
-              /*Container(
+              Container(
                 child: CircleAvatar(
-                  backgroundImage: NetworkImage(),
-                  radius: 24.0,
-                ),
-              ),*/
+                                  backgroundImage: NetworkImage(
+                                    snapshot.data.docs[0]["image"],
+                                  ),
+                                  radius: 24.0,
+                                ),
+              ),
               Container(
                 padding: EdgeInsets.only(left: 8),
-                child: Text('a'),
+                child: Text(snapshot.data.docs[0]["nome"]),
               )
             ],
-          ),
+          );
+                    }
+                  }),
         ),
         body: Column(
           children: [
             Expanded(
                 child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
+                    stream: 
+                    tela != true ? 
+                    FirebaseFirestore.instance
                         .collection('chatRoom')
                         .doc(id + '_' + widget.id)
+                        .collection("mensagens")
+                        .orderBy('time')
+                        .snapshots():
+                        FirebaseFirestore.instance
+                        .collection('chatRoom')
+                        .doc(widget.id + '_' + id)
                         .collection("mensagens")
                         .orderBy('time')
                         .snapshots(),
