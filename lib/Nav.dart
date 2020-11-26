@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hurryAgro/view/chat/chat.dart';
+import 'package:hurryAgro/view/user/ajuda.dart';
 import 'package:hurryAgro/view/user/conta.dart';
 import 'package:hurryAgro/view/user/meusAnuncios.dart';
 import 'package:page_transition/page_transition.dart';
@@ -122,6 +123,13 @@ class _NavState extends State<Nav> {
                       MaterialPageRoute(builder: (context) => Sobre()),
                     ),
                 leading: Icon(Icons.info)),
+                ListTile(
+                title: Text("Ajuda"),
+                onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Ajuda()),
+                    ),
+                leading: Icon(Icons.help)),
             ListTile(
               title: Text("Sair"),
               onTap: () => {
