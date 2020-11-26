@@ -25,10 +25,7 @@ class _HomeState extends State<Anuncio> {
 
   var idUm = FirebaseAuth.instance.currentUser.uid;
 
-  var styleTextName = TextStyle(
-    fontSize: 30,
-    color: Colors.white,
-  );
+  
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -47,7 +44,6 @@ class _HomeState extends State<Anuncio> {
     color: Colors.blueAccent,
   );
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +52,11 @@ class _HomeState extends State<Anuncio> {
           centerTitle: true,
           title: Text(
             widget.titulo,
-            style: (styleTextName),
+            
+            style: TextStyle(
+    fontSize: MediaQuery.of(context).size.height * 0.030,
+    color: Colors.white,
+            ),
           ),
         ),
         body: SingleChildScrollView(

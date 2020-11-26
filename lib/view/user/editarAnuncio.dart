@@ -10,12 +10,13 @@ import 'dart:async';
 import 'package:image_picker/image_picker.dart';
 
 class EditarAnuncio extends StatefulWidget {
-  EditarAnuncio({Key key, this.name, this.describe, this.image, this.price})
+  EditarAnuncio({Key key, this.name, this.describe, this.image, this.price, this.idProduct})
       : super(key: key);
   final String name;
   final String describe;
   final String image;
   final String price;
+  final String idProduct;
 
   @override
   _HomeState createState() => _HomeState();
@@ -30,6 +31,24 @@ class _HomeState extends State<EditarAnuncio> {
 
 
    String imageProduct = '';
+
+   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+  Future attAnuncio(idAuthor, id, titulo, descricao, preco, imageProduct) async {
+    try{
+      await firebaseFirestore.collection('anuncios').doc('${widget.idProduct}').update({
+      'idAuthor': idAuthor,
+      'id': id,
+      'titulo': '$titulo',
+      'descricao': '$descricao',
+      'preco': '$preco',
+      'imagens': imageProduct
+    });
+    }catch(e){
+      print('deu erro aqui');
+    }
+    
+  }
 
 
   Future getImage() async {
@@ -47,10 +66,11 @@ class _HomeState extends State<EditarAnuncio> {
     String tituloInformado = controladorName.text;
     String precoInformado = controladorPrice.text;
     String descricaoInformado = controladorDescribe.text;
+    String imagemInformada = controladorImage.text;
     if (tituloInformado != "" &&
         precoInformado != "" &&
         descricaoInformado != "" &&
-        imageProduct != ""
+        imagemInformada != ""
         ) {
       var id = DateTime.now().toString();
       var idAuthor = FirebaseAuth.instance.currentUser.uid;
@@ -72,6 +92,8 @@ class _HomeState extends State<EditarAnuncio> {
           print('erro:');
         }
       
+        await attAnuncio(idAuthor, id, controladorName.text, controladorDescribe.text,
+          controladorPrice.text, controladorImage.text);
 
       Navigator.pop(context);
     } else {
@@ -147,8 +169,10 @@ class _HomeState extends State<EditarAnuncio> {
             
             Container(
             child: RaisedButton(
-              onPressed: () async {     
-                        
+              onPressed: () async{     
+                print(widget.idProduct);
+                     await verifAnuncio();  
+                     
               },
               child: Text("Criar Anúncio"),
               color: Colors.green,

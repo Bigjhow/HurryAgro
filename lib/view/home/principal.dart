@@ -67,7 +67,7 @@ class _HomeState extends State<Principal> {
                     ),
                     Container(
                         width: 1000,
-                        height: MediaQuery.of(context).size.height * 0.67,
+                        height: MediaQuery.of(context).size.height * 0.65,
                         child: pesquisa["name"] == null
                             ? ListView.builder(
                                 scrollDirection: Axis.vertical,
@@ -127,26 +127,52 @@ class _HomeState extends State<Principal> {
                                                   ),
                                                   Column(
                                                     children: [
-                                                      Text(
+                                                      Container(
+                                                        child: Text(
                                                           snapshot.data
                                                                   .docs[index]
                                                               ["titulo"],
                                                               style: TextStyle(
-                                                                fontSize: 20,
+                                                                fontSize: MediaQuery.of(context).size.height * 0.024,
                                                               ),
                                                           textAlign:
-                                                              TextAlign.center),
+                                                              TextAlign.left),
+                                                              width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.48,
+                                                            height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.032,
+                                                      ),
+                                                      
                                                       Divider(
                                                         height: 45,
                                                       ),
-                                                      Text(
+                                                      Container(
+                                                        child: Text(
                                                           "R\$${snapshot.data.docs[index]["preco"]}",
                                                           style: TextStyle(
-                                                                fontSize: 18,
+                                                                fontSize: MediaQuery.of(context).size.height * 0.024,
                                                                 color: Colors.black38,
                                                               ),
                                                           textAlign:
                                                               TextAlign.left),
+                                                              width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.48,
+                                                            height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.032,
+                                                      ),
+                                                      
                                                     ],
                                                   )
                                                 ],

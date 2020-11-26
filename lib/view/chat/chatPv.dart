@@ -17,6 +17,7 @@ class ChatPv extends StatefulWidget {
 class _ChatPvState extends State<ChatPv> {
   QuerySnapshot messages;
   QuerySnapshot dados;
+  QuerySnapshot baba;
   bool mine;
   bool isLoading = false;
   var id = FirebaseAuth.instance.currentUser.uid;
@@ -34,7 +35,7 @@ class _ChatPvState extends State<ChatPv> {
   }
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  Future addMessage(data) async {
+  Future verifi() async {
     dados = await firebaseFirestore
         .collection("chatRoom")
         .doc(widget.id + '_' + id)
@@ -46,6 +47,19 @@ class _ChatPvState extends State<ChatPv> {
         tela = true;
         print(tela);
       });
+    } catch (e) {
+      print(tela);
+    }
+  }
+
+  Future addMessage(data) async {
+    dados = await firebaseFirestore
+        .collection("chatRoom")
+        .doc(widget.id + '_' + id)
+        .collection("mensagens")
+        .get();
+    try {
+      print(dados.docs[0]['data']);
       await firebaseFirestore
           .collection("chatRoom")
           .doc(widget.id + '_' + id)
@@ -100,6 +114,14 @@ class _ChatPvState extends State<ChatPv> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    verifi();
+
+    
   }
 
   @override

@@ -41,7 +41,6 @@ class _HomeState extends State<MeusAnuncios> {
       backgroundColor: Colors.red,
     ));
   }
-  
 
   Future delete() async {}
 
@@ -83,7 +82,6 @@ class _HomeState extends State<MeusAnuncios> {
                           child: ListView.builder(
                             itemCount: snapshot.data.docs.length,
                             scrollDirection: Axis.vertical,
-                            
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                   onTap: () => {},
@@ -121,25 +119,49 @@ class _HomeState extends State<MeusAnuncios> {
                                               ),
                                               Column(
                                                 children: [
-                                                  Text(
-                                                      snapshot.data.docs[index]
-                                                          ["titulo"],
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                      ),
-                                                      textAlign:
-                                                          TextAlign.center),
+                                                  Container(
+                                                    child: Text(
+                                                        snapshot.data
+                                                                .docs[index]
+                                                            ["titulo"],
+                                                        style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height*
+                                                              0.0208,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.left),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.26,
+                                                            height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height*
+                                                              0.055,
+                                                  ),
                                                   Divider(
                                                     height: 45,
                                                   ),
-                                                  Text(
-                                                      "R\$${snapshot.data.docs[index]["preco"]}",
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: Colors.black38,
-                                                      ),
-                                                      textAlign:
-                                                          TextAlign.left),
+                                                  Container(
+                                                    child: Text(
+                                                        "R\$${snapshot.data.docs[index]["preco"]}",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.black38,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.left),
+                                                            width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.26,
+                                                  ),
                                                 ],
                                               ),
                                               Column(
@@ -155,19 +177,22 @@ class _HomeState extends State<MeusAnuncios> {
                                                         ),
                                                         onPressed: () {
                                                           Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => EditarAnuncio(
-                                                      name:
-                                                          "${snapshot.data.docs[index]["titulo"]}",
-                                                      describe:
-                                                          "${snapshot.data.docs[index]["descricao"]}",
-                                                      price:
-                                                          "${snapshot.data.docs[index]["preco"]}",
-                                                      image:
-                                                          "${snapshot.data.docs[index]["imagens"]}",                                                     
-                                                    ))
-                                          );
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          EditarAnuncio(
+                                                                            name:
+                                                                                "${snapshot.data.docs[index]["titulo"]}",
+                                                                            describe:
+                                                                                "${snapshot.data.docs[index]["descricao"]}",
+                                                                            price:
+                                                                                "${snapshot.data.docs[index]["preco"]}",
+                                                                            image:
+                                                                                "${snapshot.data.docs[index]["imagens"]}",
+                                                                            idProduct:
+                                                                                "${snapshot.data.docs[index].id}",
+                                                                          )));
                                                         }),
                                                   ),
                                                   Divider(),
@@ -200,7 +225,7 @@ class _HomeState extends State<MeusAnuncios> {
                                                                             .collection("anuncios")
                                                                             .doc(snapshot.data.docs[index].id)
                                                                             .delete();
-                                                                            Navigator.pop(
+                                                                        Navigator.pop(
                                                                             context);
                                                                       },
                                                                       child: Text(
@@ -234,7 +259,7 @@ class _HomeState extends State<MeusAnuncios> {
                                               0.15,
                                         ),
                                       )));
-                            },                           
+                            },
                           ))
                     ]),
                     onRefresh: () => getDados()),

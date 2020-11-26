@@ -139,12 +139,12 @@ class _HomeState extends State<CriarAnuncio> {
                       ),
                     ),
             
-            formulario(false, "Titulo", TextInputType.name, controladorName,
+            formulario(false, "Titulo", TextInputType.name, controladorName, 15,
                 "Titulo vazio"),
-            formulario(false, "Preço", TextInputType.number, controladorPrice,
+            formulario(false, "Preço", TextInputType.number, controladorPrice, null,
                 "Preço vazio"),
             formulario(false, "Descrição", TextInputType.text,
-                controladorDescribe, "Descrição vazio"),
+                controladorDescribe, null, "Descrição vazio"),
             Divider(),
           Container(
             child: RaisedButton(
@@ -172,8 +172,10 @@ Widget formulario(
     String labelText,
     TextInputType keyboardType,
     TextEditingController controller,
+    int letra,
     String validator) {
   return TextFormField(
+    maxLength: letra,
     keyboardType: keyboardType,
     obscureText: obscureText,
     decoration: InputDecoration(labelText: "$labelText"),
