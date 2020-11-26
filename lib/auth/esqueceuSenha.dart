@@ -1,7 +1,6 @@
 //---- Packages
 import 'package:flutter/material.dart';
-import 'package:hurryAgro/auth/receberCodigo.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //---- Screens
 
@@ -12,6 +11,8 @@ class EsqueceuSenha extends StatefulWidget {
 
 class _HomeState extends State<EsqueceuSenha> {
   TextEditingController controladorEmail = TextEditingController();
+
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   var textButtom = TextStyle(color: Colors.white, fontSize: 25.0);
 
@@ -28,6 +29,36 @@ class _HomeState extends State<EsqueceuSenha> {
     setState(() {
       _textoBase = "Informe seu E-mail";
     });
+  }
+
+  Future sendPasswordResetEmail(String email) async {
+    try{
+       await auth.sendPasswordResetEmail(email: email);     
+       await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Redefinir denha'),
+                        content: Text('foi mandado um email de redefinir a senha para $email'),
+                        actions: [
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Ok"),
+                          )
+                        ],
+                      );
+                    });
+        return Navigator.pop(context);            
+    }catch (e) {  
+        if (e.code == "user-not-found") {
+        await showDialog(
+            context: (context),
+            child: AlertDialog(content: Text("Email não cadastrado")));
+      }       
+    }
+
   }
 
   @override
@@ -54,7 +85,11 @@ class _HomeState extends State<EsqueceuSenha> {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.orange, fontSize: 25.0),
               ),
-              formulario(
+              Container(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+formulario(
                 false,
                 "Email",
                 TextInputType.emailAddress,
@@ -63,12 +98,14 @@ class _HomeState extends State<EsqueceuSenha> {
               ),
               Divider(),
               Container(
-                width: size.width * 0.8,
-                height: size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.90,
+                height: MediaQuery.of(context).size.height * 0.07,
                 child: RaisedButton(
-                  onPressed: () {},
+                  onPressed: () async{
+                    await sendPasswordResetEmail(controladorEmail.text.trim());
+                  },
                   child: Text(
-                    "Receber Código",
+                    "Trocar de senha",
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: "Noto Sans JP",
@@ -77,6 +114,10 @@ class _HomeState extends State<EsqueceuSenha> {
                   color: Colors.green,
                 ),
               ),
+                  ],
+                )
+              ),
+              
             ],
           ),
         ),

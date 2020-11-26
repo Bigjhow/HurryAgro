@@ -76,18 +76,18 @@ class _HomeState extends State<Ajuda> {
                   title: String.passoTresTitulo,
                   content: String.passoTresConteudo),
                   makePage(
-                  image: 'imagens/passoUmFundo.png',
-                  title: String.passoUmTitulo,
-                  content: String.passoUmConteudo),
+                  image: 'imagens/passoQuatroFundo.png',
+                  title: String.passoQuatroTitulo,
+                  content: String.passoQuatroConteudo),
               makePage(
                   reverse: true,
-                  image: 'imagens/passoDoisFundo.png',
-                  title: String.passoDoisTitulo,
-                  content: String.passoDoisConteudo),
+                  image: 'imagens/passoCincoFundo.png',
+                  title: String.passoCincoTitulo,
+                  content: String.passoCincoConteudo),
               makePage(
-                  image: 'imagens/passoTresFundo.png',
-                  title: String.passoTresTitulo,
-                  content: String.passoTresConteudo),
+                  image: 'imagens/passoSeisFundo.png',
+                  title: String.passoSeisTitulo,
+                  content: String.passoSeisConteudo),
             ],
           ),
           Container(

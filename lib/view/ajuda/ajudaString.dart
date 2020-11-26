@@ -8,4 +8,14 @@ class String {
   static var passoTresTitulo = "Como comprar um produto?";
   static var passoTresConteudo =
       "Na pagina do produto ira ter um botão que ao pressionado ira te levar em uma tela de chat e lá você poderá negociar com o vendedor.";
+  static var passoQuatroTitulo = "Como editar meu anuncio?";
+  static var passoQuatroConteudo =
+      "Na tela home, na parte superior esquerda tem um menu lateral, e nesse menu temos a \"Meus Anuncios\". essa opção quando clicada irá te levar para uma tela com seus anuncios e lá você podera editar";
+      static var passoCincoTitulo = "Como apagar meu anuncio?";
+  static var passoCincoConteudo =
+      "Na tela home, na parte superior esquerda tem um menu lateral, e nesse menu temos a \"Meus Anuncios\". essa opção quando clicada irá te levar para uma tela com seus anuncios e lá você podera apagar";
+static var passoSeisTitulo = "Como Pesquisar algum anuncio?";
+  static var passoSeisConteudo =
+      "Na tela home, na parte superior temos um espaço para digitar sua pesquisa, e quando informado ele tentara achar algum resultado de anuncio para sua pesquisa.";
 }
+
