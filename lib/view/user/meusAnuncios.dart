@@ -77,8 +77,8 @@ class _HomeState extends State<MeusAnuncios> {
                         color: Colors.green,
                       ),
                       Container(
-                          width: 1000,
-                          height: MediaQuery.of(context).size.height * 0.82,
+                          width: MediaQuery.of(context).size.width * 0.99,
+                        height: MediaQuery.of(context).size.height * 0.64,
                           child: ListView.builder(
                             itemCount: snapshot.data.docs.length,
                             scrollDirection: Axis.vertical,

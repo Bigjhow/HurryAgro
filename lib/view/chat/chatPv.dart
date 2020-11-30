@@ -168,7 +168,7 @@ class _ChatPvState extends State<ChatPv> {
                         .collection("mensagens")
                         .orderBy('time')
                         .snapshots():
-                        FirebaseFirestore.instance
+                    FirebaseFirestore.instance
                         .collection('chatRoom')
                         .doc(widget.id + '_' + id)
                         .collection("mensagens")

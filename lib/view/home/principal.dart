@@ -66,8 +66,8 @@ class _HomeState extends State<Principal> {
                       color: Colors.green,
                     ),
                     Container(
-                        width: 1000,
-                        height: MediaQuery.of(context).size.height * 0.65,
+                        width: MediaQuery.of(context).size.width * 0.99,
+                        height: MediaQuery.of(context).size.height * 0.64,
                         child: pesquisa["name"] == null
                             ? ListView.builder(
                                 scrollDirection: Axis.vertical,
